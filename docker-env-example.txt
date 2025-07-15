@@ -1,0 +1,48 @@
+# Ejemplo de configuración .env para Laravel con PostgreSQL Docker
+# Copia estas variables a tu archivo .env y ajusta los valores según tus necesidades
+
+APP_NAME="Store Back"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_TIMEZONE=America/Mexico_City
+APP_URL=http://localhost
+
+# Configuración de Base de Datos PostgreSQL
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=store_back
+DB_USERNAME=postgres
+DB_PASSWORD=secret123
+
+# Configuración de pgAdmin (opcional)
+PGADMIN_EMAIL=admin@store.local
+PGADMIN_PASSWORD=admin123
+PGADMIN_PORT=8080
+
+# Cache (puedes usar Redis con Docker también)
+BROADCAST_CONNECTION=null
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+CACHE_STORE=file
+SESSION_DRIVER=file
+
+# Mail (configurar según tus necesidades)
+MAIL_MAILER=log
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+# Logging
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+# Vite
+VITE_APP_NAME="${APP_NAME}" 
