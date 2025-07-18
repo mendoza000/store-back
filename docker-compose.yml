@@ -25,25 +25,6 @@ services:
       retries: 3
       start_period: 60s
 
-  # pgAdmin (Opcional - para administrar la base de datos via web)
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: store_pgadmin
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@store.local}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    ports:
-      - "${PGADMIN_PORT:-8080}:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    networks:
-      - store_network
-    depends_on:
-      postgres:
-        condition: service_healthy
-
 networks:
   store_network:
     driver: bridge
@@ -51,5 +32,3 @@ networks:
 volumes:
   postgres_data:
     driver: local
-  pgadmin_data:
-    driver: local 
