@@ -17,8 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'customer', 'moderator'])->default('customer');
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
+            $table->string('phone', 20)->nullable();
+            $table->string('avatar')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
+
+            // Indexes for better performance
+            $table->index(['email', 'status']);
+            $table->index(['role', 'status']);
+            $table->index('created_at');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

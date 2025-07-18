@@ -1,0 +1,18 @@
+{
+    "client_name": "Mi Tienda",
+    "generated_at": "2025-07-15T22:55:58.130900Z",
+    "modules": {
+        "authentication": true,
+        "products": true,
+        "cart": true,
+        "orders": true,
+        "payments": true,
+        "inventory": false,
+        "admin": true,
+        "notifications": false,
+        "coupons": false,
+        "wishlist": false,
+        "reviews": false
+    },
+    "template_used": "basic"
+}
