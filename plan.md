@@ -19,34 +19,34 @@
 
 ### 1.1 Configuración del Backend Laravel
 
--   [ ] **Configurar environment variables modulares**
+-   [x] **Configurar environment variables modulares**
 
-    -   [ ] Crear archivo `config/modules.php` para configuración de características
-    -   [ ] Definir variables de entorno para cada módulo (cupones, variantes, etc.)
-    -   [ ] Crear middleware para verificar módulos habilitados
-    -   [ ] Crear comando artisan para generar configuración por cliente
+    -   [x] Crear archivo `config/modules.php` para configuración de características
+    -   [x] Definir variables de entorno para cada módulo (cupones, variantes, etc.)
+    -   [x] Crear middleware para verificar módulos habilitados
+    -   [x] Crear comando artisan para generar configuración por cliente
 
--   [ ] **Configurar API y CORS**
+-   [x] **Configurar API y CORS**
 
-    -   [ ] Instalar Laravel Sanctum para autenticación API
-    -   [ ] Configurar CORS para permitir requests desde cualquier frontend
-    -   [ ] Crear estructura base de rutas API (`/api/v1/`)
-    -   [ ] Configurar rate limiting por rutas
-    -   [ ] Implementar respuestas JSON estandarizadas
+    -   [x] Instalar Laravel Sanctum para autenticación API
+    -   [x] Configurar CORS para permitir requests desde cualquier frontend
+    -   [x] Crear estructura base de rutas API (`/api/v1/`)
+    -   [x] Configurar rate limiting por rutas
+    -   [x] Implementar respuestas JSON estandarizadas
 
--   [ ] **Configurar base de datos**
-    -   [ ] Actualizar configuración de base de datos
-    -   [ ] Configurar migraciones base
-    -   [ ] Crear seeders para datos iniciales
-    -   [ ] Configurar índices para optimización
+-   [x] **Configurar base de datos**
+    -   [x] Actualizar configuración de base de datos
+    -   [x] Configurar migraciones base
+    -   [x] Crear seeders para datos iniciales
+    -   [x] Configurar índices para optimización
 
 ### 1.2 Configuración de Documentación API
 
--   [ ] **Documentación automática**
-    -   [ ] Instalar y configurar Laravel Swagger/OpenAPI
-    -   [ ] Configurar documentación automática de endpoints
-    -   [ ] Crear ejemplos de requests/responses
-    -   [ ] Configurar entorno de testing de API
+-   [x] **Documentación automática**
+    -   [x] Instalar y configurar Laravel Swagger/OpenAPI
+    -   [x] Configurar documentación automática de endpoints
+    -   [x] Crear ejemplos de requests/responses
+    -   [x] Configurar entorno de testing de API
 
 ---
 
@@ -54,42 +54,42 @@
 
 ### 2.1 Modelos y Migraciones
 
--   [ ] **Extender modelo User**
+-   [x] **Extender modelo User**
 
-    -   [ ] Agregar campos: role, status, phone, avatar, email_verified_at
-    -   [ ] Crear relaciones con otros modelos
-    -   [ ] Implementar soft deletes
-    -   [ ] Crear factory para testing
+    -   [x] Agregar campos: role, status, phone, avatar, email_verified_at
+    -   [x] Crear relaciones con otros modelos
+    -   [x] Implementar soft deletes
+    -   [x] Crear factory para testing
 
--   [ ] **Sistema de roles y permisos**
-    -   [ ] Crear modelo Role con permisos
-    -   [ ] Implementar middleware de autorización
-    -   [ ] Definir roles: admin, customer, moderator
-    -   [ ] Crear seeder para roles iniciales
+-   [x] **Sistema de roles y permisos**
+    -   [x] Crear modelo Role con permisos
+    -   [x] Implementar middleware de autorización
+    -   [x] Definir roles: admin, customer, moderator
+    -   [x] Crear seeder para roles iniciales
 
 ### 2.2 API Endpoints de Autenticación
 
--   [ ] **AuthController**
+-   [x] **AuthController**
 
-    -   [ ] `POST /api/v1/auth/login` - Login con email/password
-    -   [ ] `POST /api/v1/auth/register` - Registro de usuarios
-    -   [ ] `POST /api/v1/auth/logout` - Logout y revoke token
-    -   [ ] `POST /api/v1/auth/refresh` - Refresh token
-    -   [ ] `GET /api/v1/auth/me` - Obtener usuario autenticado
-    -   [ ] `PUT /api/v1/auth/profile` - Actualizar perfil
+    -   [x] `POST /api/v1/auth/login` - Login con email/password
+    -   [x] `POST /api/v1/auth/register` - Registro de usuarios
+    -   [x] `POST /api/v1/auth/logout` - Logout y revoke token
+    -   [x] `POST /api/v1/auth/refresh` - Refresh token
+    -   [x] `GET /api/v1/auth/me` - Obtener usuario autenticado
+    -   [x] `PUT /api/v1/auth/profile` - Actualizar perfil
 
--   [ ] **Password Reset API**
-    -   [ ] `POST /api/v1/auth/forgot-password` - Solicitar reset
-    -   [ ] `POST /api/v1/auth/reset-password` - Confirmar reset
-    -   [ ] `POST /api/v1/auth/change-password` - Cambiar password
+-   [x] **Password Reset API**
+    -   [x] `POST /api/v1/auth/forgot-password` - Solicitar reset
+    -   [x] `POST /api/v1/auth/reset-password` - Confirmar reset
+    -   [x] `POST /api/v1/auth/change-password` - Cambiar password
 
 ### 2.3 Middleware y Validaciones
 
--   [ ] **Crear middleware personalizados**
-    -   [ ] `EnsureModuleEnabled` - Verificar módulos habilitados
-    -   [ ] `AdminOnly` - Solo administradores
-    -   [ ] `CustomerOnly` - Solo clientes
-    -   [ ] `ValidateApiKey` - Para integraciones externas
+-   [x] **Crear middleware personalizados**
+    -   [x] `EnsureModuleEnabled` - Verificar módulos habilitados
+    -   [x] `AdminOnly` - Solo administradores
+    -   [x] `CustomerOnly` - Solo clientes
+    -   [x] `ValidateApiKey` - Para integraciones externas
 
 ---
 
@@ -164,10 +164,8 @@
 
 -   [ ] **Sistema de búsqueda**
 
-    -   [ ] Implementar Laravel Scout con Algolia/Meilisearch
-    -   [ ] Búsqueda por nombre, descripción, SKU
+    -   [ ] Búsqueda por nombre, descripción, SKU basado en filters pasados por el include al get de products ej, filters[name]=iphone
     -   [ ] Filtros por precio, categoría, atributos
-    -   [ ] Autocomplete y sugerencias
 
 -   [ ] **Gestión de inventario**
     -   [ ] Tracking de stock por variante
