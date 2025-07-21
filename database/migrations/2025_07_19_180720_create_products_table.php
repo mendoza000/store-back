@@ -42,6 +42,21 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive', 'out_of_stock'])->default('active');
             $table->timestamps();
         });
+
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')
+                ->constrained()
+                ->onDelete('cascade');
+            $table->string('image_path');
+            $table->integer('sort_order')->default(0);
+            $table->string('url')->nullable();
+            $table->boolean('is_primary')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->string('alt_text')->nullable();
+            $table->string('title')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -49,7 +64,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('product_images');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
+        
     }
 };

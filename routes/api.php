@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\ProductImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
    
    Route::apiResource('categories', CategoryController::class);
+
+   Route::apiResource('images', ProductImageController::class);
 
 
     // Public category routes

@@ -27,7 +27,19 @@ class ProductResource extends JsonResource
             'track_quantity' => $this->track_quantity,
             'sku' => $this->sku,
             'status' => $this->status,
-            'category' => $this->category
+            'category' => $this->category,
+            'images' => $this->images->map(function ($image) {
+                return [
+                    'id' => $image->id,
+                    'image_path' => $image->image_path,
+                    'sort_order' => $image->sort_order,
+                    'url' => $image->url,
+                    'is_primary' => $image->is_primary,
+                    'is_active' => $image->is_active,
+                    'alt_text' => $image->alt_text,
+                    'title' => $image->title,            
+                ];
+            }),
         ];
     }
 }
