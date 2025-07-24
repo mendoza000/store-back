@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\ProductImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
 
 // Health check endpoint
 Route::get('/health', function () {
@@ -76,20 +81,32 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     });
 
     // Public product routes (no authentication required)
-    Route::prefix('products')->name('products.')->group(function () {
+
+
+
+
+    Route::apiResource('products', ProductsController::class);
+
+    // Route::prefix('products')->name('products.')->group(function () { eres gay ?
         // GET /api/v1/products - Lista paginada con filtros
         // GET /api/v1/products/{slug} - Detalle de producto
         // GET /api/v1/products/{id}/variants - Variantes del producto
         // GET /api/v1/products/search - Búsqueda de productos
         // GET /api/v1/products/featured - Productos destacados
-    });
+   // });
+
+   
+   Route::apiResource('categories', CategoryController::class);
+
+   Route::apiResource('images', ProductImageController::class);
+
 
     // Public category routes
-    Route::prefix('categories')->name('categories.')->group(function () {
+    //Route::prefix('categories')->name('categories.')->group(function () {
         // GET /api/v1/categories - Árbol de categorías
         // GET /api/v1/categories/{slug} - Detalle de categoría
         // GET /api/v1/categories/{slug}/products - Productos por categoría
-    });
+    //});
 
     // Public payment methods
     Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
