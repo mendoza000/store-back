@@ -44,8 +44,8 @@ class ProductsController extends Controller
     public function show(string $id): JsonResponse
     {
         
-        $product = Product::where('product_id', $id)->firstOrFail();
-
+        $product = Product::findOrFail($id);
+        
     return response()->json([
         'data' => new ProductResource($product)
     ]);
@@ -54,7 +54,7 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductsRequest $request, string $id)    
     {
         $product = Product::findOrFail($id);
         $product->update($request->all());

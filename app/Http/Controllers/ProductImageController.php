@@ -18,7 +18,7 @@ class ProductImageController extends Controller
         $productId = $request->get('product_id');
         $images = ProductImage::where('product_id', $productId)->get();
 
-        if (!$images) {
+        if ($images->isEmpty()) {
             return response()->json([
                 'message' => 'No images found for this product.'
             ], 404);
