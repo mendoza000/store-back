@@ -112,7 +112,7 @@ class OrderItem extends Model
                 'variant_info' => $this->variant_info,
                 'price_at_time' => $this->price,
                 'quantity_ordered' => $this->quantity,
-                'total' => $this->total,
+                'total' => $this->price * $this->quantity,
             ],
         );
     }
