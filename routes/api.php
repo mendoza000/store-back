@@ -88,24 +88,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::apiResource('products', ProductsController::class);
 
     // Route::prefix('products')->name('products.')->group(function () { eres gay ?
-        // GET /api/v1/products - Lista paginada con filtros
-        // GET /api/v1/products/{slug} - Detalle de producto
-        // GET /api/v1/products/{id}/variants - Variantes del producto
-        // GET /api/v1/products/search - Búsqueda de productos
-        // GET /api/v1/products/featured - Productos destacados
-   // });
+    // GET /api/v1/products - Lista paginada con filtros
+    // GET /api/v1/products/{slug} - Detalle de producto
+    // GET /api/v1/products/{id}/variants - Variantes del producto
+    // GET /api/v1/products/search - Búsqueda de productos
+    // GET /api/v1/products/featured - Productos destacados
+    // });
 
-   
-   Route::apiResource('categories', CategoryController::class);
 
-   Route::apiResource('images', ProductImageController::class);
+    Route::apiResource('categories', CategoryController::class);
+
+    Route::apiResource('images', ProductImageController::class);
 
 
     // Public category routes
     //Route::prefix('categories')->name('categories.')->group(function () {
-        // GET /api/v1/categories - Árbol de categorías
-        // GET /api/v1/categories/{slug} - Detalle de categoría
-        // GET /api/v1/categories/{slug}/products - Productos por categoría
+    // GET /api/v1/categories - Árbol de categorías
+    // GET /api/v1/categories/{slug} - Detalle de categoría
+    // GET /api/v1/categories/{slug}/products - Productos por categoría
     //});
 
     // Public payment methods
@@ -137,12 +137,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Cart routes
         Route::prefix('cart')->name('cart.')->group(function () {
-            // GET /api/v1/cart
-            // POST /api/v1/cart/items
-            // PUT /api/v1/cart/items/{id}
-            // DELETE /api/v1/cart/items/{id}
-            // DELETE /api/v1/cart
-            // POST /api/v1/cart/merge
+            // Rutas principales del carrito
+            Route::get('/', [\App\Http\Controllers\Api\V1\CartController::class, 'index'])
+                ->name('index');
+
+            Route::post('/items', [\App\Http\Controllers\Api\V1\CartController::class, 'store'])
+                ->name('items.store');
+
+            Route::put('/items/{item}', [\App\Http\Controllers\Api\V1\CartController::class, 'update'])
+                ->name('items.update');
+
+            Route::delete('/items/{item}', [\App\Http\Controllers\Api\V1\CartController::class, 'destroy'])
+                ->name('items.destroy');
+
+            Route::delete('/', [\App\Http\Controllers\Api\V1\CartController::class, 'clear'])
+                ->name('clear');
+
+            Route::post('/merge', [\App\Http\Controllers\Api\V1\CartController::class, 'merge'])
+                ->name('merge');
 
             // Coupon routes (conditional based on modules.coupons)
             Route::middleware('module:coupons')->group(function () {
@@ -153,10 +165,21 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Order routes
         Route::prefix('orders')->name('orders.')->group(function () {
-            // POST /api/v1/orders
-            // GET /api/v1/orders
-            // GET /api/v1/orders/{orderNumber}
-            // PUT /api/v1/orders/{id}/cancel
+            // Crear pedido desde carrito
+            Route::post('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])
+                ->name('store');
+
+            // Lista de pedidos del usuario
+            Route::get('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'index'])
+                ->name('index');
+
+            // Detalle de pedido específico
+            Route::get('/{orderNumber}', [\App\Http\Controllers\Api\V1\OrderController::class, 'show'])
+                ->name('show');
+
+            // Cancelar pedido
+            Route::put('/{order}/cancel', [\App\Http\Controllers\Api\V1\OrderController::class, 'cancel'])
+                ->name('cancel');
         });
 
         // Payment routes
@@ -234,9 +257,17 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Order management
         Route::prefix('orders')->name('orders.')->group(function () {
-            // GET /api/v1/admin/orders
-            // PUT /api/v1/admin/orders/{id}/status
-            // GET /api/v1/admin/orders/stats
+            // Lista de pedidos para admin
+            Route::get('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'adminIndex'])
+                ->name('index');
+
+            // Actualizar estado de pedido
+            Route::put('/{order}/status', [\App\Http\Controllers\Api\V1\OrderController::class, 'updateStatus'])
+                ->name('update-status');
+
+            // Estadísticas de pedidos
+            Route::get('/stats', [\App\Http\Controllers\Api\V1\OrderController::class, 'stats'])
+                ->name('stats');
         });
 
         // Payment management
