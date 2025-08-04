@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\HandlesValidationErrors;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
 {
+    use HandlesValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,14 +25,14 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable',
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer|min:0',
-            
+
         ];
     }
 }
