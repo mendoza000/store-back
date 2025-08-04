@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth;
 
+use App\Http\Requests\Traits\HandlesValidationErrors;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -11,6 +12,8 @@ use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
+    use HandlesValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -52,23 +55,6 @@ class RegisterRequest extends FormRequest
                     ->symbols()
                     ->uncompromised(),
             ],
-            'password_confirmation' => [
-                'required',
-                'string',
-            ],
-            'phone' => [
-                'sometimes',
-                'nullable',
-                'string',
-                'regex:/^[\+]?[0-9\s\-\(\)]+$/',
-                'min:7',
-                'max:20',
-            ],
-            'role' => [
-                'sometimes',
-                'string',
-                Rule::in(User::getAvailableRoles()),
-            ],
         ];
     }
 
@@ -87,11 +73,12 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'Este email ya está registrado.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password_confirmation.required' => 'La confirmación de contraseña es obligatoria.',
-            'phone.regex' => 'El formato del teléfono no es válido.',
-            'phone.min' => 'El teléfono debe tener al menos :min caracteres.',
-            'phone.max' => 'El teléfono no puede exceder :max caracteres.',
-            'role.in' => 'El rol seleccionado no es válido.',
+            'password.min' => 'La contraseña debe tener al menos :min caracteres.',
+            'password.letters' => 'La contraseña debe contener al menos una letra.',
+            'password.mixed' => 'La contraseña debe contener mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe contener al menos un número.',
+            'password.symbols' => 'La contraseña debe contener al menos un símbolo.',
+            'password.uncompromised' => 'La contraseña no debe ser una de las más comunes.',
         ];
     }
 

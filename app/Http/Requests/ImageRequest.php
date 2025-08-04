@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\HandlesValidationErrors;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImageRequest extends FormRequest
 {
+    use HandlesValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */

@@ -29,11 +29,11 @@ return new class extends Migration
             $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
-    
+
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
 
             $table->string('name');
@@ -46,6 +46,14 @@ return new class extends Migration
             $table->integer('track_quantity')->default(0);
             $table->string('sku')->unique();
             $table->enum('status', ['active', 'inactive', 'out_of_stock'])->default('active');
+
+            // Columnas adicionales para el seeder
+            $table->integer('stock')->default(0);
+            $table->string('category')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('image')->nullable();
+            $table->json('metadata')->nullable();
+
             $table->timestamps();
         });
 
@@ -76,6 +84,5 @@ return new class extends Migration
         Schema::dropIfExists('product_images');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
-        
     }
 };

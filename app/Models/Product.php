@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
-{    
+{
 
     use HasFactory;
 
@@ -18,6 +18,12 @@ class Product extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
+    ];
+
+    protected $casts = [
+        'metadata' => 'array',
+        'price' => 'decimal:2',
+        'stock' => 'integer',
     ];
 
     public function category(): BelongsTo
@@ -29,6 +35,4 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
-
-
 }
