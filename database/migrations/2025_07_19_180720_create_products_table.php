@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
+
+            $table->foreignId('parent_id')
+            ->nullable()
+            ->constrained('categories')
+            ->onDelete('cascade');
+
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->integer('sort_order')->default(0);
             $table->timestamps();
@@ -33,7 +39,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('short_description')->nullable();
+            $table->string('short_description', 255)->nullable();
             $table->decimal('price', 10, 2);
             $table->decimal('compare_price', 10, 2)->nullable();
             $table->decimal('cost_price', 10, 2)->nullable();
@@ -45,9 +51,11 @@ return new class extends Migration
 
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('product_id')
                 ->constrained()
                 ->onDelete('cascade');
+
             $table->string('image_path');
             $table->integer('sort_order')->default(0);
             $table->string('url')->nullable();
@@ -55,6 +63,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('alt_text')->nullable();
             $table->string('title')->nullable();
+
             $table->timestamps();
         });
     }

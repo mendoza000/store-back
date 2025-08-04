@@ -97,24 +97,24 @@
 
 ### 3.1 Modelos de Productos
 
--   [ ] **Modelo Category**
+-   [x] **Modelo Category**
 
-    -   [ ] Campos: name, slug, description, image, parent_id, status, sort_order
-    -   [ ] Relaciones jerárquicas (parent/children)
-    -   [ ] Scope para categorías activas
-    -   [ ] Mutators para slug automático
+    -   [x] Campos: name, slug, description, image, parent_id, status, sort_order
+    -   [x] Relaciones jerárquicas (parent/children)
+    -   [x] Scope para categorías activas
+    -   [x] Mutators para slug automático
 
--   [ ] **Modelo Product**
+-   [x] **Modelo Product**
 
-    -   [ ] Campos: name, slug, description, short_description, sku, status
-    -   [ ] Campos: price, compare_price, cost_price, track_quantity
-    -   [ ] Relaciones: categories, images, variants, attributes
-    -   [ ] Scopes: active, featured, on_sale
+    -   [x] Campos: name, slug, description, short_description, sku, status
+    -   [x] Campos: price, compare_price, cost_price, track_quantity
+    -   [x] Relaciones: categories, images, variants, attributes
+    -   [x] Scopes: active, featured, on_sale
 
--   [ ] **Modelo ProductImage**
-    -   [ ] Campos: product_id, url, alt_text, sort_order, is_primary
-    -   [ ] Relación con Product
-    -   [ ] Mutators para URLs completas
+-   [x] **Modelo ProductImage**
+    -   [x] Campos: product_id, url, alt_text, sort_order, is_primary
+    -   [x] Relación con Product
+    -   [x] Mutators para URLs completas
 
 ### 3.2 Sistema de Variantes Flexible
 

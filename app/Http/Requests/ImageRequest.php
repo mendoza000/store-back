@@ -30,10 +30,6 @@ class ImageRequest extends FormRequest
             'is_active' => 'boolean',
             'alt_text' => 'nullable|string|max:255',
             'title' => 'nullable|string|max:255',
-
-            
-
-            
         ];
     }
 }
