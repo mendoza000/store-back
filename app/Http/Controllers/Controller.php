@@ -31,6 +31,14 @@ use OpenApi\Attributes as OA;
  *     name="Authorization",
  *     description="Token de autenticación Sanctum. Formato: 'Bearer {token}'"
  * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="tenant",
+ *     type="apiKey",
+ *     in="header",
+ *     name="X-Store-Id",
+ *     description="Identificador de la tienda (tenant). Alternativamente puede usarse 'Store-Id'"
+ * )
  * 
  * @OA\Tag(
  *     name="Authentication",

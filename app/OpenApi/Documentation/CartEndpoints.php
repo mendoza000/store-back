@@ -17,6 +17,7 @@ class CartEndpoints
         description: "Obtiene el carrito actual del usuario autenticado o guest",
         tags: ["Cart"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "X-Session-ID",
                 description: "ID de sesión para usuarios guest",
@@ -50,6 +51,7 @@ class CartEndpoints
         ),
         tags: ["Cart"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "X-Session-ID",
                 description: "ID de sesión para usuarios guest",
@@ -88,6 +90,7 @@ class CartEndpoints
         ),
         tags: ["Cart"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "item",
                 description: "ID del item del carrito",
@@ -134,6 +137,7 @@ class CartEndpoints
         description: "Elimina un item específico del carrito",
         tags: ["Cart"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "item",
                 description: "ID del item del carrito",
@@ -175,6 +179,7 @@ class CartEndpoints
         description: "Elimina todos los items del carrito",
         tags: ["Cart"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "X-Session-ID",
                 description: "ID de sesión para usuarios guest",
@@ -208,6 +213,9 @@ class CartEndpoints
             content: new OA\JsonContent(ref: "#/components/schemas/MergeCartRequest")
         ),
         tags: ["Cart"],
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
+        ],
         responses: [
             new OA\Response(
                 response: 200,

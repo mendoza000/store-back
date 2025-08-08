@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Carbon\Carbon;
+use App\Models\Traits\BelongsToStore;
 
 class Order extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BelongsToStore;
 
     protected $fillable = [
+        'store_id',
         'order_number',
         'user_id',
         'status',
@@ -93,6 +95,11 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     /**

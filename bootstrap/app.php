@@ -20,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // API middleware group
         $middleware->api([
+            \App\Http\Middleware\ResolveStore::class,
+            \App\Http\Middleware\RequireStore::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
@@ -31,6 +33,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'customer.only' => \App\Http\Middleware\CustomerOnly::class,
             'api.key' => \App\Http\Middleware\ValidateApiKey::class,
             'role' => \App\Http\Middleware\CheckRole::class,
+            'tenant' => \App\Http\Middleware\ResolveStore::class,
+            'tenant.required' => \App\Http\Middleware\RequireStore::class,
         ]);
 
         // Configure CORS

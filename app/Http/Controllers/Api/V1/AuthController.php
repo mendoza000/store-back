@@ -13,6 +13,7 @@ use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Http\Traits\ApiResponseTrait;
 use App\Models\User;
+use App\Services\CurrentStore;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -78,7 +79,18 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
+        // Requiere tienda (tenant) para asociar al usuario
+        if (!CurrentStore::has()) {
+            return $this->errorResponse(
+                'STORE_REQUIRED',
+                "Debe especificar la tienda mediante el header 'X-Store-Id' (o 'Store-Id') para registrar usuarios.",
+                400
+            );
+        }
+
         $userData = $request->getUserData();
+        $userData['store_id'] = CurrentStore::id();
+
         $user = $this->createUser($userData);
         $token = $this->createAuthToken($user);
 
