@@ -18,6 +18,7 @@ class OrderEndpoints
         security: [["sanctum" => []]],
         tags: ["Orders"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "per_page",
                 description: "Número de elementos por página (máximo 50)",
@@ -88,6 +89,9 @@ class OrderEndpoints
             content: new OA\JsonContent(ref: "#/components/schemas/CreateOrderRequest")
         ),
         tags: ["Orders"],
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
+        ],
         responses: [
             new OA\Response(
                 response: 201,
@@ -125,6 +129,7 @@ class OrderEndpoints
         security: [["sanctum" => []]],
         tags: ["Orders"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "orderNumber",
                 description: "Número del pedido",
@@ -169,6 +174,7 @@ class OrderEndpoints
         ),
         tags: ["Orders"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "order",
                 description: "ID del pedido",
@@ -224,6 +230,7 @@ class OrderEndpoints
         security: [["sanctum" => []], ["role" => ["admin"]]],
         tags: ["Orders - Admin"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "per_page",
                 description: "Número de elementos por página (máximo 100)",
@@ -300,6 +307,7 @@ class OrderEndpoints
         ),
         tags: ["Orders - Admin"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "order",
                 description: "ID del pedido",
@@ -350,6 +358,7 @@ class OrderEndpoints
         security: [["sanctum" => []], ["role" => ["admin"]]],
         tags: ["Orders - Admin"],
         parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
             new OA\Parameter(
                 name: "date_from",
                 description: "Fecha inicio para estadísticas (YYYY-MM-DD)",

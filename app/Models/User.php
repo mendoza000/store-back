@@ -41,6 +41,7 @@ class User extends Authenticatable
         'status',
         'phone',
         'avatar',
+        'store_id',
     ];
 
     /**
@@ -176,5 +177,13 @@ class User extends Authenticatable
             self::STATUS_INACTIVE,
             self::STATUS_SUSPENDED,
         ];
+    }
+
+    /**
+     * Relación con Store (opcional)
+     */
+    public function store(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 }

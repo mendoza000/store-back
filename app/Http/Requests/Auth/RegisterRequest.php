@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\Traits\HandlesValidationErrors;
+use App\Services\CurrentStore;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -55,6 +56,8 @@ class RegisterRequest extends FormRequest
                     ->symbols()
                     ->uncompromised(),
             ],
+            // Opcionalmente permitir store_id en el body, pero se sobrescribirá por el header si existe
+            'store_id' => ['nullable', 'uuid'],
         ];
     }
 
@@ -91,6 +94,13 @@ class RegisterRequest extends FormRequest
 
         // Set default role if not provided
         $data['role'] = $this->input('role', User::ROLE_CUSTOMER);
+
+        // Si hay tienda actual, usarla; si no, usar store_id si vino en el body
+        if (CurrentStore::has()) {
+            $data['store_id'] = CurrentStore::id();
+        } elseif ($this->filled('store_id')) {
+            $data['store_id'] = $this->input('store_id');
+        }
 
         return $data;
     }

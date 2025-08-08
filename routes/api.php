@@ -32,25 +32,14 @@ Route::get('/health', function () {
 // API Version 1 Routes
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
-    // Public configuration endpoint
-    Route::get('/config', function () {
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'app_name' => config('app.name'),
-                'modules' => [
-                    'coupons' => config('modules.coupons', false),
-                    'product_variants' => config('modules.product_variants', true),
-                    'wishlist' => config('modules.wishlist', false),
-                    'reviews' => config('modules.reviews', false),
-                ],
-                'features' => [
-                    'multi_payment_methods' => config('modules.multi_payment_methods', true),
-                    'notifications' => config('modules.notifications', [])
-                ]
-            ]
-        ]);
-    })->name('config');
+    // Excepción: rutas de store NO requieren tenant (se usa para crear/gestionar tiendas)
+    Route::prefix("store")->name("store.")->withoutMiddleware([\App\Http\Middleware\RequireStore::class])->group(function () {
+        Route::get('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'index'])->name('index');
+        Route::post('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'store'])->name('store');
+        Route::get('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'show'])->name('show');
+        Route::put('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'update'])->name('update');
+        Route::delete('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'destroy'])->name('destroy');
+    });
 
     // Authentication routes (no authentication required)
     Route::prefix('auth')->name('auth.')->group(function () {

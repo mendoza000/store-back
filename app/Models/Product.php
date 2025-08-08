@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Traits\BelongsToStore;
 
 class Product extends Model
 {
 
-    use HasFactory;
+    use HasFactory, BelongsToStore;
 
     protected $guarded = [];
 
@@ -29,6 +30,11 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function images(): HasMany

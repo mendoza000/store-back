@@ -44,6 +44,9 @@ class AuthEndpoints
         path: "/api/v1/auth/register",
         summary: "Registrar nuevo usuario",
         description: "Registra un nuevo usuario en el sistema",
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
+        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/RegisterRequest")

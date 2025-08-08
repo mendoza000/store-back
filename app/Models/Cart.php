@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\Traits\BelongsToStore;
 
 class Cart extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, BelongsToStore;
 
     protected $fillable = [
+        'store_id',
         'user_id',
         'session_id',
         'status',
@@ -60,6 +62,11 @@ class Cart extends Model
     public function items(): HasMany
     {
         return $this->hasMany(CartItem::class);
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     /**

@@ -156,6 +156,12 @@ return [
                     'name' => 'Authorization',
                     'in' => 'header',
                 ],
+                'tenant' => [
+                    'type' => 'apiKey',
+                    'description' => 'Tenant Store header. Use X-Store-Id with a UUID of the store (also accepts Store-Id).',
+                    'name' => 'X-Store-Id',
+                    'in' => 'header',
+                ],
             ],
             'security' => [
                 [
