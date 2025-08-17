@@ -16,12 +16,30 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResource
+    public function index(Request $request)
     {
+        //$products = Product::all()->load(['category', 'images']);
+
+        //return response()->json($products);
+
+        $query = Product::query();
+
+        if($request->has('include')) {
+            $includes = explode(',', $request->get('include'));
+
+            $validIncludes = ['images', 'category', 'variants'];
+
+            foreach ($includes as $include) {
+                if (in_array($include, $validIncludes)) {
+                    $query->with($include);
+                }
+            }
+        }
+        
         // El StoreScope del trait BelongsToStore ya filtra por tienda automáticamente.
         // Paginamos para evitar respuestas enormes.
-        $products = Product::query()->paginate(15);
-        return ProductResource::collection($products);
+        $products = $query->paginate(15);
+        return response()->json($products);
     }
 
 
@@ -52,9 +70,19 @@ class ProductsController extends Controller
 
         $product = Product::findOrFail($id);
 
-        return response()->json([
-            'data' => new ProductResource($product)
-        ]);
+        // Cargar relaciones si se especifican en el request
+        if (request()->has('include')) {
+            $includes = explode(',', request()->get('include'));
+            $validIncludes = ['images', 'category', 'variants'];
+
+            foreach ($includes as $include) {
+                if (in_array($include, $validIncludes)) {
+                    $product->load($include);
+                }
+            }
+        }
+
+        return response()->json([$product]);
     }
 
     /**
