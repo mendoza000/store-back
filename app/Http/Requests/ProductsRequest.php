@@ -61,9 +61,9 @@ class ProductsRequest extends FormRequest
             ->where(fn($q) => $q->where('store_id', $storeId));
 
         if ($isCreate) {
-            $rules['category_id'] = ['required', 'integer', $categoryExistsInStore];
+            $rules['category_id'] = ['required', 'string', $categoryExistsInStore];
         } else {
-            $rules['category_id'] = ['nullable', 'integer', $categoryExistsInStore];
+            $rules['category_id'] = ['nullable', 'string', $categoryExistsInStore];
         }
 
         return $rules;
