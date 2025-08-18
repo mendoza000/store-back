@@ -7,7 +7,10 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\VariantsController;
-
+use App\Models\Payment;
+use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentVerificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -91,6 +94,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('images', ProductImageController::class);
 
+    Route::apiResource('payment-methods', PaymentMethodController::class);
+
+    Route::apiResource('payments', PaymentController::class);
+
+    Route::apiResource('payments-verify', PaymentVerificationController::class);
+
 
     // Public category routes
     //Route::prefix('categories')->name('categories.')->group(function () {
@@ -100,10 +109,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     //});
 
     // Public payment methods
-    Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
+    //Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
         // GET /api/v1/payment-methods - Métodos de pago disponibles
         // GET /api/v1/payment-methods/{id} - Detalle del método
-    });
+    //});
 
     // Protected routes (require authentication)
     Route::middleware('auth:sanctum')->group(function () {
@@ -174,10 +183,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Payment routes
-        Route::prefix('payments')->name('payments.')->group(function () {
+        //Route::prefix('payments')->name('payments.')->group(function () {
             // GET /api/v1/payments/{id}
             // PUT /api/v1/payments/{id}
-        });
+        //});
 
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
@@ -262,12 +271,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Payment management
-        Route::prefix('payments')->name('payments.')->group(function () {
+        //Route::prefix('payments')->name('payments.')->group(function () {
             // GET /api/v1/admin/payments
             // POST /api/v1/admin/payments/{id}/verify
             // POST /api/v1/admin/payments/{id}/reject
             // GET /api/v1/admin/payments/stats
-        });
+        //});
 
         // Coupon management (conditional)
         Route::middleware('module:coupons')->prefix('coupons')->name('coupons.')->group(function () {
