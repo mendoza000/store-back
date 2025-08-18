@@ -53,8 +53,8 @@ return new class extends Migration
 
         Schema::create('product_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('product_id') // Cambiar a uuid
-        ->constrained('products') // Referencia a la tabla 'products'
+            $table->uuid('product_id') 
+        ->constrained('products') 
         ->onDelete('cascade');
             $table->string('image_path');
             $table->integer('sort_order')->default(0);
