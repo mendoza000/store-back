@@ -15,9 +15,28 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index():JsonResource
+    public function index(Request $request):JsonResource
     {
-        return ProductResource::collection(Product::all());
+        $query = Product::query();
+
+        if($request->has('include')) {
+            $includes = explode(',', $request->get('include'));
+
+            $validIncludes = ['images', 'category', 'variants'];
+
+            foreach ($includes as $include) {
+                if (in_array($include, $validIncludes)) {
+                    $query->with($include);
+                }
+            }
+        }
+        
+        // Apply filters and sorting before pagination
+        $products = $query->active()
+            ->orderBy('name')
+            ->paginate(15);
+        
+        return ProductResource::collection($products);
     }
 
 

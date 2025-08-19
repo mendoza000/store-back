@@ -14,18 +14,8 @@ class ProductImageController extends Controller
     
     public function index(Request $request): JsonResponse
     {
-        // Logic to list all product images for a specific product
-        $productId = $request->get('product_id');
-        $images = ProductImage::where('product_id', $productId)->get();
-
-        if ($images->isEmpty()) {
-            return response()->json([
-                'message' => 'No images found for this product.'
-            ], 404);
-        }
-        return response()->json([
-            'data' => $images
-        ]);
+        $images = ProductImage::all();
+        return response()->json($images);
     }
 
 

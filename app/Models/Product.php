@@ -26,6 +26,13 @@ class Product extends Model
         'stock' => 'integer',
     ];
 
+    /**
+     * Scope para filtrar solo productos activos
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -34,5 +41,10 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }

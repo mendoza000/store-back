@@ -6,14 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Storage;
 
-class ProductImage extends Model
+
+class ProductVariant extends Model
 {
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
     protected $primaryKey = 'id';
 
@@ -21,11 +25,8 @@ class ProductImage extends Model
 
     protected $keyType = 'string';
 
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
-
-    
 }

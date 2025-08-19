@@ -26,7 +26,6 @@ class ImageRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
-            'image_path' => 'required|string|max:255',
             'sort_order' => 'integer|min:0',
             'url' => 'nullable|url|max:255',
             'is_primary' => 'boolean',
