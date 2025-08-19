@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-
 
 class Category extends Model
 {
@@ -82,8 +80,68 @@ class Category extends Model
    
 
 
+    /**
+     * Boot del modelo para manejar eventos
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Evento antes de crear - se ejecuta después de todos los traits
+        static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = $category->generateUniqueSlug($category->name ?? '');
+            }
+        });
+
+        // Evento antes de actualizar
+        static::updating(function ($category) {
+            // Solo regenerar slug si el nombre cambió y no se proporcionó un slug específico
+            if ($category->isDirty('name') && !$category->isDirty('slug')) {
+                $category->slug = $category->generateUniqueSlug($category->name ?? '');
+            }
+        });
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
+    }
+
+    /**
+     * Genera un slug único basado en el nombre
+     */
+    public function generateUniqueSlug(string $name): string
+    {
+        if (empty($name)) {
+            return '';
+        }
+
+        $baseSlug = Str::slug($name);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Verificar unicidad del slug, excluyendo el registro actual si existe
+        while ($this->slugExists($slug)) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Verifica si el slug ya existe
+     */
+    private function slugExists(string $slug): bool
+    {
+        $query = static::where('slug', $slug);
+        
+        // Si estamos actualizando un registro existente, excluirlo de la verificación
+        if ($this->exists) {
+            $query->where('id', '!=', $this->id);
+        }
+
+        return $query->exists();
     }
 }

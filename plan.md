@@ -111,6 +111,7 @@
     -   [x] Relaciones: categories, images, variants, attributes
     -   [x] Scopes: active, featured, on_sale
 
+
 -   [x] **Modelo ProductImage**
     -   [x] Campos: product_id, url, alt_text, sort_order, is_primary
     -   [x] Relación con Product

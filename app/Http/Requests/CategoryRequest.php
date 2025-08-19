@@ -25,14 +25,12 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:categories,slug,' . $this->route('category'),
             'description' => 'nullable|string',
             'image' => 'nullable',
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer|min:0',
-
         ];
     }
 }

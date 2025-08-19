@@ -12,24 +12,26 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CategoryController extends Controller
 {
     
-    public function index(): JsonResource
+    public function index()
     {
-        // Logic to list all categories
-
-        return CategoryResource::collection(Category::all());
+        $categories = Category::active()
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+            
+        return response()->json($categories);
     }
 
 
     public function store(CategoryRequest $request): JsonResponse
     {
-        // Logic to create a new category
-        $category = Category::create($request->all());
-
+        // Crear una nueva categoría con los datos validados
+        $category = Category::create($request->validated());
+        
         return response()->json([
             'message' => 'Category created successfully',
             'data' => new CategoryResource($category)
         ], 201);
-        
     }
 
 
