@@ -240,37 +240,37 @@
 
 ### 5.1 Modelos de Pago
 
--   [ ] **Modelo PaymentMethod**
+-   [x] **Modelo PaymentMethod**
 
     -   [ ] Campos: name, type, account_info, instructions, status
     -   [ ] Tipos: bank_transfer, mobile_payment, cash, crypto
     -   [ ] Información bancaria del comercio
 
--   [ ] **Modelo Payment**
+-   [x] **Modelo Payment**
 
     -   [ ] Campos: order_id, payment_method_id, amount, reference
     -   [ ] Campos: receipt_image, notes, status, verified_at, verified_by
     -   [ ] Estados: pending, verified, rejected, refunded
 
--   [ ] **Modelo PaymentVerification**
+-   [x] **Modelo PaymentVerification**
     -   [ ] Campos: payment_id, admin_id, action, notes, created_at
     -   [ ] Historial de verificaciones
     -   [ ] Razones de rechazo
 
 ### 5.2 API Endpoints de Pagos
 
--   [ ] **PaymentMethodController (Público)**
+-   [x] **PaymentMethodController (Público)**
 
     -   [ ] `GET /api/v1/payment-methods` - Métodos de pago disponibles
     -   [ ] `GET /api/v1/payment-methods/{id}` - Detalle del método
 
--   [ ] **PaymentController**
+-   [x] **PaymentController**
 
     -   [ ] `POST /api/v1/orders/{id}/payments` - Reportar pago
     -   [ ] `PUT /api/v1/payments/{id}` - Actualizar comprobante
     -   [ ] `GET /api/v1/payments/{id}` - Estado del pago
 
--   [ ] **Admin PaymentController**
+-   [x] **Admin PaymentController**
     -   [ ] `GET /api/v1/admin/payments` - Lista de pagos pendientes
     -   [ ] `POST /api/v1/admin/payments/{id}/verify` - Aprobar pago
     -   [ ] `POST /api/v1/admin/payments/{id}/reject` - Rechazar pago
