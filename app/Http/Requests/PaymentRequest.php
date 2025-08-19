@@ -3,9 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Traits\HandlesValidationErrors;
 
 class PaymentRequest extends FormRequest
 {
+    use HandlesValidationErrors;
     /**
      * Determine if the user is authorized to make this request.
      */
