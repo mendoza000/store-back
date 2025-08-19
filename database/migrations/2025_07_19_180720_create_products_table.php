@@ -14,7 +14,7 @@ return new class extends Migration
 
 
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
@@ -26,9 +26,9 @@ return new class extends Migration
 
 
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->uuid("id")->primary();
 
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->uuid('category_id')->constrained('categories')->onDelete('cascade');
 
             $table->string('name');
             $table->string('slug')->unique();
@@ -52,10 +52,10 @@ return new class extends Migration
         });
 
         Schema::create('product_images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')
-                ->constrained()
-                ->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->uuid('product_id') 
+        ->constrained('products') 
+        ->onDelete('cascade');
             $table->string('image_path');
             $table->integer('sort_order')->default(0);
             $table->string('url')->nullable();
@@ -63,6 +63,19 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('alt_text')->nullable();
             $table->string('title')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('product_variants', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('variant_name');
+            $table->string('variant_value');
+            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('compare_price', 10, 2)->nullable();
+            $table->integer('stock')->default(0);
+            $table->string('sku')->unique();
+            $table->enum('status', ['active', 'inactive', 'out_of_stock'])->default('active');
             $table->timestamps();
         });
     }
@@ -75,5 +88,6 @@ return new class extends Migration
         Schema::dropIfExists('product_images');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
+        Schema::dropIfExists('product_variants');
     }
 };

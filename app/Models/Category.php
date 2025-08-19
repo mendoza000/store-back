@@ -8,21 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Traits\BelongsToStore;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Category extends Model
 {
-    use HasFactory, BelongsToStore;
+    use HasFactory, BelongsToStore, HasUuids;
 
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
 
+    protected $primaryKey = 'id';
+
+    public $incrementing = false;
+
     protected $guarded = [];
+
+    protected $keyType = 'string';
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'category_id', 'id');
+        return $this->hasMany(Product::class, 'category_id');
     }
 
     public function store(): BelongsTo

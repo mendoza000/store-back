@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\VariantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +85,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     // GET /api/v1/products/featured - Productos destacados
     // });
 
+    Route::apiResource('variants', VariantsController::class);
 
     Route::apiResource('categories', CategoryController::class);
 
