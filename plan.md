@@ -111,10 +111,10 @@
     -   [x] Relaciones: categories, images, variants, attributes
     -   [ ] Scopes: active, featured, on_sale
 
--   [ ] **Modelo ProductImage**
-    -   [ ] Campos: product_id, url, alt_text, sort_order, is_primary
-    -   [ ] Relación con Product
-    -   [ ] Mutators para URLs completas
+-   [x] **Modelo ProductImage**
+    -   [x] Campos: product_id, url, alt_text, sort_order, is_primary
+    -   [x] Relación con Product
+    -   [x] Mutators para URLs completas
 
 ### 3.2 Sistema de Variantes Flexible
 
@@ -146,11 +146,11 @@
     -   [ ] `GET /api/v1/products/search` - Búsqueda de productos
     -   [ ] `GET /api/v1/products/featured` - Productos destacados
 
--   [ ] **CategoryController (Público)**
+-   [x] **CategoryController (Público)**
 
-    -   [ ] `GET /api/v1/categories` - Árbol de categorías
-    -   [ ] `GET /api/v1/categories/{slug}` - Detalle de categoría
-    -   [ ] `GET /api/v1/categories/{slug}/products` - Productos por categoría
+    -   [x] `GET /api/v1/categories` - Árbol de categorías
+    -   [x] `GET /api/v1/categories/{slug}` - Detalle de categoría
+    -   [x] `GET /api/v1/categories/{slug}/products` - Productos por categoría
 
 -   [ ] **Admin ProductController**
     -   [ ] `GET /api/v1/admin/products` - Lista admin con filtros
