@@ -90,6 +90,19 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('variants', VariantsController::class);
 
+    // Category routes by slug (must be before apiResource to avoid conflicts)
+    Route::prefix('categories')->name('categories.')->group(function () {
+        // GET /api/v1/categories/{slug} - Detalle de categoría por slug
+        Route::get('/{slug}', [CategoryController::class, 'showBySlug'])
+            ->name('show-by-slug')
+            ->where('slug', '[a-z0-9-]+');
+        
+        // GET /api/v1/categories/{slug}/products - Productos por categoría
+        Route::get('/{slug}/products', [CategoryController::class, 'getProductsBySlug'])
+            ->name('products')
+            ->where('slug', '[a-z0-9-]+');
+    });
+
     Route::apiResource('categories', CategoryController::class);
 
     Route::apiResource('images', ProductImageController::class);
