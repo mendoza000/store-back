@@ -107,9 +107,28 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('images', ProductImageController::class);
 
+
+    // Payment methods routes
+
     Route::apiResource('payment-methods', PaymentMethodController::class);
 
-    Route::apiResource('payments', PaymentController::class);
+    // Payment routes específicas
+    Route::prefix('payments')->name('payments.')->group(function () {
+        // GET /api/v1/payments - Lista de pagos (para admin)
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        
+        // POST /api/v1/payments - Crear pago directo (para admin)  
+        Route::post('/', [PaymentController::class, 'store'])->name('store');
+        
+        // GET /api/v1/payments/{id} - Estado del pago
+        Route::get('/{id}', [PaymentController::class, 'show'])->name('show');
+        
+        // PUT /api/v1/payments/{id} - Actualizar comprobante
+        Route::put('/{id}', [PaymentController::class, 'update'])->name('update');
+        
+        // DELETE /api/v1/payments/{id} - Eliminar pago (para admin)
+        Route::delete('/{id}', [PaymentController::class, 'destroy'])->name('destroy');
+    });
 
     Route::apiResource('payments-verify', PaymentVerificationController::class);
 
@@ -203,7 +222,9 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
-            // POST /api/v1/orders/{order}/payments
+            // POST /api/v1/orders/{order}/payments - Reportar pago
+            Route::post('/', [PaymentController::class, 'reportPayment'])
+                ->name('store');
         });
 
         // Wishlist routes (conditional based on modules.wishlist)
