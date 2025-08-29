@@ -3,16 +3,18 @@
 namespace App\Http\Requests\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Traits\HandlesValidationErrors;
 
 class PaymentVerifyRequest extends FormRequest
 {
+    use HandlesValidationErrors;
+
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        // Solo administradores pueden verificar pagos
-        return $this->user() && $this->user()->role === 'admin';
+        return true; // La autorización se maneja en el middleware AdminOnly
     }
 
     /**
@@ -23,7 +25,8 @@ class PaymentVerifyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'admin_notes' => 'nullable|string|max:1000',
+            'notes' => ['nullable', 'string', 'max:1000'],
+            'admin_notes' => ['nullable', 'string', 'max:1000'],
         ];
     }
 
@@ -35,7 +38,10 @@ class PaymentVerifyRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'admin_notes.max' => 'Las notas administrativas no pueden exceder los 1000 caracteres.',
+            'notes.string' => 'Las notas deben ser texto válido.',
+            'notes.max' => 'Las notas no pueden exceder 1000 caracteres.',
+            'admin_notes.string' => 'Las notas administrativas deben ser texto válido.',
+            'admin_notes.max' => 'Las notas administrativas no pueden exceder 1000 caracteres.',
         ];
     }
 
@@ -47,6 +53,7 @@ class PaymentVerifyRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'notes' => 'notas',
             'admin_notes' => 'notas administrativas',
         ];
     }
