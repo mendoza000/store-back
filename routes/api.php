@@ -96,7 +96,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/{slug}', [CategoryController::class, 'showBySlug'])
             ->name('show-by-slug')
             ->where('slug', '[a-z0-9-]+');
-        
+
         // GET /api/v1/categories/{slug}/products - Productos por categoría
         Route::get('/{slug}/products', [CategoryController::class, 'getProductsBySlug'])
             ->name('products')
@@ -132,8 +132,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     // Public payment methods
     //Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
-        // GET /api/v1/payment-methods - Métodos de pago disponibles
-        // GET /api/v1/payment-methods/{id} - Detalle del método
+    // GET /api/v1/payment-methods - Métodos de pago disponibles
+    // GET /api/v1/payment-methods/{id} - Detalle del método
     //});
 
     // Protected routes (require authentication)
@@ -186,7 +186,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Order routes
-        Route::prefix('orders')->name('orders.')->group(function () {
+        Route::prefix('orders')->name('orders.')->middleware('throttle:30,1')->group(function () {
             // Crear pedido desde carrito
             Route::post('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])
                 ->name('store');
@@ -295,7 +295,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Order management
-        Route::prefix('orders')->name('orders.')->group(function () {
+        Route::prefix('orders')->name('orders.')->middleware('throttle:30,1')->group(function () {
             // Lista de pedidos para admin
             Route::get('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'adminIndex'])
                 ->name('index');
@@ -311,10 +311,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // Payment management
         //Route::prefix('payments')->name('payments.')->group(function () {
-            // GET /api/v1/admin/payments
-            // POST /api/v1/admin/payments/{id}/verify
-            // POST /api/v1/admin/payments/{id}/reject
-            // GET /api/v1/admin/payments/stats
+        // GET /api/v1/admin/payments
+        // POST /api/v1/admin/payments/{id}/verify
+        // POST /api/v1/admin/payments/{id}/reject
+        // GET /api/v1/admin/payments/stats
         //});
 
         // Coupon management (conditional)
