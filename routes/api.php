@@ -10,6 +10,7 @@ use App\Http\Controllers\VariantsController;
 use App\Models\Payment;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentAdminController;
 use App\Http\Controllers\PaymentVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -237,7 +238,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
 
 
-
+  // Payment management
+  Route::prefix('payments')->name('payments.')->group(function () {
+    // GET /api/v1/admin/payments - Lista de pagos pendientes
+    Route::get('/', [PaymentAdminController::class, 'index'])
+        ->name('index');
+    
+    // GET /api/v1/admin/payments/stats - Estadísticas de pagos
+    Route::get('/stats', [PaymentAdminController::class, 'stats'])
+        ->name('stats');
+    
+    // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
+    Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
+        ->name('verify');
+    
+    // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
+    Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
+        ->name('reject');
+});
 
 
 
@@ -325,24 +343,13 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('stats');
         });
 
-        // Payment management
-        Route::prefix('payments')->name('payments.')->group(function () {
-            // GET /api/v1/admin/payments - Lista de pagos pendientes
-            Route::get('/', [PaymentController::class, 'adminIndex'])
-                ->name('index');
-            
-            // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
-            Route::post('/{id}/verify', [PaymentController::class, 'verify'])
-                ->name('verify');
-            
-            // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
-            Route::post('/{id}/reject', [PaymentController::class, 'reject'])
-                ->name('reject');
-            
-            // GET /api/v1/admin/payments/stats - Estadísticas de pagos
-            Route::get('/stats', [PaymentController::class, 'stats'])
-                ->name('stats');
-        });
+
+
+
+      
+
+
+
 
         // Coupon management (conditional)
         Route::middleware('module:coupons')->prefix('coupons')->name('coupons.')->group(function () {
