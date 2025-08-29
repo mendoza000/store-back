@@ -3,13 +3,10 @@
 namespace App\Http\Requests\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Traits\HandlesValidationErrors;
 use Illuminate\Validation\Rule;
 
 class UpdatePaymentRequest extends FormRequest
 {
-    use HandlesValidationErrors;
-    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -20,36 +17,41 @@ class UpdatePaymentRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        $paymentId = $this->route('payment') ?? $this->route('id');
+        $paymentId = $this->route('id');
         
         return [
+            'payment_method_id' => ['sometimes', 'integer', 'exists:payment_methods,id'],
+            'amount' => ['sometimes', 'numeric', 'min:0.01'],
             'reference_number' => [
-                'sometimes',
-                'required',
-                'string',
-                'max:255',
+                'sometimes', 
+                'string', 
+                'max:255', 
                 Rule::unique('payments', 'reference_number')->ignore($paymentId)
             ],
-            'receipt_url' => 'sometimes|nullable|url|max:500',
-            'notes' => 'sometimes|nullable|string|max:1000',
-            'paid_at' => 'sometimes|nullable|date|before_or_equal:now',
+            'receipt_url' => ['nullable', 'url', 'max:500'],
+            'notes' => ['nullable', 'string', 'max:1000'],
+            'paid_at' => ['nullable', 'date'],
+            'status' => ['sometimes', Rule::in(['pending', 'verified', 'rejected', 'refunded'])],
         ];
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Get custom messages for validator errors.
      */
     public function messages(): array
     {
         return [
-            'reference_number.required' => 'El número de referencia es requerido.',
+            'payment_method_id.exists' => 'El método de pago seleccionado no existe.',
+            'amount.min' => 'El monto debe ser mayor a 0.',
             'reference_number.unique' => 'Este número de referencia ya existe.',
             'receipt_url.url' => 'La URL del comprobante debe ser válida.',
             'paid_at.date' => 'La fecha de pago debe ser una fecha válida.',
-            'paid_at.before_or_equal' => 'La fecha de pago no puede ser futura.',
+            'status.in' => 'El estado del pago no es válido.',
         ];
     }
 } 

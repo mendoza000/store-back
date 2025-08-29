@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Requests\Payment\ReportPaymentRequest;
 use App\Http\Requests\Payment\UpdatePaymentRequest;
@@ -52,6 +53,12 @@ class PaymentController extends Controller
             return $this->notFoundResponse('Pago no encontrado');
         }
 
+        // Verificar que el usuario sea el dueño de la orden o un admin
+        $user = Auth::user();
+        if ($user->role !== 'admin' && $payment->order->user_id !== $user->id) {
+            return $this->forbiddenResponse('No tienes permisos para ver este pago');
+        }
+
         // Determinar el estado en español
         $statusMessages = [
             'pending' => 'Pendiente de verificación',
@@ -71,24 +78,38 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, string $id): JsonResponse
     {
-        $payment = Payment::find($id);
+        $payment = Payment::with('order')->find($id);
 
         if (!$payment) {
             return $this->notFoundResponse('Pago no encontrado');
         }
 
-        // Solo permitir actualizar si está en estado pendiente
-        if ($payment->status !== 'pending') {
+        // Verificar que el usuario sea el dueño de la orden
+        $user = Auth::user();
+        if ($user->role !== 'admin' && $payment->order->user_id !== $user->id) {
+            return $this->forbiddenResponse('No tienes permisos para actualizar este pago');
+        }
+
+        // Solo permitir actualizar si está en estado pendiente (para usuarios normales)
+        if ($user->role !== 'admin' && $payment->status !== 'pending') {
             return $this->conflictResponse(
                 'Solo se pueden actualizar pagos en estado pendiente',
                 ['current_status' => $payment->status]
             );
         }
 
+        // Si se está actualizando el método de pago, verificar que pertenezca a la misma tienda
+        if ($request->has('payment_method_id')) {
+            $paymentMethod = PaymentMethod::find($request->payment_method_id);
+            if (!$paymentMethod || $paymentMethod->store_id !== $payment->order->store_id) {
+                return $this->forbiddenResponse('El método de pago no pertenece a esta tienda');
+            }
+        }
+
         $payment->update($request->validated());
 
         return $this->updatedResponse(
-            $payment->fresh(),
+            $payment->fresh(['order', 'paymentMethod']),
             'Comprobante de pago actualizado exitosamente'
         );
     }
@@ -112,9 +133,9 @@ class PaymentController extends Controller
     /**
      * Reportar pago para una orden específica
      */
-    public function reportPayment(ReportPaymentRequest $request, string $orderId): JsonResponse
+    public function reportPayment(ReportPaymentRequest $request, string $order): JsonResponse
     {
-        $order = Order::find($orderId);
+        $order = Order::find($order);
 
         if (!$order) {
             return $this->notFoundResponse('Orden no encontrada');
@@ -131,6 +152,17 @@ class PaymentController extends Controller
                 'No se pueden reportar pagos para una orden en estado: ' . $order->status,
                 ['order_status' => $order->status]
             );
+        }
+
+        // Verificar que el método de pago pertenezca a la misma tienda
+        $paymentMethod = PaymentMethod::find($request->payment_method_id);
+        if (!$paymentMethod || $paymentMethod->store_id !== $order->store_id) {
+            return $this->forbiddenResponse('El método de pago no pertenece a esta tienda');
+        }
+
+        // Verificar que el método de pago esté activo
+        if ($paymentMethod->status !== 'active') {
+            return $this->conflictResponse('El método de pago no está disponible');
         }
 
         // Verificar que el monto no exceda el total de la orden
@@ -152,6 +184,7 @@ class PaymentController extends Controller
         // Crear el pago
         $paymentData = $request->validated();
         $paymentData['order_id'] = $order->id;
+        $paymentData['store_id'] = $order->store_id;
         $paymentData['status'] = 'pending';
         $paymentData['paid_at'] = $paymentData['paid_at'] ?? now();
 
