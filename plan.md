@@ -242,20 +242,20 @@
 
 -   [x] **Modelo PaymentMethod**
 
-    -   [ ] Campos: name, type, account_info, instructions, status
-    -   [ ] Tipos: bank_transfer, mobile_payment, cash, crypto
-    -   [ ] Información bancaria del comercio
+    -   [x] Campos: name, type, account_info, instructions, status
+    -   [x] Tipos: bank_transfer, mobile_payment, cash, crypto
+    -   [x] Información bancaria del comercio
 
 -   [x] **Modelo Payment**
 
-    -   [ ] Campos: order_id, payment_method_id, amount, reference
-    -   [ ] Campos: receipt_image, notes, status, verified_at, verified_by
-    -   [ ] Estados: pending, verified, rejected, refunded
+    -   [x] Campos: order_id, payment_method_id, amount, reference
+    -   [x] Campos: receipt_image, notes, status, verified_at, verified_by
+    -   [x] Estados: pending, verified, rejected, refunded
 
 -   [x] **Modelo PaymentVerification**
-    -   [ ] Campos: payment_id, admin_id, action, notes, created_at
-    -   [ ] Historial de verificaciones
-    -   [ ] Razones de rechazo
+    -   [x] Campos: payment_id, admin_id, action, notes, created_at
+    -   [x] Historial de verificaciones
+    -   [x] Razones de rechazo
 
 ### 5.2 API Endpoints de Pagos
 

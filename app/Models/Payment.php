@@ -40,4 +40,8 @@ class Payment extends Model
         return $this->hasMany(PaymentVerification::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

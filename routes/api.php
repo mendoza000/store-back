@@ -48,10 +48,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     // Authentication routes (no authentication required)
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login'])
-            ->name('login');
+            ->name('api-login');
 
         Route::post('/register', [\App\Http\Controllers\Api\V1\AuthController::class, 'register'])
-            ->name('register');
+            ->name('api-register');
 
         Route::post('/forgot-password', [\App\Http\Controllers\Api\V1\AuthController::class, 'forgotPassword'])
             ->name('forgot-password');
@@ -107,11 +107,20 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('images', ProductImageController::class);
 
-    Route::apiResource('payment-methods', PaymentMethodController::class);
 
-    Route::apiResource('payments', PaymentController::class);
 
-    Route::apiResource('payments-verify', PaymentVerificationController::class);
+
+
+
+    // Payment methods routes
+
+    
+
+
+
+
+
+
 
 
     // Public category routes
@@ -195,15 +204,32 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('cancel');
         });
 
-        // Payment routes
-        //Route::prefix('payments')->name('payments.')->group(function () {
-        // GET /api/v1/payments/{id}
-        // PUT /api/v1/payments/{id}
-        //});
 
+
+        // Payment routes
+        Route::prefix('payments')->name('payments.')->group(function () {
+            // GET /api/v1/payments/{id} - Estado del pago
+            Route::get('/{id}', [PaymentController::class, 'show'])
+                ->name('show');
+            
+            // PUT /api/v1/payments/{id} - Actualizar comprobante
+            Route::put('/{id}', [PaymentController::class, 'update'])
+                ->name('update');
+        });
+
+
+
+
+
+
+
+
+        
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
-            // POST /api/v1/orders/{order}/payments
+            // POST /api/v1/orders/{order}/payments - Reportar pago
+            Route::post('/', [PaymentController::class, 'reportPayment'])
+                ->name('store');
         });
 
         // Wishlist routes (conditional based on modules.wishlist)

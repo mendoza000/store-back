@@ -410,6 +410,11 @@
                 "summary": "Registrar nuevo usuario",
                 "description": "Registra un nuevo usuario en el sistema",
                 "operationId": "7a2187a412fabbac16d2a5a27963e3cd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -611,6 +616,9 @@
                 "operationId": "e96d5a507161a739f471acf422d0505e",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "X-Session-ID",
                         "in": "header",
                         "description": "ID de sesión para usuarios guest",
@@ -652,6 +660,9 @@
                 "description": "Elimina todos los items del carrito",
                 "operationId": "a13e38598978e39e400631aeb01e1920",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "X-Session-ID",
                         "in": "header",
@@ -696,6 +707,9 @@
                 "description": "Agrega un producto al carrito del usuario o guest",
                 "operationId": "6706e2a310d4954fa249dac65fd24488",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "X-Session-ID",
                         "in": "header",
@@ -760,6 +774,9 @@
                 "description": "Actualiza la cantidad de un item específico en el carrito",
                 "operationId": "d070d55917609989ee3ede9850264f5d",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "item",
                         "in": "path",
@@ -842,6 +859,9 @@
                 "operationId": "97f2cbf161e2363c18081f478bb50013",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "item",
                         "in": "path",
                         "description": "ID del item del carrito",
@@ -903,6 +923,11 @@
                 "summary": "Fusionar carritos",
                 "description": "Fusiona el carrito de un usuario guest con el carrito del usuario autenticado",
                 "operationId": "a1e80e01dcbd5d67aad1637090f78283",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -981,6 +1006,9 @@
                 "description": "Obtiene la lista paginada de pedidos del usuario autenticado",
                 "operationId": "0c4166a0a878c72aecae7105ba49b676",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "per_page",
                         "in": "query",
@@ -1098,6 +1126,11 @@
                 "summary": "Crear nuevo pedido",
                 "description": "Crea un nuevo pedido desde el carrito activo del usuario",
                 "operationId": "70191640a1b96ebb05852254066c0b9f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1177,6 +1210,9 @@
                 "operationId": "d2c47a70e155ff1a09993bebf68b251e",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "orderNumber",
                         "in": "path",
                         "description": "Número del pedido",
@@ -1245,6 +1281,9 @@
                 "description": "Cancela un pedido específico del usuario",
                 "operationId": "351226fbc039bd49d502b23e09f098dc",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "order",
                         "in": "path",
@@ -1354,6 +1393,9 @@
                 "description": "Obtiene la lista paginada de todos los pedidos con filtros avanzados",
                 "operationId": "834a3d46871383c498df9a5cf6e88203",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "per_page",
                         "in": "query",
@@ -1483,6 +1525,9 @@
                 "operationId": "c028395d62bd9776e944634678a01005",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "order",
                         "in": "path",
                         "description": "ID del pedido",
@@ -1586,6 +1631,9 @@
                 "description": "Obtiene estadísticas detalladas de pedidos para el panel de administración",
                 "operationId": "1be272b3fbbcc36ce5dc2a0c1540b442",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "date_from",
                         "in": "query",
@@ -1724,6 +1772,356 @@
                         ]
                     }
                 ]
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Listar productos",
+                "description": "Lista paginada de productos del tenant actual",
+                "operationId": "a453f80a92d845f9adfe6261808d3feb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "example": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crear producto",
+                "description": "Crea un nuevo producto para el tenant actual",
+                "operationId": "f5790cdb8f4a395d196b6b69c7096c01",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{product}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener detalle de producto",
+                "description": "Devuelve el detalle de un producto por ID",
+                "operationId": "722de71869b44d6b25edce8a52178afe",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de producto"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar producto",
+                "description": "Actualiza un producto existente",
+                "operationId": "fe675acd326e867519ad7e5bd89ff0b9",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar producto",
+                "description": "Elimina (soft/hard según implementación) un producto",
+                "operationId": "da89b6a3df665701d4a4987b1e93d026",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Producto eliminado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            }
+        },
+        "/api/v1/store": {
+            "get": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Get all stores",
+                "operationId": "52af38ddd1fbe6df68c04f8b45512cc2",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related config",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "config"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of stores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Store"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Create a new store with optional config",
+                "operationId": "25303c3e232da33a5db52fa4bc96871e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Store created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/store/{id}": {
+            "get": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Get a store by ID",
+                "operationId": "664e20d61b1913e71cef351013330bb5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related config",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "config"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Store details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Update a store and its config",
+                "operationId": "8b6944020d61839c9c80a15796939f08",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Store updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Soft delete a store",
+                "operationId": "e173ed276d1ad1286b22c0244bbaa94e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Store deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
             }
         }
     },
@@ -2647,6 +3045,358 @@
                 },
                 "type": "object"
             },
+            "ProductCreateRequest": {
+                "description": "Datos requeridos para crear un producto",
+                "required": [
+                    "name",
+                    "slug",
+                    "price",
+                    "track_quantity",
+                    "sku",
+                    "status",
+                    "category_id"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Camiseta básica unisex"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "camiseta-basica-unisex"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Camiseta de algodón 100% con corte clásico.",
+                        "nullable": true
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "Camiseta de algodón de alta calidad",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 19.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 24.99,
+                        "nullable": true
+                    },
+                    "cost_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 9.5,
+                        "nullable": true
+                    },
+                    "track_quantity": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "sku": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TSHIRT-UNISEX-001"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "out_of_stock"
+                        ],
+                        "example": "active"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "ProductUpdateRequest": {
+                "description": "Datos para actualizar un producto existente",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Camiseta básica unisex"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "camiseta-basica-unisex"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Camiseta de algodón 100% con corte clásico.",
+                        "nullable": true
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "Camiseta de algodón de alta calidad",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 19.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 24.99,
+                        "nullable": true
+                    },
+                    "cost_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 9.5,
+                        "nullable": true
+                    },
+                    "track_quantity": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "sku": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TSHIRT-UNISEX-001"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "out_of_stock"
+                        ],
+                        "example": "active"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreConfig": {
+                "required": [
+                    "products",
+                    "categories",
+                    "cupons",
+                    "gifcards",
+                    "wishlist",
+                    "reviews",
+                    "notifications"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "b3b8c7e2-2231-4e5f-8a6b-123123123123"
+                    },
+                    "store_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                    },
+                    "products": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "categories": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cupons": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "gifcards": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "wishlist": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "reviews": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "notifications": {
+                        "properties": {
+                            "emails": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "telegram": {
+                                "type": "boolean",
+                                "example": false
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCreateRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "My Store"
+                    },
+                    "config": {
+                        "properties": {
+                            "products": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "categories": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "cupons": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "gifcards": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "wishlist": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "reviews": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "notifications": {
+                                "properties": {
+                                    "emails": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "telegram": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Store": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "My Store"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/StoreConfig"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "My Store Updated"
+                    },
+                    "config": {
+                        "properties": {
+                            "products": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "categories": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "cupons": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "gifcards": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "wishlist": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "reviews": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "notifications": {
+                                "properties": {
+                                    "emails": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "telegram": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "description": "Modelo de usuario del sistema",
                 "properties": {
@@ -2721,11 +3471,30 @@
                 "type": "object"
             }
         },
+        "parameters": {
+            "X-Store-Id": {
+                "name": "X-Store-Id",
+                "in": "header",
+                "description": "UUID de la tienda (tenant). Alternativamente puede usarse 'Store-Id'",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                }
+            }
+        },
         "securitySchemes": {
             "sanctum": {
                 "type": "apiKey",
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
+                "in": "header"
+            },
+            "tenant": {
+                "type": "apiKey",
+                "description": "Tenant Store header. Use X-Store-Id with a UUID of the store (also accepts Store-Id).",
+                "name": "X-Store-Id",
                 "in": "header"
             }
         }
@@ -2740,12 +3509,20 @@
             "description": "Endpoints de ejemplo para demostrar la documentación API"
         },
         {
+            "name": "Products",
+            "description": "Gestión de productos, categorías y variantes"
+        },
+        {
             "name": "Cart",
             "description": "Carrito de compras y gestión de items"
         },
         {
             "name": "Orders",
             "description": "Gestión de pedidos y estados"
+        },
+        {
+            "name": "Store",
+            "description": "Store management"
         },
         {
             "name": "Orders - Admin",
