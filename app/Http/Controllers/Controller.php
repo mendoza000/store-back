@@ -75,6 +75,11 @@ use OpenApi\Attributes as OA;
  *     description="Endpoints de administración"
  * )
  * 
+ * @OA\Tag(
+ *     name="Admin Payments",
+ *     description="Administración de pagos - endpoints para admins"
+ * )
+ * 
 
  * 
 

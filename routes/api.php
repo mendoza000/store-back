@@ -10,6 +10,7 @@ use App\Http\Controllers\VariantsController;
 use App\Models\Payment;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentAdminController;
 use App\Http\Controllers\PaymentVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -48,10 +49,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     // Authentication routes (no authentication required)
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login'])
-            ->name('login');
+            ->name('api-login');
 
         Route::post('/register', [\App\Http\Controllers\Api\V1\AuthController::class, 'register'])
-            ->name('register');
+            ->name('api-register');
 
         Route::post('/forgot-password', [\App\Http\Controllers\Api\V1\AuthController::class, 'forgotPassword'])
             ->name('forgot-password');
@@ -107,11 +108,20 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('images', ProductImageController::class);
 
-    Route::apiResource('payment-methods', PaymentMethodController::class);
 
-    Route::apiResource('payments', PaymentController::class);
 
-    Route::apiResource('payments-verify', PaymentVerificationController::class);
+
+
+
+    // Payment methods routes
+
+    
+
+
+
+
+
+
 
 
     // Public category routes
@@ -195,16 +205,66 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('cancel');
         });
 
-        // Payment routes
-        //Route::prefix('payments')->name('payments.')->group(function () {
-        // GET /api/v1/payments/{id}
-        // PUT /api/v1/payments/{id}
-        //});
 
+
+
+        
+
+        //Method payment routes
+        
+        Route::apiResource('payment-methods', PaymentMethodController::class);
+
+        
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
-            // POST /api/v1/orders/{order}/payments
+            // POST /api/v1/orders/{order}/payments - Reportar pago
+            Route::post('/', [PaymentController::class, 'reportPayment'])
+                ->name('store');
         });
+
+
+        // Payment routes
+        Route::prefix('payments')->name('payments.')->group(function () {
+            // GET /api/v1/payments/{id} - Estado del pago
+            Route::get('/{id}', [PaymentController::class, 'show'])
+                ->name('show');
+            
+            // PUT /api/v1/payments/{id} - Actualizar comprobante
+            Route::put('/{id}', [PaymentController::class, 'update'])
+                ->name('update');
+        });
+
+
+
+
+
+  // Payment management
+  Route::prefix('payments')->name('payments.')->group(function () {
+    // GET /api/v1/admin/payments - Lista de pagos pendientes
+    Route::get('/', [PaymentAdminController::class, 'index'])
+        ->name('index');
+    
+    // GET /api/v1/admin/payments/stats - Estadísticas de pagos
+    Route::get('/stats', [PaymentAdminController::class, 'stats'])
+        ->name('stats');
+    
+    // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
+    Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
+        ->name('verify');
+    
+    // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
+    Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
+        ->name('reject');
+});
+
+
+
+
+
+
+
+
+
 
         // Wishlist routes (conditional based on modules.wishlist)
         Route::middleware('module:wishlist')->prefix('wishlist')->name('wishlist.')->group(function () {
@@ -283,13 +343,13 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('stats');
         });
 
-        // Payment management
-        //Route::prefix('payments')->name('payments.')->group(function () {
-        // GET /api/v1/admin/payments
-        // POST /api/v1/admin/payments/{id}/verify
-        // POST /api/v1/admin/payments/{id}/reject
-        // GET /api/v1/admin/payments/stats
-        //});
+
+
+
+      
+
+
+
 
         // Coupon management (conditional)
         Route::middleware('module:coupons')->prefix('coupons')->name('coupons.')->group(function () {

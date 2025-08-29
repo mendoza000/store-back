@@ -62,6 +62,32 @@ return new class extends Migration
                 $table->index('store_id');
             }
         });
+        
+        // Payments -> store_id
+        Schema::table('payment_methods', function (Blueprint $table) {
+            if (!Schema::hasColumn('payment_methods', 'store_id')) {
+                $table->uuid('store_id')->nullable()->after('id');
+                $table->foreign('store_id')->references('id')->on('store')->nullOnDelete();
+                $table->index('store_id');
+            }
+        });
+
+        Schema::table('payments', function (Blueprint $table) {
+            if (!Schema::hasColumn('payments', 'store_id')) {
+                $table->uuid('store_id')->nullable()->after('id');
+                $table->foreign('store_id')->references('id')->on('store')->nullOnDelete();
+                $table->index('store_id');
+            }
+        });
+
+        Schema::table('payment_verifications', function (Blueprint $table) {
+            if (!Schema::hasColumn('payment_verifications', 'store_id')) {
+                $table->uuid('store_id')->nullable()->after('id');
+                $table->foreign('store_id')->references('id')->on('store')->nullOnDelete();
+                $table->index('store_id');
+            }
+        });
+
     }
 
     /**
@@ -69,6 +95,41 @@ return new class extends Migration
      */
     public function down(): void
     {
+
+        // Payments: quitar store_id
+        Schema::table('payments', function (Blueprint $table) {
+            try {
+                $table->dropForeign(['store_id']);
+            } catch (\Throwable $e) {
+            }
+            if (Schema::hasColumn('payments', 'store_id')) {
+                $table->dropColumn('store_id');
+            }
+        });
+
+        // Payment Methods: quitar store_id
+        Schema::table('payment_methods', function (Blueprint $table) {
+            try {
+                $table->dropForeign(['store_id']);
+            } catch (\Throwable $e) {
+            }
+            if (Schema::hasColumn('payment_methods', 'store_id')) {
+                $table->dropColumn('store_id');
+            }
+        });
+
+
+        // Payment Verifications: quitar store_id
+        Schema::table('payment_verifications', function (Blueprint $table) {
+            try {
+                $table->dropForeign(['store_id']);
+            } catch (\Throwable $e) {
+            }
+            if (Schema::hasColumn('payment_verifications', 'store_id')) {
+                $table->dropColumn('store_id');
+            }
+        }); 
+
         // Orders: quitar store_id
         Schema::table('orders', function (Blueprint $table) {
             try {
