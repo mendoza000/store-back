@@ -46,22 +46,16 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        // API Exception handling
-        $exceptions->render(function (Throwable $e, $request) {
+    ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'success' => false,
                     'error' => [
-                        'code' => 'INTERNAL_SERVER_ERROR',
-                        'message' => app()->environment('local') ? $e->getMessage() : 'An error occurred processing your request.',
-                        'details' => app()->environment('local') ? [
-                            'file' => $e->getFile(),
-                            'line' => $e->getLine(),
-                            'trace' => $e->getTraceAsString()
-                        ] : null
+                        'code' => 'UNAUTHENTICATED',
+                        'message' => 'No autenticado. Por favor, inicie sesión para continuar.',
                     ]
-                ], 500);
+                ], 401);
             }
         });
     })->create();
