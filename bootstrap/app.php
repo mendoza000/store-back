@@ -50,6 +50,46 @@ return Application::configure(basePath: dirname(__DIR__))
         // API Exception handling
         $exceptions->render(function (Throwable $e, $request) {
             if ($request->is('api/*')) {
+                // Handle authentication exceptions for API routes
+                if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'UNAUTHENTICATED',
+                            'message' => 'No estás autenticado. Por favor, proporciona un token válido.',
+                            'details' => [
+                                'required_headers' => ['Authorization: Bearer {token}'],
+                                'login_endpoint' => '/api/v1/auth/login'
+                            ]
+                        ]
+                    ], 401);
+                }
+
+                // Handle authorization exceptions
+                if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'FORBIDDEN',
+                            'message' => 'No tienes permisos para realizar esta acción.',
+                            'details' => null
+                        ]
+                    ], 403);
+                }
+
+                // Handle validation exceptions
+                if ($e instanceof \Illuminate\Validation\ValidationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'VALIDATION_ERROR',
+                            'message' => 'Los datos proporcionados no son válidos.',
+                            'details' => $e->errors()
+                        ]
+                    ], 422);
+                }
+
+                // Handle general exceptions
                 return response()->json([
                     'success' => false,
                     'error' => [
