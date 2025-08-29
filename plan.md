@@ -261,20 +261,20 @@
 
 -   [x] **PaymentMethodController (Público)**
 
-    -   [ ] `GET /api/v1/payment-methods` - Métodos de pago disponibles
-    -   [ ] `GET /api/v1/payment-methods/{id}` - Detalle del método
+    -   [x] `GET /api/v1/payment-methods` - Métodos de pago disponibles
+    -   [x] `GET /api/v1/payment-methods/{id}` - Detalle del método
 
 -   [x] **PaymentController**
 
-    -   [ ] `POST /api/v1/orders/{id}/payments` - Reportar pago
-    -   [ ] `PUT /api/v1/payments/{id}` - Actualizar comprobante
-    -   [ ] `GET /api/v1/payments/{id}` - Estado del pago
+    -   [x] `POST /api/v1/orders/{id}/payments` - Reportar pago
+    -   [x] `PUT /api/v1/payments/{id}` - Actualizar comprobante
+    -   [x] `GET /api/v1/payments/{id}` - Estado del pago
 
 -   [x] **Admin PaymentController**
-    -   [ ] `GET /api/v1/admin/payments` - Lista de pagos pendientes
-    -   [ ] `POST /api/v1/admin/payments/{id}/verify` - Aprobar pago
-    -   [ ] `POST /api/v1/admin/payments/{id}/reject` - Rechazar pago
-    -   [ ] `GET /api/v1/admin/payments/stats` - Estadísticas de pagos
+    -   [x] `GET /api/v1/admin/payments` - Lista de pagos pendientes
+    -   [x] `POST /api/v1/admin/payments/{id}/verify` - Aprobar pago
+    -   [x] `POST /api/v1/admin/payments/{id}/reject` - Rechazar pago
+    -   [x] `GET /api/v1/admin/payments/stats` - Estadísticas de pagos
 
 ### 5.3 Gestión de Archivos
 
