@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->uuid('store_id')->nullable()->after('id');
+            $table->uuid('store_id')->nullable();
             $table->string('name')->unique();
             $table->enum('type', ['mobile_payment', 'bank_transfer', 'paypal', 'cash', 'crypto']);
             $table->string('account_info');

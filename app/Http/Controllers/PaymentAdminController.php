@@ -165,11 +165,12 @@ class PaymentAdminController extends Controller
                 ->first();
 
             if (!$payment) {
-                return $this->errorResponse('Pago no encontrado', 404);
+                return $this->notFoundResponse('Pago no encontrado');
             }
 
             if ($payment->status !== 'pending') {
-                return $this->errorResponse('Solo se pueden rechazar pagos pendientes', 400);
+                return $this->errorResponse('Solo se pueden rechazar pagos pendientes', 
+                400, 'PAYMENT_NOT_PENDING');
             }
 
             DB::beginTransaction();

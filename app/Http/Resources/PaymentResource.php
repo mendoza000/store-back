@@ -46,7 +46,7 @@ class PaymentResource extends JsonResource
                 'value' => $this->amount,
                 'formatted' => '$' . number_format($this->amount, 2),
             ],
-            'reference_number' => $this->reference_number,
+            'reference_number' => $this->reference,
             'receipt_url' => $this->receipt_url,
             'notes' => $this->notes,
             'status' => $this->status,
