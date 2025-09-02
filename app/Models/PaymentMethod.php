@@ -9,7 +9,7 @@ class PaymentMethod extends Model
 {
     use HasFactory;
 
-    protected $table = 'payment_method';
+    protected $table = 'payment_methods';
     
     protected $guarded = [];
 
@@ -26,7 +26,11 @@ class PaymentMethod extends Model
     {
         return $this->hasMany(Payment::class);
     }
-    
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
 
 
 }

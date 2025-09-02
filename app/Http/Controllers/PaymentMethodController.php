@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
+use App\Http\Resources\MethodPaymentResource;
 
 class PaymentMethodController extends Controller
 {
@@ -13,11 +14,9 @@ class PaymentMethodController extends Controller
      */
     public function index()
     {
-        $methods = PaymentMethod::all();
-
-        return response()->json([
-            'data' => $methods
-        ]);
+        $paymentMethods = PaymentMethod::with('store')->get();
+        return MethodPaymentResource::collection($paymentMethods);
+        
     }
 
     /**
@@ -38,13 +37,13 @@ class PaymentMethodController extends Controller
      */
     public function show(string $id)
     {
-        $paymentMethod = PaymentMethod::find($id);
+        $paymentMethod = PaymentMethod::with('store')->find($id);
 
         if (!$paymentMethod) {
             return response()->json(['message' => 'Payment method not found'], 404);
         }
 
-        return response()->json(['data' => $paymentMethod]);
+        return new MethodPaymentResource($paymentMethod);
     }
 
     /**

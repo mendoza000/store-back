@@ -26,15 +26,15 @@ class PaymentRequest extends FormRequest
         return [
             
             'order_id' => 'required|exists:orders,id',
-            'payment_method_id' => 'required|exists:payment_method,id',
+            'payment_method_id' => 'required|exists:payment_methods,id',
             'amount' => 'required|numeric|min:0',
-            'reference_number' => 'required|string|max:255|unique:payment,reference_number',
+            'reference_number' => 'required|string|max:255|unique:payments,reference_number',
             'receipt_url' => 'nullable|url|max:255',
             'notes' => 'nullable|string|max:1000',
             'status' => 'required|in:pending,verified,rejected,refunded',
             'paid_at' => 'nullable|date',
             'verified_at' => 'nullable|date',
-            'verified_by' => 'nullable|date',
+            'verified_by' => 'nullable|exists:users,id',
             'rejected_at' => 'nullable|date',
             'refunded_at' => 'nullable|date',
 

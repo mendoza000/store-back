@@ -410,6 +410,11 @@
                 "summary": "Registrar nuevo usuario",
                 "description": "Registra un nuevo usuario en el sistema",
                 "operationId": "7a2187a412fabbac16d2a5a27963e3cd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -611,6 +616,9 @@
                 "operationId": "e96d5a507161a739f471acf422d0505e",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "X-Session-ID",
                         "in": "header",
                         "description": "ID de sesión para usuarios guest",
@@ -652,6 +660,9 @@
                 "description": "Elimina todos los items del carrito",
                 "operationId": "a13e38598978e39e400631aeb01e1920",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "X-Session-ID",
                         "in": "header",
@@ -696,6 +707,9 @@
                 "description": "Agrega un producto al carrito del usuario o guest",
                 "operationId": "6706e2a310d4954fa249dac65fd24488",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "X-Session-ID",
                         "in": "header",
@@ -760,6 +774,9 @@
                 "description": "Actualiza la cantidad de un item específico en el carrito",
                 "operationId": "d070d55917609989ee3ede9850264f5d",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "item",
                         "in": "path",
@@ -842,6 +859,9 @@
                 "operationId": "97f2cbf161e2363c18081f478bb50013",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "item",
                         "in": "path",
                         "description": "ID del item del carrito",
@@ -903,6 +923,11 @@
                 "summary": "Fusionar carritos",
                 "description": "Fusiona el carrito de un usuario guest con el carrito del usuario autenticado",
                 "operationId": "a1e80e01dcbd5d67aad1637090f78283",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -981,6 +1006,9 @@
                 "description": "Obtiene la lista paginada de pedidos del usuario autenticado",
                 "operationId": "0c4166a0a878c72aecae7105ba49b676",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "per_page",
                         "in": "query",
@@ -1098,6 +1126,11 @@
                 "summary": "Crear nuevo pedido",
                 "description": "Crea un nuevo pedido desde el carrito activo del usuario",
                 "operationId": "70191640a1b96ebb05852254066c0b9f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1177,6 +1210,9 @@
                 "operationId": "d2c47a70e155ff1a09993bebf68b251e",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "orderNumber",
                         "in": "path",
                         "description": "Número del pedido",
@@ -1245,6 +1281,9 @@
                 "description": "Cancela un pedido específico del usuario",
                 "operationId": "351226fbc039bd49d502b23e09f098dc",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "order",
                         "in": "path",
@@ -1354,6 +1393,9 @@
                 "description": "Obtiene la lista paginada de todos los pedidos con filtros avanzados",
                 "operationId": "834a3d46871383c498df9a5cf6e88203",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "per_page",
                         "in": "query",
@@ -1483,6 +1525,9 @@
                 "operationId": "c028395d62bd9776e944634678a01005",
                 "parameters": [
                     {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
                         "name": "order",
                         "in": "path",
                         "description": "ID del pedido",
@@ -1586,6 +1631,9 @@
                 "description": "Obtiene estadísticas detalladas de pedidos para el panel de administración",
                 "operationId": "1be272b3fbbcc36ce5dc2a0c1540b442",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
                     {
                         "name": "date_from",
                         "in": "query",
@@ -1724,6 +1772,1307 @@
                         ]
                     }
                 ]
+            }
+        },
+        "/api/v1/payment-methods": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Listar métodos de pago disponibles",
+                "description": "Obtiene la lista de métodos de pago activos de la tienda",
+                "operationId": "623026a621938f6a1f0a833a2934e628",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de métodos de pago",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaymentMethod"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tienda no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/payment-methods/{id}": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Obtener detalle de método de pago",
+                "description": "Devuelve la información detallada de un método de pago específico",
+                "operationId": "b583f067d62653e24d4f0dccd97eba37",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del método de pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle del método de pago",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentMethod"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Método de pago no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/orders/{order}/payments": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Reportar pago para una orden",
+                "description": "Permite al cliente reportar un pago realizado para una orden específica",
+                "operationId": "87db71f1f1dda6cc2f3b3007094beaa0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "description": "ID de la orden",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReportPaymentRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReportPaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pago reportado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pago reportado exitosamente"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Orden no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado para esta orden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments/{id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Obtener estado del pago",
+                "description": "Obtiene el estado actual de un pago específico",
+                "operationId": "9606f79f6e10eae6ea365b4fc3ba51bc",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado del pago",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pago obtenido exitosamente"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pago no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado para ver este pago",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Actualizar comprobante de pago",
+                "description": "Permite actualizar el comprobante de pago (solo si está en estado pendiente)",
+                "operationId": "7a22ef1d559fb81e76ecb27ba1f495f5",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePaymentRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comprobante actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Comprobante de pago actualizado exitosamente"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pago no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No autorizado o pago no editable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto - pago no está en estado pendiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/payments": {
+            "get": {
+                "tags": [
+                    "Admin Payments"
+                ],
+                "summary": "Lista de pagos para administradores",
+                "description": "Obtiene la lista paginada de pagos con filtros avanzados para administradores",
+                "operationId": "9627a0bfcb3111e4898e0dec49410a18",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Número de elementos por página (máximo 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15,
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filtrar por estado del pago",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pending",
+                                "verified",
+                                "rejected",
+                                "refunded"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "payment_method_id",
+                        "in": "query",
+                        "description": "Filtrar por método de pago",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "query",
+                        "description": "Filtrar por cliente",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "order_id",
+                        "in": "query",
+                        "description": "Filtrar por orden",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "created_from",
+                        "in": "query",
+                        "description": "Fecha de inicio (formato: Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-01"
+                        }
+                    },
+                    {
+                        "name": "created_to",
+                        "in": "query",
+                        "description": "Fecha de fin (formato: Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-31"
+                        }
+                    },
+                    {
+                        "name": "amount_min",
+                        "in": "query",
+                        "description": "Monto mínimo",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "amount_max",
+                        "in": "query",
+                        "description": "Monto máximo",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Búsqueda en referencia, notas o nombre del cliente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "priority",
+                        "in": "query",
+                        "description": "Filtrar por prioridad",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "high",
+                                "medium",
+                                "low"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "requires_attention",
+                        "in": "query",
+                        "description": "Solo pagos que requieren atención",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Campo de ordenamiento",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "created_at",
+                            "enum": [
+                                "created_at",
+                                "updated_at",
+                                "amount",
+                                "status"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "sort_direction",
+                        "in": "query",
+                        "description": "Dirección del ordenamiento",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de pagos obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de pagos obtenida exitosamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "payments": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Payment"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "properties": {
+                                                        "current_page": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "last_page": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "per_page": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "example": 75
+                                                        },
+                                                        "from": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "to": {
+                                                            "type": "integer",
+                                                            "example": 15
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "filters_applied": {
+                                                    "description": "Filtros aplicados en la consulta",
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado - solo administradores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/payments/{id}/verify": {
+            "post": {
+                "tags": [
+                    "Admin Payments"
+                ],
+                "summary": "Verificar/Aprobar pago",
+                "description": "Permite a un administrador verificar y aprobar un pago pendiente",
+                "operationId": "f653b7cb9f07eb34973dff16ee30407e",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentVerifyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pago verificado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pago verificado exitosamente"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pago no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado - solo administradores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto - pago no puede ser verificado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/payments/{id}/reject": {
+            "post": {
+                "tags": [
+                    "Admin Payments"
+                ],
+                "summary": "Rechazar pago",
+                "description": "Permite a un administrador rechazar un pago con una razón específica",
+                "operationId": "4cd8a65785ed5c771d079450ee270bb9",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentRejectRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pago rechazado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pago rechazado exitosamente"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Payment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pago no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado - solo administradores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto - pago no puede ser rechazado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/payments/stats": {
+            "get": {
+                "tags": [
+                    "Admin Payments"
+                ],
+                "summary": "Estadísticas de pagos",
+                "description": "Obtiene estadísticas detalladas de pagos para el dashboard administrativo",
+                "operationId": "d21d73a5cb5f4068f760498717db5780",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "Período de tiempo para las estadísticas",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "month",
+                            "enum": [
+                                "today",
+                                "week",
+                                "month",
+                                "quarter",
+                                "year",
+                                "custom"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Fecha de inicio para período personalizado (formato: Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Fecha de fin para período personalizado (formato: Y-m-d)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-31"
+                        }
+                    },
+                    {
+                        "name": "include_charts",
+                        "in": "query",
+                        "description": "Incluir datos para gráficos",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "group_by",
+                        "in": "query",
+                        "description": "Agrupar estadísticas por período",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "day",
+                            "enum": [
+                                "day",
+                                "week",
+                                "month"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estadísticas obtenidas exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentStatsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso denegado - solo administradores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación en parámetros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Listar productos",
+                "description": "Lista paginada de productos del tenant actual",
+                "operationId": "a453f80a92d845f9adfe6261808d3feb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "example": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crear producto",
+                "description": "Crea un nuevo producto para el tenant actual",
+                "operationId": "f5790cdb8f4a395d196b6b69c7096c01",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{product}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener detalle de producto",
+                "description": "Devuelve el detalle de un producto por ID",
+                "operationId": "722de71869b44d6b25edce8a52178afe",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de producto"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar producto",
+                "description": "Actualiza un producto existente",
+                "operationId": "fe675acd326e867519ad7e5bd89ff0b9",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar producto",
+                "description": "Elimina (soft/hard según implementación) un producto",
+                "operationId": "da89b6a3df665701d4a4987b1e93d026",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Producto eliminado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            }
+        },
+        "/api/v1/store": {
+            "get": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Get all stores",
+                "operationId": "52af38ddd1fbe6df68c04f8b45512cc2",
+                "parameters": [
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related config",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "config"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of stores",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Store"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Create a new store with optional config",
+                "operationId": "25303c3e232da33a5db52fa4bc96871e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Store created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/store/{id}": {
+            "get": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Get a store by ID",
+                "operationId": "664e20d61b1913e71cef351013330bb5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Include related config",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "config"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Store details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Update a store and its config",
+                "operationId": "8b6944020d61839c9c80a15796939f08",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Store updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Soft delete a store",
+                "operationId": "e173ed276d1ad1286b22c0244bbaa94e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Store deleted"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
             }
         }
     },
@@ -2647,6 +3996,800 @@
                 },
                 "type": "object"
             },
+            "PaymentMethod": {
+                "description": "Método de pago disponible",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Transferencia Bancaria"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "bank_transfer",
+                            "mobile_payment",
+                            "cash",
+                            "crypto"
+                        ],
+                        "example": "bank_transfer"
+                    },
+                    "account_info": {
+                        "description": "Información de la cuenta del comercio",
+                        "properties": {
+                            "bank_name": {
+                                "type": "string",
+                                "example": "Banco de Venezuela"
+                            },
+                            "account_number": {
+                                "type": "string",
+                                "example": "0102-0000-00-0000000000"
+                            },
+                            "account_holder": {
+                                "type": "string",
+                                "example": "Mi Tienda C.A."
+                            },
+                            "document_type": {
+                                "type": "string",
+                                "example": "J"
+                            },
+                            "document_number": {
+                                "type": "string",
+                                "example": "12345678-9"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "instructions": {
+                        "type": "string",
+                        "example": "Realizar transferencia y enviar comprobante por este medio",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "example": "active"
+                    },
+                    "store_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15T10:30:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15T10:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentRejectRequest": {
+                "description": "Datos para rechazar un pago (solo administradores)",
+                "required": [
+                    "reason"
+                ],
+                "properties": {
+                    "reason": {
+                        "description": "Razón del rechazo",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Comprobante ilegible"
+                    },
+                    "notes": {
+                        "description": "Notas adicionales del administrador",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "La imagen del comprobante no se puede leer claramente. Por favor, envíe una imagen más nítida.",
+                        "nullable": true
+                    },
+                    "notify_customer": {
+                        "description": "Notificar al cliente sobre el rechazo",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Payment": {
+                "description": "Pago de una orden",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "order_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "payment_method_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150.5
+                    },
+                    "reference": {
+                        "description": "Número de referencia de la transferencia",
+                        "type": "string",
+                        "example": "REF123456789",
+                        "nullable": true
+                    },
+                    "receipt_image": {
+                        "description": "Ruta al comprobante de pago",
+                        "type": "string",
+                        "example": "receipts/payment_123_receipt.jpg",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "description": "Notas adicionales del cliente",
+                        "type": "string",
+                        "example": "Transferencia realizada desde cuenta personal",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "verified",
+                            "rejected",
+                            "refunded"
+                        ],
+                        "example": "pending"
+                    },
+                    "verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15T15:30:00Z",
+                        "nullable": true
+                    },
+                    "verified_by": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "store_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15T10:30:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-15T10:30:00Z"
+                    },
+                    "order": {
+                        "description": "Información básica de la orden",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "order_number": {
+                                "type": "string",
+                                "example": "ORD-20240115120000-1234"
+                            },
+                            "total": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 150.5
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "payment_method": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/PaymentMethod"
+                            }
+                        ],
+                        "nullable": true,
+                        "description": "Método de pago utilizado",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentStatsResponse": {
+                "description": "Estadísticas de pagos para administradores",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Estadísticas obtenidas exitosamente"
+                    },
+                    "data": {
+                        "properties": {
+                            "overview": {
+                                "description": "Resumen general",
+                                "properties": {
+                                    "total_payments": {
+                                        "type": "integer",
+                                        "example": 150
+                                    },
+                                    "pending_payments": {
+                                        "type": "integer",
+                                        "example": 25
+                                    },
+                                    "verified_payments": {
+                                        "type": "integer",
+                                        "example": 120
+                                    },
+                                    "rejected_payments": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "total_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 45750.5
+                                    },
+                                    "pending_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 3250
+                                    },
+                                    "verified_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 42000.5
+                                    },
+                                    "rejected_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 500
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "by_payment_method": {
+                                "description": "Estadísticas por método de pago",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "payment_method_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "payment_method_name": {
+                                            "type": "string",
+                                            "example": "Transferencia Bancaria"
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 75
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 22500.5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "by_status": {
+                                "description": "Estadísticas por estado",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "verified"
+                                        },
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 120
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 42000.5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "recent_activity": {
+                                "description": "Actividad reciente (últimos 7 días)",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2024-01-15"
+                                        },
+                                        "payments_count": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 2400
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentVerifyRequest": {
+                "description": "Datos para verificar/aprobar un pago (solo administradores)",
+                "properties": {
+                    "notes": {
+                        "description": "Notas del administrador sobre la verificación",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "Comprobante verificado correctamente",
+                        "nullable": true
+                    },
+                    "notify_customer": {
+                        "description": "Notificar al cliente sobre la verificación",
+                        "type": "boolean",
+                        "example": true,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ReportPaymentRequest": {
+                "description": "Datos para reportar un pago por parte del cliente",
+                "required": [
+                    "payment_method_id",
+                    "amount"
+                ],
+                "properties": {
+                    "payment_method_id": {
+                        "description": "ID del método de pago utilizado",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "amount": {
+                        "description": "Monto pagado",
+                        "type": "number",
+                        "format": "float",
+                        "example": 150.5
+                    },
+                    "reference": {
+                        "description": "Número de referencia de la transferencia",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "REF123456789",
+                        "nullable": true
+                    },
+                    "receipt_image": {
+                        "description": "Comprobante de pago (imagen o PDF)",
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "description": "Notas adicionales sobre el pago",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "Transferencia realizada desde cuenta personal",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UpdatePaymentRequest": {
+                "description": "Datos para actualizar un comprobante de pago",
+                "properties": {
+                    "payment_method_id": {
+                        "description": "ID del método de pago (opcional)",
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    },
+                    "amount": {
+                        "description": "Monto pagado (opcional)",
+                        "type": "number",
+                        "format": "float",
+                        "example": 150.5,
+                        "nullable": true
+                    },
+                    "reference": {
+                        "description": "Número de referencia de la transferencia",
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "REF123456789",
+                        "nullable": true
+                    },
+                    "receipt_image": {
+                        "description": "Nuevo comprobante de pago (imagen o PDF)",
+                        "type": "string",
+                        "format": "binary",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "description": "Notas adicionales sobre el pago",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "Transferencia corregida con referencia actualizada",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ProductCreateRequest": {
+                "description": "Datos requeridos para crear un producto",
+                "required": [
+                    "name",
+                    "slug",
+                    "price",
+                    "track_quantity",
+                    "sku",
+                    "status",
+                    "category_id"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Camiseta básica unisex"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "camiseta-basica-unisex"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Camiseta de algodón 100% con corte clásico.",
+                        "nullable": true
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "Camiseta de algodón de alta calidad",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 19.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 24.99,
+                        "nullable": true
+                    },
+                    "cost_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 9.5,
+                        "nullable": true
+                    },
+                    "track_quantity": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "sku": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TSHIRT-UNISEX-001"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "out_of_stock"
+                        ],
+                        "example": "active"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "ProductUpdateRequest": {
+                "description": "Datos para actualizar un producto existente",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Camiseta básica unisex"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "camiseta-basica-unisex"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Camiseta de algodón 100% con corte clásico.",
+                        "nullable": true
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "example": "Camiseta de algodón de alta calidad",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 19.99
+                    },
+                    "compare_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 24.99,
+                        "nullable": true
+                    },
+                    "cost_price": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 9.5,
+                        "nullable": true
+                    },
+                    "track_quantity": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "sku": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "example": "TSHIRT-UNISEX-001"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "out_of_stock"
+                        ],
+                        "example": "active"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "StoreConfig": {
+                "required": [
+                    "products",
+                    "categories",
+                    "cupons",
+                    "gifcards",
+                    "wishlist",
+                    "reviews",
+                    "notifications"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "b3b8c7e2-2231-4e5f-8a6b-123123123123"
+                    },
+                    "store_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                    },
+                    "products": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "categories": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "cupons": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "gifcards": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "wishlist": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "reviews": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "notifications": {
+                        "properties": {
+                            "emails": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "telegram": {
+                                "type": "boolean",
+                                "example": false
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCreateRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "My Store"
+                    },
+                    "config": {
+                        "properties": {
+                            "products": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "categories": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "cupons": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "gifcards": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "wishlist": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "reviews": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "notifications": {
+                                "properties": {
+                                    "emails": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "telegram": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Store": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "My Store"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/StoreConfig"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "My Store Updated"
+                    },
+                    "config": {
+                        "properties": {
+                            "products": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "categories": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "cupons": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "gifcards": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "wishlist": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "reviews": {
+                                "type": "boolean",
+                                "example": false
+                            },
+                            "notifications": {
+                                "properties": {
+                                    "emails": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "telegram": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "User": {
                 "description": "Modelo de usuario del sistema",
                 "properties": {
@@ -2721,11 +4864,30 @@
                 "type": "object"
             }
         },
+        "parameters": {
+            "X-Store-Id": {
+                "name": "X-Store-Id",
+                "in": "header",
+                "description": "UUID de la tienda (tenant). Alternativamente puede usarse 'Store-Id'",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "b3b8c7e2-1c2d-4e5f-8a6b-123456789abc"
+                }
+            }
+        },
         "securitySchemes": {
             "sanctum": {
                 "type": "apiKey",
                 "description": "Enter token in format (Bearer <token>)",
                 "name": "Authorization",
+                "in": "header"
+            },
+            "tenant": {
+                "type": "apiKey",
+                "description": "Tenant Store header. Use X-Store-Id with a UUID of the store (also accepts Store-Id).",
+                "name": "X-Store-Id",
                 "in": "header"
             }
         }
@@ -2740,6 +4902,10 @@
             "description": "Endpoints de ejemplo para demostrar la documentación API"
         },
         {
+            "name": "Products",
+            "description": "Gestión de productos, categorías y variantes"
+        },
+        {
             "name": "Cart",
             "description": "Carrito de compras y gestión de items"
         },
@@ -2748,8 +4914,24 @@
             "description": "Gestión de pedidos y estados"
         },
         {
+            "name": "Payments",
+            "description": "Procesamiento de pagos y comprobantes"
+        },
+        {
+            "name": "Admin Payments",
+            "description": "Administración de pagos - endpoints para admins"
+        },
+        {
+            "name": "Store",
+            "description": "Store management"
+        },
+        {
             "name": "Orders - Admin",
             "description": "Orders - Admin"
+        },
+        {
+            "name": "Payment Methods",
+            "description": "Payment Methods"
         }
     ],
     "security": [

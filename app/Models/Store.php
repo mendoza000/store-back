@@ -21,5 +21,10 @@ class Store extends Model
     {
         return $this->hasOne(StoreConfig::class, 'store_id');
     }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(PaymentMethod::class, 'store_id', 'id');
+    }
 }
 

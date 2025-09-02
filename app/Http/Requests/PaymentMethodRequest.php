@@ -24,7 +24,7 @@ class PaymentMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:payment_method,name',
+            'name' => 'required|string|max:255|unique:payment_methods,name',
             'type' => 'required|in:mobile_payment,bank_transfer,paypal,cash,crypto',
             'account_info' => 'required|string|max:255',
             'instructions' => 'nullable|string|max:1000',
