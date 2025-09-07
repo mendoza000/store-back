@@ -35,6 +35,34 @@ class ProductsController extends Controller
                 }
             }
         }
+
+        // Aplicar filtros
+        if ($request->has('filters')) {
+            $filters = $request->get('filters');
+            
+            // Filtro por nombre del producto
+            if (isset($filters['name']) && !empty($filters['name'])) {
+                $query->where('name', 'ILIKE', '%' . $filters['name'] . '%');
+            }
+            
+            // Filtro por slug del producto
+            if (isset($filters['slug']) && !empty($filters['slug'])) {
+                $query->where('slug', 'ILIKE', '%' . $filters['slug'] . '%');
+            }
+            
+            // Filtro por SKU del producto
+            if (isset($filters['sku']) && !empty($filters['sku'])) {
+                $query->where('sku', 'ILIKE', '%' . $filters['sku'] . '%');
+            }
+            
+            // Filtro por nombre de variante
+            if (isset($filters['variantName']) && !empty($filters['variantName'])) {
+                $query->whereHas('variants', function($variantQuery) use ($filters) {
+                    $variantQuery->where('variant_name', 'ILIKE', '%' . $filters['variantName'] . '%');
+                });
+            }
+        }
+        
         
         // El StoreScope del trait BelongsToStore ya filtra por tienda automáticamente.
         // Paginamos para evitar respuestas enormes.
@@ -115,4 +143,6 @@ class ProductsController extends Controller
             'message' => 'Product deleted successfully'
         ], 204);
     }
+
+    
 }
