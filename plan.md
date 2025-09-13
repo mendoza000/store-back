@@ -90,6 +90,15 @@
     -   [x] `AdminOnly` - Solo administradores
     -   [x] `CustomerOnly` - Solo clientes
     -   [x] `ValidateApiKey` - Para integraciones externas
+    -   [x] `CheckRole` - Verificación de roles específicos
+
+### 2.4 **NUEVA CARACTERÍSTICA: Sistema de Seguridad por Roles**
+
+-   [x] **Implementación de protección por roles**
+    -   [x] Endpoints públicos para operaciones de lectura (GET)
+    -   [x] Endpoints protegidos para operaciones de escritura (POST/PUT/DELETE)
+    -   [x] Middleware `role:admin` aplicado a operaciones críticas
+    -   [x] Documentación actualizada con información de seguridad
 
 ---
 
@@ -138,10 +147,13 @@
 
 ### 3.3 API Endpoints de Productos
 
--   [ ] **ProductController (Público)**
+-   [x] **ProductController (Seguridad implementada)**
 
-    -   [ ] `GET /api/v1/products` - Lista paginada con filtros
-    -   [ ] `GET /api/v1/products/{slug}` - Detalle de producto
+    -   [x] `GET /api/v1/products` - Lista paginada con filtros (Público)
+    -   [x] `GET /api/v1/products/{id}` - Detalle de producto (Público)
+    -   [x] `POST /api/v1/products` - Crear producto (Solo Admin)
+    -   [x] `PUT /api/v1/products/{id}` - Actualizar producto (Solo Admin)
+    -   [x] `DELETE /api/v1/products/{id}` - Eliminar producto (Solo Admin)
     -   [ ] `GET /api/v1/products/{id}/variants` - Variantes del producto
     -   [ ] `GET /api/v1/products/search` - Búsqueda de productos
     -   [ ] `GET /api/v1/products/featured` - Productos destacados
@@ -259,10 +271,13 @@
 
 ### 5.2 API Endpoints de Pagos
 
--   [x] **PaymentMethodController (Público)**
+-   [x] **PaymentMethodController (Seguridad implementada)**
 
-    -   [x] `GET /api/v1/payment-methods` - Métodos de pago disponibles
-    -   [x] `GET /api/v1/payment-methods/{id}` - Detalle del método
+    -   [x] `GET /api/v1/payment-methods` - Métodos de pago disponibles (Público)
+    -   [x] `GET /api/v1/payment-methods/{id}` - Detalle del método (Público)
+    -   [x] `POST /api/v1/payment-methods` - Crear método de pago (Solo Admin)
+    -   [x] `PUT /api/v1/payment-methods/{id}` - Actualizar método (Solo Admin)
+    -   [x] `DELETE /api/v1/payment-methods/{id}` - Eliminar método (Solo Admin)
 
 -   [x] **PaymentController**
 
@@ -283,6 +298,20 @@
     -   [ ] Validación de tipos de archivo (jpg, png, pdf)
     -   [ ] Compresión automática de imágenes
     -   [ ] Generación de thumbnails
+
+---
+
+## 📋 **Fase 5.5: Sistema de Tiendas (Stores)**
+
+### 5.5.1 API Endpoints de Stores
+
+-   [x] **StoreController (Seguridad implementada)**
+
+    -   [x] `GET /api/v1/store` - Lista de tiendas (Público)
+    -   [x] `GET /api/v1/store/{id}` - Detalle de tienda (Público)
+    -   [x] `POST /api/v1/store` - Crear tienda (Solo Admin)
+    -   [x] `PUT /api/v1/store/{id}` - Actualizar tienda (Solo Admin)
+    -   [x] `DELETE /api/v1/store/{id}` - Eliminar tienda (Solo Admin)
 
 ---
 
@@ -508,11 +537,22 @@
     -   [ ] Scripts de deploy automatizado
     -   [ ] Health checks y monitoring
 
--   [ ] **Documentación**
-    -   [ ] API documentation completa (Swagger/OpenAPI)
-    -   [ ] README de instalación y configuración
+-   [x] **Documentación**
+    -   [x] API documentation completa (Swagger/OpenAPI) - **ACTUALIZADA CON SEGURIDAD**
+    -   [x] README de instalación y configuración - **COMPLETAMENTE REESCRITO**
+    -   [x] Documentación de endpoints con información de seguridad
+    -   [x] Plan de desarrollo actualizado con progreso actual
     -   [ ] Guía de configuración de módulos por cliente
     -   [ ] Manual de API para frontend developers
+
+### 10.4 **ACTUALIZACIÓN: Documentación de Seguridad**
+
+-   [x] **OpenAPI/Swagger actualizado**
+    -   [x] ProductsEndpoints.php - Documentación de seguridad completa
+    -   [x] StoreEndpoints.php - Información de roles y autenticación
+    -   [x] PaymentEndpoints.php - Endpoints protegidos documentados
+    -   [x] Respuestas de error de seguridad (401, 403) documentadas
+    -   [x] Security schemes actualizados para Sanctum
 
 ---
 
