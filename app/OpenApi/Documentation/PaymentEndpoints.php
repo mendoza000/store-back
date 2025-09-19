@@ -8,15 +8,19 @@ use OpenApi\Attributes as OA;
 
 /**
  * Documentación de endpoints de pagos
+ * 
+ * SEGURIDAD PAYMENT METHODS:
+ * - GET endpoints: Públicos (sin autenticación)
+ * - POST/PUT/DELETE endpoints: Requieren autenticación y rol de admin
  */
 class PaymentEndpoints
 {
-    // ===== PAYMENT METHODS ENDPOINTS (Público) =====
+    // ===== PAYMENT METHODS ENDPOINTS =====
     
     #[OA\Get(
         path: "/api/v1/payment-methods",
-        summary: "Listar métodos de pago disponibles",
-        description: "Obtiene la lista de métodos de pago activos de la tienda",
+        summary: "Listar métodos de pago disponibles (Público)",
+        description: "Obtiene la lista de métodos de pago activos de la tienda. Endpoint público, no requiere autenticación.",
         tags: ["Payment Methods"],
         parameters: [
             new OA\Parameter(ref: "#/components/parameters/X-Store-Id")
@@ -41,8 +45,8 @@ class PaymentEndpoints
 
     #[OA\Get(
         path: "/api/v1/payment-methods/{id}",
-        summary: "Obtener detalle de método de pago",
-        description: "Devuelve la información detallada de un método de pago específico",
+        summary: "Obtener detalle de método de pago (Público)",
+        description: "Devuelve la información detallada de un método de pago específico. Endpoint público, no requiere autenticación.",
         tags: ["Payment Methods"],
         parameters: [
             new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
@@ -68,6 +72,124 @@ class PaymentEndpoints
         ]
     )]
     public function getPaymentMethod() {}
+
+    #[OA\Post(
+        path: "/api/v1/payment-methods",
+        summary: "Crear método de pago (Solo Admin)",
+        description: "Crea un nuevo método de pago para la tienda. REQUIERE: Autenticación + Rol Admin",
+        security: [["sanctum" => []]],
+        tags: ["Payment Methods", "Admin"],
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id")
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/PaymentMethodCreateRequest")
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Método de pago creado",
+                content: new OA\JsonContent(ref: "#/components/schemas/PaymentMethod")
+            ),
+            new OA\Response(
+                response: 401,
+                description: "No autenticado"
+            ),
+            new OA\Response(
+                response: 403,
+                description: "Permisos insuficientes - Se requiere rol admin"
+            ),
+            new OA\Response(
+                response: 422,
+                description: "Error de validación"
+            )
+        ]
+    )]
+    public function createPaymentMethod() {}
+
+    #[OA\Put(
+        path: "/api/v1/payment-methods/{id}",
+        summary: "Actualizar método de pago (Solo Admin)",
+        description: "Actualiza un método de pago existente. REQUIERE: Autenticación + Rol Admin",
+        security: [["sanctum" => []]],
+        tags: ["Payment Methods", "Admin"],
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
+            new OA\Parameter(
+                name: "id",
+                in: "path",
+                required: true,
+                description: "ID del método de pago",
+                schema: new OA\Schema(type: "integer", example: 1)
+            )
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: "#/components/schemas/PaymentMethodUpdateRequest")
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Método de pago actualizado",
+                content: new OA\JsonContent(ref: "#/components/schemas/PaymentMethod")
+            ),
+            new OA\Response(
+                response: 401,
+                description: "No autenticado"
+            ),
+            new OA\Response(
+                response: 403,
+                description: "Permisos insuficientes - Se requiere rol admin"
+            ),
+            new OA\Response(
+                response: 404,
+                description: "Método de pago no encontrado"
+            ),
+            new OA\Response(
+                response: 422,
+                description: "Error de validación"
+            )
+        ]
+    )]
+    public function updatePaymentMethod() {}
+
+    #[OA\Delete(
+        path: "/api/v1/payment-methods/{id}",
+        summary: "Eliminar método de pago (Solo Admin)",
+        description: "Elimina un método de pago específico. REQUIERE: Autenticación + Rol Admin",
+        security: [["sanctum" => []]],
+        tags: ["Payment Methods", "Admin"],
+        parameters: [
+            new OA\Parameter(ref: "#/components/parameters/X-Store-Id"),
+            new OA\Parameter(
+                name: "id",
+                in: "path",
+                required: true,
+                description: "ID del método de pago",
+                schema: new OA\Schema(type: "integer", example: 1)
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: "Método de pago eliminado"
+            ),
+            new OA\Response(
+                response: 401,
+                description: "No autenticado"
+            ),
+            new OA\Response(
+                response: 403,
+                description: "Permisos insuficientes - Se requiere rol admin"
+            ),
+            new OA\Response(
+                response: 404,
+                description: "Método de pago no encontrado"
+            )
+        ]
+    )]
+    public function deletePaymentMethod() {}
 
     // ===== PAYMENT ENDPOINTS (Usuarios autenticados) =====
 

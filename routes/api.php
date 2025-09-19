@@ -37,13 +37,18 @@ Route::get('/health', function () {
 // API Version 1 Routes
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
-    // Excepción: rutas de store NO requieren tenant (se usa para crear/gestionar tiendas)
+    // Store routes - separadas por nivel de acceso (NO requieren tenant)
     Route::prefix("store")->name("store.")->withoutMiddleware([\App\Http\Middleware\RequireStore::class])->group(function () {
+        // Rutas públicas de stores (solo lectura)
         Route::get('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'index'])->name('index');
-        Route::post('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'store'])->name('store');
         Route::get('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'show'])->name('show');
-        Route::put('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'update'])->name('update');
-        Route::delete('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'destroy'])->name('destroy');
+        
+        // Rutas protegidas de stores (require admin role para crear/editar/borrar)
+        Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+            Route::post('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'destroy'])->name('destroy');
+        });
     });
 
     // Authentication routes (no authentication required)
@@ -74,12 +79,19 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
     });
 
-    // Public product routes (no authentication required)
+    // Public product routes (no authentication required - solo lectura)
+    Route::prefix('products')->name('products.')->group(function () {
+        // Rutas públicas (solo lectura)
+        Route::get('/', [ProductsController::class, 'index'])->name('index');
+        Route::get('/{id}', [ProductsController::class, 'show'])->name('show');
+    });
 
-
-
-
-    Route::apiResource('products', ProductsController::class);
+    // Protected product routes (require admin role for creation/modification)
+    Route::middleware(['auth:sanctum', 'role:admin'])->prefix('products')->name('products.')->group(function () {
+        Route::post('/', [ProductsController::class, 'store'])->name('store');
+        Route::put('/{id}', [ProductsController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProductsController::class, 'destroy'])->name('destroy');
+    });
 
     // Route::prefix('products')->name('products.')->group(function () { eres gay ?
     // GET /api/v1/products - Lista paginada con filtros
@@ -131,11 +143,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     // GET /api/v1/categories/{slug}/products - Productos por categoría
     //});
 
-    // Public payment methods
-    //Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
-    // GET /api/v1/payment-methods - Métodos de pago disponibles
-    // GET /api/v1/payment-methods/{id} - Detalle del método
-    //});
+    // Public payment methods routes (solo lectura)
+    Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
+        Route::get('/', [PaymentMethodController::class, 'index'])->name('index');
+        Route::get('/{id}', [PaymentMethodController::class, 'show'])->name('show');
+    });
 
     // Protected routes (require authentication)
     Route::middleware('auth:sanctum')->group(function () {
@@ -210,9 +222,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         
 
-        //Method payment routes
-        
-        Route::apiResource('payment-methods', PaymentMethodController::class);
+        // Protected payment methods routes (require admin role para crear/editar/borrar)
+        Route::middleware(['role:admin'])->prefix('payment-methods')->name('payment-methods.')->group(function () {
+            Route::post('/', [PaymentMethodController::class, 'store'])->name('store');
+            Route::put('/{id}', [PaymentMethodController::class, 'update'])->name('update');
+            Route::delete('/{id}', [PaymentMethodController::class, 'destroy'])->name('destroy');
+        });
 
         
         // Order payment routes
