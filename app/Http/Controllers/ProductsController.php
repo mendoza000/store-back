@@ -9,32 +9,31 @@ use App\Http\Resources\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\JsonResponse;
 use App\Services\CurrentStore;
+use App\Services\ProductFilterService;
 
 
 class ProductsController extends Controller
 {
+    protected $filterService;
+    protected $validIncludes = ['images', 'category', 'variants'];
+
+    public function __construct(ProductFilterService $filterService)
+    {
+        $this->filterService = $filterService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        //$products = Product::all()->load(['category', 'images']);
-
-        //return response()->json($products);
-
         $query = Product::query();
 
-        if($request->has('include')) {
-            $includes = explode(',', $request->get('include'));
+        // Aplicar inclusiones usando el servicio
+        $query = $this->filterService->applyIncludes($query, $request, $this->validIncludes);
 
-            $validIncludes = ['images', 'category', 'variants'];
-
-            foreach ($includes as $include) {
-                if (in_array($include, $validIncludes)) {
-                    $query->with($include);
-                }
-            }
-        }
+        // Aplicar filtros usando el servicio
+        $query = $this->filterService->applyFilters($query, $request);
         
         // El StoreScope del trait BelongsToStore ya filtra por tienda automáticamente.
         // Paginamos para evitar respuestas enormes.
@@ -67,20 +66,12 @@ class ProductsController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-
-        $product = Product::findOrFail($id);
-
-        // Cargar relaciones si se especifican en el request
-        if (request()->has('include')) {
-            $includes = explode(',', request()->get('include'));
-            $validIncludes = ['images', 'category', 'variants'];
-
-            foreach ($includes as $include) {
-                if (in_array($include, $validIncludes)) {
-                    $product->load($include);
-                }
-            }
-        }
+        $query = Product::where('id', $id);
+        
+        // Aplicar inclusiones usando el servicio
+        $query = $this->filterService->applyIncludes($query, request(), $this->validIncludes);
+        
+        $product = $query->firstOrFail();
 
         return response()->json([$product]);
     }
@@ -115,4 +106,6 @@ class ProductsController extends Controller
             'message' => 'Product deleted successfully'
         ], 204);
     }
+
+    
 }
