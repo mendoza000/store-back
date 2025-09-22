@@ -31,4 +31,4 @@ return new class extends Migration
             $table->dropColumn(['rejected_by', 'rejection_reason', 'admin_notes']);
         });
     }
-}; 
+};
