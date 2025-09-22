@@ -64,8 +64,8 @@ RUN chown -R $user:www-data /var/www \
     && chmod -R 755 /var/www/storage \
     && chmod -R 755 /var/www/bootstrap/cache
 
-# Exponer puerto 80
-EXPOSE 80
+# Exponer puerto 8080
+EXPOSE 8080
 
 # Comando de inicio
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
