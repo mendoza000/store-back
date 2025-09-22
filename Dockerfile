@@ -42,7 +42,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader --no-dev --prefer-dist
 
 # Copiar el código de la aplicación
-COPY . .
+COPY --chown=$user:www-data . .
 
 # Completar la instalación de Composer
 RUN composer dump-autoload --optimize
@@ -64,11 +64,19 @@ RUN mkdir -p /var/www/storage/logs \
     /var/log/supervisor
 
 RUN chown -R $user:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && chmod -R 775 /var/www/storage \
+    && chmod -R 775 /var/www/bootstrap/cache \
+    && chown -R $user:www-data /var/log/supervisor
+
+# Copiar y configurar el script de inicialización
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Exponer puerto 3001
 EXPOSE 3001
+
+# Establecer el punto de entrada
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Comando de inicio
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
