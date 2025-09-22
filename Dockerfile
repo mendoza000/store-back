@@ -58,7 +58,10 @@ RUN mkdir -p /var/www/storage/logs \
     /var/www/storage/framework/cache \
     /var/www/storage/framework/sessions \
     /var/www/storage/framework/views \
-    /var/www/bootstrap/cache
+    /var/www/bootstrap/cache \
+    /var/log/nginx \
+    /var/log/php-fpm \
+    /var/log/supervisor
 
 RUN chown -R $user:www-data /var/www \
     && chmod -R 755 /var/www/storage \
