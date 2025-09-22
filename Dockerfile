@@ -16,7 +16,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     nginx \
-    supervisor
+    supervisor \
+    postgresql-client \
+    netcat-openbsd
 
 # Limpiar caché de apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -38,8 +40,8 @@ WORKDIR /var/www
 # Copiar archivos de dependencias
 COPY composer.json composer.lock ./
 
-# Instalar dependencias de Composer
-RUN composer install --no-scripts --no-autoloader --no-dev --prefer-dist
+# Instalar dependencias de Composer (incluyendo dev para evitar errores)
+RUN composer install --no-scripts --no-autoloader --prefer-dist
 
 # Copiar el código de la aplicación
 COPY --chown=$user:www-data . .
