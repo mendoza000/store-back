@@ -15,7 +15,7 @@ return new class extends Migration
             // Campos para el rechazo de pagos
             $table->foreignId('rejected_by')->nullable()->after('verified_by')->constrained('users')->onDelete('set null');
             $table->string('rejection_reason')->nullable()->after('rejected_at');
-            
+
             // Notas administrativas
             $table->text('admin_notes')->nullable()->after('rejection_reason');
         });
