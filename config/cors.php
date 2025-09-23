@@ -17,11 +17,13 @@ return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'supports_credentials' => true,
 
-    'allowed_origins' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins' => array_filter(explode(',', env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000'))),
+
+    'allowed_origins_patterns' => array_filter(explode(',', env('CORS_ALLOWED_ORIGINS_PATTERNS', ''))),
 
     'allowed_headers' => ['*'],
 
@@ -30,10 +32,9 @@ return [
         'X-Page-Count',
         'X-Per-Page',
         'X-Current-Page',
+        'X-Store-Slug',
     ],
 
-    'max_age' => 0,
-
-    'supports_credentials' => false,
+    'max_age' => env('CORS_MAX_AGE', 86400),
 
 ];
