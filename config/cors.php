@@ -21,9 +21,13 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => array_filter(explode(',', env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000'))),
+    'allowed_origins' => [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        env('PRODUCTION_FRONTEND_URL', 'https://sauce-store.vercel.app')
+    ],
 
-    'allowed_origins_patterns' => array_filter(explode(',', env('CORS_ALLOWED_ORIGINS_PATTERNS', ''))),
+    'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
