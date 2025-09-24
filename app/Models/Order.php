@@ -111,6 +111,14 @@ class Order extends Model
     }
 
     /**
+     * Relación con Payment
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
      * Scope: Pedidos por estado
      */
     public function scopeByStatus($query, string|OrderStatus $status)

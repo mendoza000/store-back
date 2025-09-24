@@ -31,4 +31,9 @@ class PaymentVerification extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
+
 }

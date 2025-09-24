@@ -46,22 +46,56 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        // API Exception handling
-        $exceptions->render(function (Throwable $e, $request) {
+    ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
             if ($request->is('api/*')) {
+                // Handle authentication exceptions for API routes
+                if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'UNAUTHENTICATED',
+                            'message' => 'No estás autenticado. Por favor, proporciona un token válido.',
+                            'details' => [
+                                'required_headers' => ['Authorization: Bearer {token}'],
+                                'login_endpoint' => '/api/v1/auth/login'
+                            ]
+                        ]
+                    ], 401);
+                }
+
+                // Handle authorization exceptions
+                if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'FORBIDDEN',
+                            'message' => 'No tienes permisos para realizar esta acción.',
+                            'details' => null
+                        ]
+                    ], 403);
+                }
+
+                // Handle validation exceptions
+                if ($e instanceof \Illuminate\Validation\ValidationException) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => [
+                            'code' => 'VALIDATION_ERROR',
+                            'message' => 'Los datos proporcionados no son válidos.',
+                            'details' => $e->errors()
+                        ]
+                    ], 422);
+                }
+
+                // Handle general exceptions
                 return response()->json([
                     'success' => false,
                     'error' => [
-                        'code' => 'INTERNAL_SERVER_ERROR',
-                        'message' => app()->environment('local') ? $e->getMessage() : 'An error occurred processing your request.',
-                        'details' => app()->environment('local') ? [
-                            'file' => $e->getFile(),
-                            'line' => $e->getLine(),
-                            'trace' => $e->getTraceAsString()
-                        ] : null
+                        'code' => 'UNAUTHENTICATED',
+                        'message' => 'No autenticado. Por favor, inicie sesión para continuar.',
                     ]
-                ], 500);
+                ], 401);
             }
         });
     })->create();

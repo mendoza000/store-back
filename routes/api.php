@@ -10,6 +10,7 @@ use App\Http\Controllers\VariantsController;
 use App\Models\Payment;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentAdminController;
 use App\Http\Controllers\PaymentVerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -36,22 +37,27 @@ Route::get('/health', function () {
 // API Version 1 Routes
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
-    // Excepción: rutas de store NO requieren tenant (se usa para crear/gestionar tiendas)
+    // Store routes - separadas por nivel de acceso (NO requieren tenant)
     Route::prefix("store")->name("store.")->withoutMiddleware([\App\Http\Middleware\RequireStore::class])->group(function () {
+        // Rutas públicas de stores (solo lectura)
         Route::get('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'index'])->name('index');
-        Route::post('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'store'])->name('store');
         Route::get('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'show'])->name('show');
-        Route::put('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'update'])->name('update');
-        Route::delete('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'destroy'])->name('destroy');
+        
+        // Rutas protegidas de stores (require admin role para crear/editar/borrar)
+        Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+            Route::post('/', [\App\Http\Controllers\Api\V1\StoreController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\V1\StoreController::class, 'destroy'])->name('destroy');
+        });
     });
 
     // Authentication routes (no authentication required)
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login'])
-            ->name('login');
+            ->name('api-login');
 
         Route::post('/register', [\App\Http\Controllers\Api\V1\AuthController::class, 'register'])
-            ->name('register');
+            ->name('api-register');
 
         Route::post('/forgot-password', [\App\Http\Controllers\Api\V1\AuthController::class, 'forgotPassword'])
             ->name('forgot-password');
@@ -73,12 +79,19 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
     });
 
-    // Public product routes (no authentication required)
+    // Public product routes (no authentication required - solo lectura)
+    Route::prefix('products')->name('products.')->group(function () {
+        // Rutas públicas (solo lectura)
+        Route::get('/', [ProductsController::class, 'index'])->name('index');
+        Route::get('/{id}', [ProductsController::class, 'show'])->name('show');
+    });
 
-
-
-
-    Route::apiResource('products', ProductsController::class);
+    // Protected product routes (require admin role for creation/modification)
+    Route::middleware(['auth:sanctum', 'role:admin'])->prefix('products')->name('products.')->group(function () {
+        Route::post('/', [ProductsController::class, 'store'])->name('store');
+        Route::put('/{id}', [ProductsController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProductsController::class, 'destroy'])->name('destroy');
+    });
 
     // Route::prefix('products')->name('products.')->group(function () { eres gay ?
     // GET /api/v1/products - Lista paginada con filtros
@@ -90,15 +103,37 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('variants', VariantsController::class);
 
+    // Category routes by slug (must be before apiResource to avoid conflicts)
+    Route::prefix('categories')->name('categories.')->group(function () {
+        // GET /api/v1/categories/{slug} - Detalle de categoría por slug
+        Route::get('/{slug}', [CategoryController::class, 'showBySlug'])
+            ->name('show-by-slug')
+            ->where('slug', '[a-z0-9-]+');
+
+        // GET /api/v1/categories/{slug}/products - Productos por categoría
+        Route::get('/{slug}/products', [CategoryController::class, 'getProductsBySlug'])
+            ->name('products')
+            ->where('slug', '[a-z0-9-]+');
+    });
+
     Route::apiResource('categories', CategoryController::class);
 
     Route::apiResource('images', ProductImageController::class);
 
-    Route::apiResource('payment-methods', PaymentMethodController::class);
 
-    Route::apiResource('payments', PaymentController::class);
 
-    Route::apiResource('payments-verify', PaymentVerificationController::class);
+
+
+
+    // Payment methods routes
+
+    
+
+
+
+
+
+
 
 
     // Public category routes
@@ -108,11 +143,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     // GET /api/v1/categories/{slug}/products - Productos por categoría
     //});
 
-    // Public payment methods
-    //Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
-        // GET /api/v1/payment-methods - Métodos de pago disponibles
-        // GET /api/v1/payment-methods/{id} - Detalle del método
-    //});
+    // Public payment methods routes (solo lectura)
+    Route::prefix('payment-methods')->name('payment-methods.')->group(function () {
+        Route::get('/', [PaymentMethodController::class, 'index'])->name('index');
+        Route::get('/{id}', [PaymentMethodController::class, 'show'])->name('show');
+    });
 
     // Protected routes (require authentication)
     Route::middleware('auth:sanctum')->group(function () {
@@ -164,7 +199,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Order routes
-        Route::prefix('orders')->name('orders.')->group(function () {
+        Route::prefix('orders')->name('orders.')->middleware('throttle:30,1')->group(function () {
             // Crear pedido desde carrito
             Route::post('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])
                 ->name('store');
@@ -182,16 +217,69 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('cancel');
         });
 
-        // Payment routes
-        //Route::prefix('payments')->name('payments.')->group(function () {
-            // GET /api/v1/payments/{id}
-            // PUT /api/v1/payments/{id}
-        //});
 
+
+
+        
+
+        // Protected payment methods routes (require admin role para crear/editar/borrar)
+        Route::middleware(['role:admin'])->prefix('payment-methods')->name('payment-methods.')->group(function () {
+            Route::post('/', [PaymentMethodController::class, 'store'])->name('store');
+            Route::put('/{id}', [PaymentMethodController::class, 'update'])->name('update');
+            Route::delete('/{id}', [PaymentMethodController::class, 'destroy'])->name('destroy');
+        });
+
+        
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
-            // POST /api/v1/orders/{order}/payments
+            // POST /api/v1/orders/{order}/payments - Reportar pago
+            Route::post('/', [PaymentController::class, 'reportPayment'])
+                ->name('store');
         });
+
+
+        // Payment routes
+        Route::prefix('payments')->name('payments.')->group(function () {
+            // GET /api/v1/payments/{id} - Estado del pago
+            Route::get('/{id}', [PaymentController::class, 'show'])
+                ->name('show');
+            
+            // PUT /api/v1/payments/{id} - Actualizar comprobante
+            Route::put('/{id}', [PaymentController::class, 'update'])
+                ->name('update');
+        });
+
+
+
+
+
+  // Payment management
+  Route::prefix('payments')->name('payments.')->group(function () {
+    // GET /api/v1/admin/payments - Lista de pagos pendientes
+    Route::get('/', [PaymentAdminController::class, 'index'])
+        ->name('index');
+    
+    // GET /api/v1/admin/payments/stats - Estadísticas de pagos
+    Route::get('/stats', [PaymentAdminController::class, 'stats'])
+        ->name('stats');
+    
+    // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
+    Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
+        ->name('verify');
+    
+    // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
+    Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
+        ->name('reject');
+});
+
+
+
+
+
+
+
+
+
 
         // Wishlist routes (conditional based on modules.wishlist)
         Route::middleware('module:wishlist')->prefix('wishlist')->name('wishlist.')->group(function () {
@@ -256,7 +344,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
 
         // Order management
-        Route::prefix('orders')->name('orders.')->group(function () {
+        Route::prefix('orders')->name('orders.')->middleware('throttle:30,1')->group(function () {
             // Lista de pedidos para admin
             Route::get('/', [\App\Http\Controllers\Api\V1\OrderController::class, 'adminIndex'])
                 ->name('index');
@@ -270,13 +358,13 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('stats');
         });
 
-        // Payment management
-        //Route::prefix('payments')->name('payments.')->group(function () {
-            // GET /api/v1/admin/payments
-            // POST /api/v1/admin/payments/{id}/verify
-            // POST /api/v1/admin/payments/{id}/reject
-            // GET /api/v1/admin/payments/stats
-        //});
+
+
+
+      
+
+
+
 
         // Coupon management (conditional)
         Route::middleware('module:coupons')->prefix('coupons')->name('coupons.')->group(function () {

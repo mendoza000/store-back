@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantity')->unsigned();
             $table->decimal('price', 10, 2); // Precio al momento de agregar al carrito
             $table->timestamps();
+            $table->softDeletes(); // Agregar soporte para soft deletes
 
             // Índices para mejorar performance
             $table->index(['cart_id', 'product_id']);

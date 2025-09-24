@@ -21,15 +21,6 @@ class OrderController extends Controller
     use ApiResponseTrait;
 
     /**
-     * Constructor - Aplicar middleware de autenticación
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-        $this->middleware('throttle:30,1'); // Rate limiting más restrictivo para pedidos
-    }
-
-    /**
      * Obtener lista de pedidos del usuario autenticado
      */
     public function index(Request $request): JsonResponse
@@ -51,11 +42,11 @@ class OrderController extends Controller
 
             $orders = $query->paginate($perPage);
 
-            $ordersData = $orders->map(function ($order) {
+            $orders->getCollection()->transform(function ($order) {
                 return $this->formatOrderResponse($order);
             });
 
-            return $this->paginatedResponse($ordersData, 'Pedidos obtenidos exitosamente');
+            return $this->paginatedResponse($orders, 'Pedidos obtenidos exitosamente');
         } catch (\Exception $e) {
             return $this->errorResponse('ORDER_LIST_ERROR', 'Error al obtener los pedidos', 500, [
                 'error' => $e->getMessage()

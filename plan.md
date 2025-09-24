@@ -90,6 +90,15 @@
     -   [x] `AdminOnly` - Solo administradores
     -   [x] `CustomerOnly` - Solo clientes
     -   [x] `ValidateApiKey` - Para integraciones externas
+    -   [x] `CheckRole` - Verificación de roles específicos
+
+### 2.4 **NUEVA CARACTERÍSTICA: Sistema de Seguridad por Roles**
+
+-   [x] **Implementación de protección por roles**
+    -   [x] Endpoints públicos para operaciones de lectura (GET)
+    -   [x] Endpoints protegidos para operaciones de escritura (POST/PUT/DELETE)
+    -   [x] Middleware `role:admin` aplicado a operaciones críticas
+    -   [x] Documentación actualizada con información de seguridad
 
 ---
 
@@ -111,10 +120,10 @@
     -   [x] Relaciones: categories, images, variants, attributes
     -   [ ] Scopes: active, featured, on_sale
 
--   [ ] **Modelo ProductImage**
-    -   [ ] Campos: product_id, url, alt_text, sort_order, is_primary
-    -   [ ] Relación con Product
-    -   [ ] Mutators para URLs completas
+-   [x] **Modelo ProductImage**
+    -   [x] Campos: product_id, url, alt_text, sort_order, is_primary
+    -   [x] Relación con Product
+    -   [x] Mutators para URLs completas
 
 ### 3.2 Sistema de Variantes Flexible
 
@@ -138,19 +147,22 @@
 
 ### 3.3 API Endpoints de Productos
 
--   [ ] **ProductController (Público)**
+-   [x] **ProductController (Seguridad implementada)**
 
-    -   [ ] `GET /api/v1/products` - Lista paginada con filtros
-    -   [ ] `GET /api/v1/products/{slug}` - Detalle de producto
+    -   [x] `GET /api/v1/products` - Lista paginada con filtros (Público)
+    -   [x] `GET /api/v1/products/{id}` - Detalle de producto (Público)
+    -   [x] `POST /api/v1/products` - Crear producto (Solo Admin)
+    -   [x] `PUT /api/v1/products/{id}` - Actualizar producto (Solo Admin)
+    -   [x] `DELETE /api/v1/products/{id}` - Eliminar producto (Solo Admin)
     -   [ ] `GET /api/v1/products/{id}/variants` - Variantes del producto
     -   [ ] `GET /api/v1/products/search` - Búsqueda de productos
     -   [ ] `GET /api/v1/products/featured` - Productos destacados
 
--   [ ] **CategoryController (Público)**
+-   [x] **CategoryController (Público)**
 
-    -   [ ] `GET /api/v1/categories` - Árbol de categorías
-    -   [ ] `GET /api/v1/categories/{slug}` - Detalle de categoría
-    -   [ ] `GET /api/v1/categories/{slug}/products` - Productos por categoría
+    -   [x] `GET /api/v1/categories` - Árbol de categorías
+    -   [x] `GET /api/v1/categories/{slug}` - Detalle de categoría
+    -   [x] `GET /api/v1/categories/{slug}/products` - Productos por categoría
 
 -   [ ] **Admin ProductController**
     -   [ ] `GET /api/v1/admin/products` - Lista admin con filtros
@@ -242,39 +254,42 @@
 
 -   [x] **Modelo PaymentMethod**
 
-    -   [ ] Campos: name, type, account_info, instructions, status
-    -   [ ] Tipos: bank_transfer, mobile_payment, cash, crypto
-    -   [ ] Información bancaria del comercio
+    -   [x] Campos: name, type, account_info, instructions, status
+    -   [x] Tipos: bank_transfer, mobile_payment, cash, crypto
+    -   [x] Información bancaria del comercio
 
 -   [x] **Modelo Payment**
 
-    -   [ ] Campos: order_id, payment_method_id, amount, reference
-    -   [ ] Campos: receipt_image, notes, status, verified_at, verified_by
-    -   [ ] Estados: pending, verified, rejected, refunded
+    -   [x] Campos: order_id, payment_method_id, amount, reference
+    -   [x] Campos: receipt_image, notes, status, verified_at, verified_by
+    -   [x] Estados: pending, verified, rejected, refunded
 
 -   [x] **Modelo PaymentVerification**
-    -   [ ] Campos: payment_id, admin_id, action, notes, created_at
-    -   [ ] Historial de verificaciones
-    -   [ ] Razones de rechazo
+    -   [x] Campos: payment_id, admin_id, action, notes, created_at
+    -   [x] Historial de verificaciones
+    -   [x] Razones de rechazo
 
 ### 5.2 API Endpoints de Pagos
 
--   [x] **PaymentMethodController (Público)**
+-   [x] **PaymentMethodController (Seguridad implementada)**
 
-    -   [ ] `GET /api/v1/payment-methods` - Métodos de pago disponibles
-    -   [ ] `GET /api/v1/payment-methods/{id}` - Detalle del método
+    -   [x] `GET /api/v1/payment-methods` - Métodos de pago disponibles (Público)
+    -   [x] `GET /api/v1/payment-methods/{id}` - Detalle del método (Público)
+    -   [x] `POST /api/v1/payment-methods` - Crear método de pago (Solo Admin)
+    -   [x] `PUT /api/v1/payment-methods/{id}` - Actualizar método (Solo Admin)
+    -   [x] `DELETE /api/v1/payment-methods/{id}` - Eliminar método (Solo Admin)
 
 -   [x] **PaymentController**
 
-    -   [ ] `POST /api/v1/orders/{id}/payments` - Reportar pago
-    -   [ ] `PUT /api/v1/payments/{id}` - Actualizar comprobante
-    -   [ ] `GET /api/v1/payments/{id}` - Estado del pago
+    -   [x] `POST /api/v1/orders/{id}/payments` - Reportar pago
+    -   [x] `PUT /api/v1/payments/{id}` - Actualizar comprobante
+    -   [x] `GET /api/v1/payments/{id}` - Estado del pago
 
 -   [x] **Admin PaymentController**
-    -   [ ] `GET /api/v1/admin/payments` - Lista de pagos pendientes
-    -   [ ] `POST /api/v1/admin/payments/{id}/verify` - Aprobar pago
-    -   [ ] `POST /api/v1/admin/payments/{id}/reject` - Rechazar pago
-    -   [ ] `GET /api/v1/admin/payments/stats` - Estadísticas de pagos
+    -   [x] `GET /api/v1/admin/payments` - Lista de pagos pendientes
+    -   [x] `POST /api/v1/admin/payments/{id}/verify` - Aprobar pago
+    -   [x] `POST /api/v1/admin/payments/{id}/reject` - Rechazar pago
+    -   [x] `GET /api/v1/admin/payments/stats` - Estadísticas de pagos
 
 ### 5.3 Gestión de Archivos
 
@@ -283,6 +298,20 @@
     -   [ ] Validación de tipos de archivo (jpg, png, pdf)
     -   [ ] Compresión automática de imágenes
     -   [ ] Generación de thumbnails
+
+---
+
+## 📋 **Fase 5.5: Sistema de Tiendas (Stores)**
+
+### 5.5.1 API Endpoints de Stores
+
+-   [x] **StoreController (Seguridad implementada)**
+
+    -   [x] `GET /api/v1/store` - Lista de tiendas (Público)
+    -   [x] `GET /api/v1/store/{id}` - Detalle de tienda (Público)
+    -   [x] `POST /api/v1/store` - Crear tienda (Solo Admin)
+    -   [x] `PUT /api/v1/store/{id}` - Actualizar tienda (Solo Admin)
+    -   [x] `DELETE /api/v1/store/{id}` - Eliminar tienda (Solo Admin)
 
 ---
 
@@ -508,11 +537,22 @@
     -   [ ] Scripts de deploy automatizado
     -   [ ] Health checks y monitoring
 
--   [ ] **Documentación**
-    -   [ ] API documentation completa (Swagger/OpenAPI)
-    -   [ ] README de instalación y configuración
+-   [x] **Documentación**
+    -   [x] API documentation completa (Swagger/OpenAPI) - **ACTUALIZADA CON SEGURIDAD**
+    -   [x] README de instalación y configuración - **COMPLETAMENTE REESCRITO**
+    -   [x] Documentación de endpoints con información de seguridad
+    -   [x] Plan de desarrollo actualizado con progreso actual
     -   [ ] Guía de configuración de módulos por cliente
     -   [ ] Manual de API para frontend developers
+
+### 10.4 **ACTUALIZACIÓN: Documentación de Seguridad**
+
+-   [x] **OpenAPI/Swagger actualizado**
+    -   [x] ProductsEndpoints.php - Documentación de seguridad completa
+    -   [x] StoreEndpoints.php - Información de roles y autenticación
+    -   [x] PaymentEndpoints.php - Endpoints protegidos documentados
+    -   [x] Respuestas de error de seguridad (401, 403) documentadas
+    -   [x] Security schemes actualizados para Sanctum
 
 ---
 
