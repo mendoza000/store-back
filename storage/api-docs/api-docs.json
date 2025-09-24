@@ -1779,8 +1779,8 @@
                 "tags": [
                     "Payment Methods"
                 ],
-                "summary": "Listar métodos de pago disponibles",
-                "description": "Obtiene la lista de métodos de pago activos de la tienda",
+                "summary": "Listar métodos de pago disponibles (Público)",
+                "description": "Obtiene la lista de métodos de pago activos de la tienda. Endpoint público, no requiere autenticación.",
                 "operationId": "623026a621938f6a1f0a833a2934e628",
                 "parameters": [
                     {
@@ -1812,6 +1812,56 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Payment Methods",
+                    "Admin"
+                ],
+                "summary": "Crear método de pago (Solo Admin)",
+                "description": "Crea un nuevo método de pago para la tienda. REQUIERE: Autenticación + Rol Admin",
+                "operationId": "df01f7f2b0a3429e9249bf865488cac2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentMethodCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Método de pago creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentMethod"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/payment-methods/{id}": {
@@ -1819,8 +1869,8 @@
                 "tags": [
                     "Payment Methods"
                 ],
-                "summary": "Obtener detalle de método de pago",
-                "description": "Devuelve la información detallada de un método de pago específico",
+                "summary": "Obtener detalle de método de pago (Público)",
+                "description": "Devuelve la información detallada de un método de pago específico. Endpoint público, no requiere autenticación.",
                 "operationId": "b583f067d62653e24d4f0dccd97eba37",
                 "parameters": [
                     {
@@ -1859,6 +1909,112 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Payment Methods",
+                    "Admin"
+                ],
+                "summary": "Actualizar método de pago (Solo Admin)",
+                "description": "Actualiza un método de pago existente. REQUIERE: Autenticación + Rol Admin",
+                "operationId": "4a5eb8915b97a30a76153675b9640473",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del método de pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentMethodUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Método de pago actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaymentMethod"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
+                    "404": {
+                        "description": "Método de pago no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Payment Methods",
+                    "Admin"
+                ],
+                "summary": "Eliminar método de pago (Solo Admin)",
+                "description": "Elimina un método de pago específico. REQUIERE: Autenticación + Rol Admin",
+                "operationId": "b5db3b50a5faec12090b98fb40b81bc1",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/X-Store-Id"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del método de pago",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Método de pago eliminado"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
+                    "404": {
+                        "description": "Método de pago no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/orders/{order}/payments": {
@@ -2730,8 +2886,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Listar productos",
-                "description": "Lista paginada de productos del tenant actual",
+                "summary": "Listar productos (Público)",
+                "description": "Lista paginada de productos del tenant actual. Endpoint público, no requiere autenticación.",
                 "operationId": "a453f80a92d845f9adfe6261808d3feb",
                 "parameters": [
                     {
@@ -2767,10 +2923,11 @@
             },
             "post": {
                 "tags": [
-                    "Products"
+                    "Products",
+                    "Admin"
                 ],
-                "summary": "Crear producto",
-                "description": "Crea un nuevo producto para el tenant actual",
+                "summary": "Crear producto (Solo Admin)",
+                "description": "Crea un nuevo producto para el tenant actual. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "f5790cdb8f4a395d196b6b69c7096c01",
                 "parameters": [
                     {
@@ -2791,10 +2948,21 @@
                     "201": {
                         "description": "Producto creado"
                     },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
                     "422": {
                         "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/products/{product}": {
@@ -2802,8 +2970,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Obtener detalle de producto",
-                "description": "Devuelve el detalle de un producto por ID",
+                "summary": "Obtener detalle de producto (Público)",
+                "description": "Devuelve el detalle de un producto por ID. Endpoint público, no requiere autenticación.",
                 "operationId": "722de71869b44d6b25edce8a52178afe",
                 "parameters": [
                     {
@@ -2829,10 +2997,11 @@
             },
             "put": {
                 "tags": [
-                    "Products"
+                    "Products",
+                    "Admin"
                 ],
-                "summary": "Actualizar producto",
-                "description": "Actualiza un producto existente",
+                "summary": "Actualizar producto (Solo Admin)",
+                "description": "Actualiza un producto existente. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "fe675acd326e867519ad7e5bd89ff0b9",
                 "parameters": [
                     {
@@ -2861,20 +3030,32 @@
                     "200": {
                         "description": "Producto actualizado"
                     },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
                     "404": {
                         "description": "No encontrado"
                     },
                     "422": {
                         "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "Products"
+                    "Products",
+                    "Admin"
                 ],
-                "summary": "Eliminar producto",
-                "description": "Elimina (soft/hard según implementación) un producto",
+                "summary": "Eliminar producto (Solo Admin)",
+                "description": "Elimina (soft/hard según implementación) un producto. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "da89b6a3df665701d4a4987b1e93d026",
                 "parameters": [
                     {
@@ -2893,10 +3074,21 @@
                     "204": {
                         "description": "Producto eliminado"
                     },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
                     "404": {
                         "description": "No encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/store": {
@@ -2904,7 +3096,8 @@
                 "tags": [
                     "Store"
                 ],
-                "summary": "Get all stores",
+                "summary": "Get all stores (Público)",
+                "description": "Lista todas las tiendas disponibles. Endpoint público, no requiere autenticación.",
                 "operationId": "52af38ddd1fbe6df68c04f8b45512cc2",
                 "parameters": [
                     {
@@ -2936,9 +3129,11 @@
             },
             "post": {
                 "tags": [
-                    "Store"
+                    "Store",
+                    "Admin"
                 ],
-                "summary": "Create a new store with optional config",
+                "summary": "Create a new store (Solo Admin)",
+                "description": "Crea una nueva tienda con configuración opcional. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "25303c3e232da33a5db52fa4bc96871e",
                 "requestBody": {
                     "required": true,
@@ -2960,8 +3155,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
+                    "422": {
+                        "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/store/{id}": {
@@ -2969,7 +3178,8 @@
                 "tags": [
                     "Store"
                 ],
-                "summary": "Get a store by ID",
+                "summary": "Get a store by ID (Público)",
+                "description": "Obtiene los detalles de una tienda específica. Endpoint público, no requiere autenticación.",
                 "operationId": "664e20d61b1913e71cef351013330bb5",
                 "parameters": [
                     {
@@ -3009,9 +3219,11 @@
             },
             "put": {
                 "tags": [
-                    "Store"
+                    "Store",
+                    "Admin"
                 ],
-                "summary": "Update a store and its config",
+                "summary": "Update a store (Solo Admin)",
+                "description": "Actualiza una tienda y su configuración. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "8b6944020d61839c9c80a15796939f08",
                 "parameters": [
                     {
@@ -3044,16 +3256,32 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
+                    },
                     "404": {
-                        "description": "Not found"
+                        "description": "Store not found"
+                    },
+                    "422": {
+                        "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "Store"
+                    "Store",
+                    "Admin"
                 ],
-                "summary": "Soft delete a store",
+                "summary": "Delete a store (Solo Admin)",
+                "description": "Elimina una tienda específica. REQUIERE: Autenticación + Rol Admin",
                 "operationId": "e173ed276d1ad1286b22c0244bbaa94e",
                 "parameters": [
                     {
@@ -3067,12 +3295,23 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "Store deleted"
+                        "description": "Store deleted successfully"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Permisos insuficientes - Se requiere rol admin"
                     },
                     "404": {
-                        "description": "Not found"
+                        "description": "Store not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -3996,6 +4235,64 @@
                 },
                 "type": "object"
             },
+            "PaymentMethodCreateRequest": {
+                "description": "Datos requeridos para crear un método de pago",
+                "required": [
+                    "name",
+                    "type",
+                    "account_info"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Nombre descriptivo del método de pago",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Transferencia Bancaria BOD"
+                    },
+                    "type": {
+                        "description": "Tipo de método de pago",
+                        "type": "string",
+                        "enum": [
+                            "mobile_payment",
+                            "bank_transfer",
+                            "paypal",
+                            "cash",
+                            "crypto"
+                        ],
+                        "example": "bank_transfer"
+                    },
+                    "account_info": {
+                        "description": "Información de la cuenta (JSON string con datos específicos del tipo)",
+                        "type": "string",
+                        "example": "{\"bank_name\":\"Banco Occidental de Descuento\",\"account_number\":\"0116-0000-00-0000000000\",\"account_holder\":\"Mi Tienda C.A.\",\"document_type\":\"J\",\"document_number\":\"12345678-9\"}"
+                    },
+                    "instructions": {
+                        "description": "Instrucciones adicionales para el cliente",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "Realizar transferencia y enviar comprobante por este medio. Incluir número de referencia.",
+                        "nullable": true
+                    },
+                    "status": {
+                        "description": "Estado del método de pago",
+                        "type": "string",
+                        "default": "active",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "example": "active"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "name": "Transferencia Bancaria BOD",
+                    "type": "bank_transfer",
+                    "account_info": "{\"bank_name\":\"Banco Occidental de Descuento\",\"account_number\":\"0116-0000-00-0000000000\",\"account_holder\":\"Mi Tienda C.A.\",\"document_type\":\"J\",\"document_number\":\"12345678-9\"}",
+                    "instructions": "Realizar transferencia y enviar comprobante por este medio. Incluir número de referencia.",
+                    "status": "active"
+                }
+            },
             "PaymentMethod": {
                 "description": "Método de pago disponible",
                 "properties": {
@@ -4072,6 +4369,61 @@
                     }
                 },
                 "type": "object"
+            },
+            "PaymentMethodUpdateRequest": {
+                "description": "Datos para actualizar un método de pago existente",
+                "properties": {
+                    "name": {
+                        "description": "Nombre descriptivo del método de pago",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Transferencia Bancaria BOD - Actualizado",
+                        "nullable": true
+                    },
+                    "type": {
+                        "description": "Tipo de método de pago",
+                        "type": "string",
+                        "enum": [
+                            "mobile_payment",
+                            "bank_transfer",
+                            "paypal",
+                            "cash",
+                            "crypto"
+                        ],
+                        "example": "bank_transfer",
+                        "nullable": true
+                    },
+                    "account_info": {
+                        "description": "Información de la cuenta (JSON string con datos específicos del tipo)",
+                        "type": "string",
+                        "example": "{\"bank_name\":\"Banco Occidental de Descuento\",\"account_number\":\"0116-0000-00-0000000000\",\"account_holder\":\"Mi Tienda C.A.\",\"document_type\":\"J\",\"document_number\":\"12345678-9\"}",
+                        "nullable": true
+                    },
+                    "instructions": {
+                        "description": "Instrucciones adicionales para el cliente",
+                        "type": "string",
+                        "maxLength": 1000,
+                        "example": "Realizar transferencia y enviar comprobante por este medio. Incluir número de referencia y nombre completo.",
+                        "nullable": true
+                    },
+                    "status": {
+                        "description": "Estado del método de pago",
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "example": "active",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "name": "Transferencia Bancaria BOD - Actualizado",
+                    "account_info": "{\"bank_name\":\"Banco Occidental de Descuento\",\"account_number\":\"0116-0000-00-0000000000\",\"account_holder\":\"Mi Tienda Actualizada C.A.\",\"document_type\":\"J\",\"document_number\":\"12345678-9\"}",
+                    "instructions": "Realizar transferencia y enviar comprobante por este medio. Incluir número de referencia y nombre completo.",
+                    "status": "active"
+                }
             },
             "PaymentRejectRequest": {
                 "description": "Datos para rechazar un pago (solo administradores)",
@@ -4916,6 +5268,10 @@
         {
             "name": "Payments",
             "description": "Procesamiento de pagos y comprobantes"
+        },
+        {
+            "name": "Admin",
+            "description": "Endpoints de administración"
         },
         {
             "name": "Admin Payments",
