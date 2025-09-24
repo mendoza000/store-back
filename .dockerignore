@@ -1,47 +1,25 @@
-# Laravel
-.env*
-!.env.example
-storage/logs/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/testing/*
-storage/framework/views/*
-bootstrap/cache/*
-
-# Composer
-vendor/
-composer.lock
-
-# Node
-node_modules/
+node_modules
 npm-debug.log
-yarn-error.log
-package-lock.json
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Tests
-coverage/
-.phpunit.result.cache
-
-# Git
-.git/
-.gitignore
-
-# Docker
 Dockerfile*
 docker-compose*
 .dockerignore
-
-# Documentation
+.git
+.gitignore
 README.md
-*.md 
+.env*
+.nyc_output
+coverage
+.cache
+storage/app/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+bootstrap/cache/*
+vendor
+!storage/app/.gitignore
+!storage/framework/cache/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/views/.gitignore
+!storage/logs/.gitignore
+!bootstrap/cache/.gitignore

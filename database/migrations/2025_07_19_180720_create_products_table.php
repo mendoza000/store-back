@@ -47,6 +47,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->string('image')->nullable();
             $table->json('metadata')->nullable();
+            
 
             $table->timestamps();
         });

@@ -19,15 +19,7 @@ class CartController extends Controller
 {
     use ApiResponseTrait;
 
-    /**
-     * Constructor - Aplicar middleware de autenticación opcional
-     */
-    public function __construct()
-    {
-        // Permitir acceso tanto a usuarios autenticados como guests
-        $this->middleware('auth:sanctum')->except(['index', 'store', 'update', 'destroy', 'clear']);
-        $this->middleware('throttle:60,1'); // Rate limiting
-    }
+    
 
     /**
      * Obtener carrito actual del usuario o guest
