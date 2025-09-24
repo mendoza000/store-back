@@ -17,9 +17,15 @@ return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'supports_credentials' => true,
 
-    'allowed_origins' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+
+    'allowed_origins' => [
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        env('PRODUCTION_FRONTEND_URL', 'https://sauce-store.vercel.app')
+    ],
 
     'allowed_origins_patterns' => [],
 
@@ -30,10 +36,9 @@ return [
         'X-Page-Count',
         'X-Per-Page',
         'X-Current-Page',
+        'X-Store-Slug',
     ],
 
-    'max_age' => 0,
-
-    'supports_credentials' => false,
+    'max_age' => env('CORS_MAX_AGE', 86400),
 
 ];
