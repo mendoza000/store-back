@@ -19,7 +19,7 @@ return [
 
     'supports_credentials' => true,
 
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'PAYCH'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 
     'allowed_origins' => [
         'http://localhost:3000',
