@@ -11,9 +11,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 
+/**
+ * Controlador para gestión de categorías
+ * 
+ * @see App\OpenApi\Documentation\CategoryEndpoints Para documentación de endpoints
+ */
 class CategoryController extends Controller
 {
     
+    /**
+     * Lista de categorías activas paginadas
+     * 
+     * @see App\OpenApi\Documentation\CategoryEndpoints::index() Para documentación OpenAPI
+     */
     public function index(): JsonResource
     {
         $categories = Category::active()->paginate(20);
@@ -21,7 +31,11 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
-
+    /**
+     * Crear nueva categoría
+     * 
+     * @see App\OpenApi\Documentation\CategoryEndpoints::store() Para documentación OpenAPI
+     */
     public function store(CategoryRequest $request): JsonResponse
     {
         $category = Category::create($request->validated());
@@ -33,7 +47,11 @@ class CategoryController extends Controller
         
     }
 
-
+    /**
+     * Mostrar categoría por ID
+     * 
+     * @see App\OpenApi\Documentation\CategoryEndpoints::show() Para documentación OpenAPI
+     */
     public function show(string $id): JsonResponse
     {
         // Logic to show a specific category
@@ -44,6 +62,11 @@ class CategoryController extends Controller
         ]);
     }
 
+    /**
+     * Actualizar categoría existente
+     * 
+     * @see App\OpenApi\Documentation\CategoryEndpoints::update() Para documentación OpenAPI
+     */
     public function update(CategoryRequest $request, string $id): JsonResponse
     {
         // Logic to update a specific category
@@ -56,7 +79,11 @@ class CategoryController extends Controller
         ]);
     }
 
-
+    /**
+     * Eliminar categoría
+     * 
+     * @see App\OpenApi\Documentation\CategoryEndpoints::destroy() Para documentación OpenAPI
+     */
     public function destroy(string $id): JsonResponse
     {
         // Logic to delete a specific category
@@ -74,6 +101,7 @@ class CategoryController extends Controller
      * 
      * @param string $slug
      * @return JsonResponse
+     * @see App\OpenApi\Documentation\CategoryEndpoints::showBySlug() Para documentación OpenAPI
      */
     public function showBySlug(string $slug): JsonResponse
     {
@@ -108,6 +136,7 @@ class CategoryController extends Controller
      * @param Request $request
      * @param string $slug
      * @return JsonResponse
+     * @see App\OpenApi\Documentation\CategoryEndpoints::getProductsBySlug() Para documentación OpenAPI
      */
     public function getProductsBySlug(Request $request, string $slug): JsonResponse
     {
