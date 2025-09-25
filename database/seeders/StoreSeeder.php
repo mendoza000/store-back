@@ -14,12 +14,11 @@ class StoreSeeder extends Seeder
      */
     public function run(): void
     {
-        
         $store = Store::create([
             'id' => Str::uuid(),
             'name' => 'Traki',
         ]);
 
-    
+        $this->command->info('✅ Store creada: ' . $store->name . ' (ID: ' . $store->id . ')');
     }
 }

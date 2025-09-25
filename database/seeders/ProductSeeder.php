@@ -14,7 +14,15 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $categories = \App\Models\Category::all();
+        // Obtener la store principal
+        $store = \App\Models\Store::first();
+        
+        if (!$store) {
+            $this->command->error('❌ No hay store disponible para crear productos');
+            return;
+        }
+
+        $categories = \App\Models\Category::where('store_id', $store->id)->get();
 
         if ($categories->isEmpty()) {
             $this->command->warn('⚠️  No hay categorías disponibles para crear productos');
@@ -342,10 +350,12 @@ class ProductSeeder extends Seeder
         foreach ($products as $productData) {
             // Generar slug automáticamente
             $productData['slug'] = Str::slug($productData['name']);
+            // Asignar store_id
+            $productData['store_id'] = $store->id;
 
             Product::create($productData);
         }
 
-        $this->command->info('✅ Productos creados exitosamente: ' . count($products) . ' productos');
+        $this->command->info('✅ Productos creados exitosamente: ' . count($products) . ' productos para store: ' . $store->name);
     }
 }

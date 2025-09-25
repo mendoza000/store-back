@@ -15,20 +15,28 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Obtener la store principal
+        $store = \App\Models\Store::first();
+        
+        if (!$store) {
+            $this->command->error('❌ No hay store disponible para crear usuarios');
+            return;
+        }
+
         // Create default admin user
-        $this->createAdminUser();
+        $this->createAdminUser($store);
 
         // Create sample customer users
         $this->createSampleCustomers();
 
         // Create sample moderator
-        $this->createModeratorUser();
+        $this->createModeratorUser($store);
     }
 
     /**
      * Create default admin user
      */
-    private function createAdminUser(): void
+    private function createAdminUser($store): void
     {
         User::firstOrCreate(
             ['email' => 'admin@example.com'],
@@ -40,6 +48,7 @@ class UserSeeder extends Seeder
                 'status' => User::STATUS_ACTIVE,
                 'phone' => '+58 412 1234567',
                 'email_verified_at' => now(),
+                'store_id' => $store->id,
             ]
         );
 
@@ -90,7 +99,7 @@ class UserSeeder extends Seeder
     /**
      * Create sample moderator user
      */
-    private function createModeratorUser(): void
+    private function createModeratorUser($store): void
     {
         User::firstOrCreate(
             ['email' => 'moderator@example.com'],
@@ -102,6 +111,7 @@ class UserSeeder extends Seeder
                 'status' => User::STATUS_ACTIVE,
                 'phone' => '+58 416 5554321',
                 'email_verified_at' => now(),
+                'store_id' => $store->id,
             ]
         );
 
