@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cart_id')->constrained()->onDelete('cascade');
-            // Por ahora usamos product_id, luego será product_variant_id cuando implementemos variantes
-            $table->unsignedBigInteger('product_id');
+            // Cambiado a UUID para coincidir con el tipo de products.id
+            $table->uuid('product_id');
             $table->integer('quantity')->unsigned();
             $table->decimal('price', 10, 2); // Precio al momento de agregar al carrito
             $table->timestamps();
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->index(['cart_id', 'product_id']);
             $table->unique(['cart_id', 'product_id']); // Un producto por carrito
 
-            // Foreign key constraint (cuando se cree la tabla products)
-            // $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            // Foreign key constraint para products
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

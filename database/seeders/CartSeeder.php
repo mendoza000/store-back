@@ -16,8 +16,16 @@ class CartSeeder extends Seeder
      */
     public function run(): void
     {
+        // Obtener la store principal
+        $store = \App\Models\Store::first();
+        
+        if (!$store) {
+            $this->command->error('❌ No hay store disponible para crear carritos');
+            return;
+        }
+
         $users = User::all();
-        $products = Product::all();
+        $products = Product::where('store_id', $store->id)->get();
 
         if ($users->isEmpty() || $products->isEmpty()) {
             $this->command->warn('⚠️  No hay usuarios o productos disponibles para crear carritos');
@@ -35,6 +43,7 @@ class CartSeeder extends Seeder
                     'user_id' => $user->id,
                     'status' => 'active',
                     'expires_at' => now()->addDays(30),
+                    'store_id' => $store->id,
                 ]);
 
                 $cartsCreated++;
@@ -65,6 +74,7 @@ class CartSeeder extends Seeder
                 'session_id' => \Illuminate\Support\Str::uuid(),
                 'status' => 'active',
                 'expires_at' => now()->addDays(30),
+                'store_id' => $store->id,
             ]);
 
             $cartsCreated++;
@@ -94,6 +104,7 @@ class CartSeeder extends Seeder
                 'user_id' => $users->random()->id,
                 'status' => 'expired',
                 'expires_at' => now()->subDays(rand(1, 10)),
+                'store_id' => $store->id,
             ]);
 
             $cartsCreated++;
@@ -123,6 +134,7 @@ class CartSeeder extends Seeder
                 'user_id' => $users->random()->id,
                 'status' => 'completed',
                 'expires_at' => now()->subDays(rand(1, 5)),
+                'store_id' => $store->id,
             ]);
 
             $cartsCreated++;

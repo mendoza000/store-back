@@ -15,8 +15,16 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
+        // Obtener la store principal
+        $store = \App\Models\Store::first();
+        
+        if (!$store) {
+            $this->command->error('❌ No hay store disponible para crear pedidos');
+            return;
+        }
+
         $users = User::all();
-        $products = Product::all();
+        $products = Product::where('store_id', $store->id)->get();
 
         if ($users->isEmpty() || $products->isEmpty()) {
             $this->command->warn('⚠️  No hay usuarios o productos disponibles para crear pedidos');
@@ -53,6 +61,7 @@ class OrderSeeder extends Seeder
                     'shipping_address' => $this->generateAddress(),
                     'billing_address' => $this->generateAddress(),
                     'notes' => $this->generateOrderNotes($status),
+                    'store_id' => $store->id,
                     'created_at' => $orderDate,
                     'updated_at' => $orderDate,
                 ]);

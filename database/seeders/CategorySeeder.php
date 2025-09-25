@@ -11,6 +11,14 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
+        // Obtener la store principal
+        $store = \App\Models\Store::first();
+        
+        if (!$store) {
+            $this->command->error('❌ No hay store disponible para crear categorías');
+            return;
+        }
+
         $categories = [
             [
                 'name' => 'Electrónicos',
@@ -55,9 +63,10 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $categoryData) {
+            $categoryData['store_id'] = $store->id;
             Category::create($categoryData);
         }
 
-        $this->command->info('✅ Categorías creadas exitosamente: ' . count($categories) . ' categorías');
+        $this->command->info('✅ Categorías creadas exitosamente: ' . count($categories) . ' categorías para store: ' . $store->name);
     }
 }

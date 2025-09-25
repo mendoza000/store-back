@@ -16,8 +16,8 @@ return new class extends Migration
 
             // Relaciones
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            // Por ahora product_id, luego será product_variant_id
-            $table->unsignedBigInteger('product_id');
+            // Cambiado a UUID para coincidir con el tipo de products.id
+            $table->uuid('product_id');
 
             // Información del pedido
             $table->integer('quantity')->unsigned();
@@ -42,8 +42,8 @@ return new class extends Migration
             $table->index(['order_id', 'product_id']);
             $table->index('product_id');
 
-            // Foreign key constraint (cuando se cree la tabla products)
-            // $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
+            // Foreign key constraint para products
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
         });
     }
 
