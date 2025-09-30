@@ -104,6 +104,7 @@ class StoreController extends Controller
     {
         $store = Store::findOrFail($id);
         $store->delete();
-        return response()->json(null, 204);
+
+        return $this->successResponse(null, 200, 'Store deleted successfully');
     }
 }
