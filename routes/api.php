@@ -232,6 +232,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         
         // Order payment routes
         Route::prefix('orders/{order}/payments')->name('orders.payments.')->group(function () {
+            // GET /api/v1/orders/{order}/payments - Listar pagos de la orden
+            Route::get('/', [PaymentController::class, 'getOrderPayments'])
+                ->name('index');
+            
             // POST /api/v1/orders/{order}/payments - Reportar pago
             Route::post('/', [PaymentController::class, 'reportPayment'])
                 ->name('store');
@@ -248,29 +252,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::put('/{id}', [PaymentController::class, 'update'])
                 ->name('update');
         });
-
-
-
-
-
-  // Payment management
-  Route::prefix('payments')->name('payments.')->group(function () {
-    // GET /api/v1/admin/payments - Lista de pagos pendientes
-    Route::get('/', [PaymentAdminController::class, 'index'])
-        ->name('index');
-    
-    // GET /api/v1/admin/payments/stats - Estadísticas de pagos
-    Route::get('/stats', [PaymentAdminController::class, 'stats'])
-        ->name('stats');
-    
-    // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
-    Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
-        ->name('verify');
-    
-    // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
-    Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
-        ->name('reject');
-});
 
 
 
@@ -358,10 +339,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('stats');
         });
 
-
-
-
-      
+        // Payment management
+        Route::prefix('payments')->name('payments.')->group(function () {
+            // GET /api/v1/admin/payments - Lista de pagos pendientes
+            Route::get('/', [PaymentAdminController::class, 'index'])
+                ->name('index');
+            
+            // GET /api/v1/admin/payments/stats - Estadísticas de pagos
+            Route::get('/stats', [PaymentAdminController::class, 'stats'])
+                ->name('stats');
+            
+            // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
+            Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
+                ->name('verify');
+            
+            // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
+            Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
+                ->name('reject');
+        });
 
 
 
