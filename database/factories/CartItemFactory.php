@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,11 +21,13 @@ class CartItemFactory extends Factory
      */
     public function definition(): array
     {
+        $product = Product::factory()->create();
+        
         return [
             'cart_id' => Cart::factory(),
-            'product_id' => $this->faker->numberBetween(1, 100), // Por ahora random, luego será Product::factory()
+            'product_id' => $product->id,
             'quantity' => $this->faker->numberBetween(1, 5),
-            'price' => $this->faker->randomFloat(2, 10.00, 999.99),
+            'price' => $product->price,
         ];
     }
 
@@ -51,11 +54,17 @@ class CartItemFactory extends Factory
     /**
      * Item con producto específico
      */
-    public function withProduct(int $productId): static
+    public function withProduct($product): static
     {
-        return $this->state(fn(array $attributes) => [
-            'product_id' => $productId,
-        ]);
+        $productId = $product instanceof Product ? $product->id : $product;
+        $price = $product instanceof Product ? $product->price : null;
+        
+        $state = ['product_id' => $productId];
+        if ($price !== null) {
+            $state['price'] = $price;
+        }
+        
+        return $this->state(fn(array $attributes) => $state);
     }
 
     /**

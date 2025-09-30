@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -23,6 +24,7 @@ class CartFactory extends Factory
     public function definition(): array
     {
         return [
+            'store_id' => Store::factory(),
             'user_id' => User::factory(),
             'session_id' => null,
             'status' => 'active',
@@ -82,6 +84,16 @@ class CartFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'expires_at' => Carbon::now()->addMinutes(30),
+        ]);
+    }
+
+    /**
+     * Indicate that the cart belongs to a specific store.
+     */
+    public function forStore(Store $store): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'store_id' => $store->id,
         ]);
     }
 }
