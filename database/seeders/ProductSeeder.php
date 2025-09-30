@@ -30,321 +30,457 @@ class ProductSeeder extends Seeder
         }
 
         $products = [
-            // Electrónicos
-            [
-                'name' => 'iPhone 15 Pro',
-                'description' => 'El iPhone más avanzado con chip A17 Pro, cámara de 48MP y diseño en titanio.',
-                'sku' => 'IPH15P-256-BLK',
-                'price' => 999.99,
-                'stock' => 50,
-                'category_id' => $categories->where('name', 'Electrónicos')->first()->id,
-                'category' => 'Electrónicos',
-                'brand' => 'Apple',
-                'image' => 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',
-                'metadata' => [
-                    'color' => 'Negro',
-                    'storage' => '256GB',
-                    'screen_size' => '6.1"',
-                    'battery' => '3650mAh'
-                ]
-            ],
-            [
-                'name' => 'Samsung Galaxy S24 Ultra',
-                'description' => 'El smartphone más potente de Samsung con S Pen integrado y cámara de 200MP.',
-                'sku' => 'SGS24U-512-GRN',
-                'price' => 1199.99,
-                'stock' => 30,
-                'category_id' => $categories->where('name', 'Electrónicos')->first()->id,
-                'category' => 'Electrónicos',
-                'brand' => 'Samsung',
-                'image' => 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400',
-                'metadata' => [
-                    'color' => 'Verde',
-                    'storage' => '512GB',
-                    'screen_size' => '6.8"',
-                    'battery' => '5000mAh'
-                ]
-            ],
-            [
-                'name' => 'MacBook Air M3',
-                'description' => 'Laptop ultraligera con chip M3, hasta 18 horas de batería y pantalla Liquid Retina.',
-                'sku' => 'MBA-M3-512-SLV',
-                'price' => 1299.99,
-                'stock' => 25,
-                'category_id' => $categories->where('name', 'Electrónicos')->first()->id,
-                'category' => 'Electrónicos',
-                'brand' => 'Apple',
-                'image' => 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400',
-                'metadata' => [
-                    'color' => 'Plateado',
-                    'storage' => '512GB',
-                    'ram' => '8GB',
-                    'screen_size' => '13.6"'
-                ]
-            ],
-            [
-                'name' => 'Sony WH-1000XM5',
-                'description' => 'Auriculares inalámbricos con cancelación de ruido líder en la industria.',
-                'sku' => 'SONY-WH5-BLK',
-                'price' => 349.99,
-                'stock' => 40,
-                'category_id' => $categories->where('name', 'Electrónicos')->first()->id,
-                'category' => 'Electrónicos',
-                'brand' => 'Sony',
-                'image' => 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
-                'metadata' => [
-                    'color' => 'Negro',
-                    'battery_life' => '30 horas',
-                    'noise_cancellation' => true,
-                    'bluetooth' => '5.2'
-                ]
-            ],
-            [
-                'name' => 'iPad Air 5th Gen',
-                'description' => 'iPad versátil con chip M1, pantalla Liquid Retina y compatibilidad con Apple Pencil.',
-                'sku' => 'IPAD-AIR5-256-BLU',
-                'price' => 699.99,
-                'stock' => 35,
-                'category_id' => $categories->where('name', 'Electrónicos')->first()->id,
-                'category' => 'Electrónicos',
-                'brand' => 'Apple',
-                'image' => 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400',
-                'metadata' => [
-                    'color' => 'Azul',
-                    'storage' => '256GB',
-                    'screen_size' => '10.9"',
-                    'cellular' => false
-                ]
-            ],
-
-            // Ropa
-            [
-                'name' => 'Camisa Oxford Clásica',
-                'description' => 'Camisa de algodón Oxford, perfecta para ocasiones casuales y formales.',
-                'sku' => 'CAM-OXF-WHT-M',
-                'price' => 45.99,
-                'stock' => 60,
-                'category_id' => $categories->where('name', 'Ropa')->first()->id,
-                'category' => 'Ropa',
-                'brand' => 'Classic Wear',
-                'image' => 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400',
-                'metadata' => [
-                    'color' => 'Blanco',
-                    'size' => 'M',
-                    'material' => 'Algodón Oxford',
-                    'fit' => 'Regular'
-                ]
-            ],
-            [
-                'name' => 'Jeans Slim Fit Premium',
-                'description' => 'Jeans de alta calidad con stretch, perfectos para un look moderno y cómodo.',
-                'sku' => 'JEA-SLIM-BLU-32',
-                'price' => 79.99,
-                'stock' => 45,
-                'category_id' => $categories->where('name', 'Ropa')->first()->id,
-                'category' => 'Ropa',
-                'brand' => 'Denim Co.',
-                'image' => 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-                'metadata' => [
-                    'color' => 'Azul',
-                    'size' => '32',
-                    'fit' => 'Slim',
-                    'material' => 'Denim con stretch'
-                ]
-            ],
-            [
-                'name' => 'Vestido Floral Veraniego',
-                'description' => 'Vestido ligero con estampado floral, ideal para días soleados y eventos casuales.',
-                'sku' => 'VES-FLOR-MULT-S',
-                'price' => 65.99,
-                'stock' => 30,
-                'category_id' => $categories->where('name', 'Ropa')->first()->id,
-                'category' => 'Ropa',
-                'brand' => 'Summer Style',
-                'image' => 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400',
-                'metadata' => [
-                    'color' => 'Multicolor',
-                    'size' => 'S',
-                    'material' => 'Algodón',
-                    'pattern' => 'Floral'
-                ]
-            ],
-            [
-                'name' => 'Chaqueta Bomber Clásica',
-                'description' => 'Chaqueta bomber de cuero sintético, perfecta para añadir estilo a cualquier outfit.',
-                'sku' => 'CHA-BOMB-BLK-M',
-                'price' => 89.99,
-                'stock' => 25,
-                'category_id' => $categories->where('name', 'Ropa')->first()->id,
-                'category' => 'Ropa',
-                'brand' => 'Urban Outfitters',
-                'image' => 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400',
-                'metadata' => [
-                    'color' => 'Negro',
-                    'size' => 'M',
-                    'material' => 'Cuero sintético',
-                    'style' => 'Bomber'
-                ]
-            ],
-
-            // Hogar
-            [
-                'name' => 'Lámpara de Mesa LED',
-                'description' => 'Lámpara de mesa moderna con tecnología LED, perfecta para escritorio o mesita de noche.',
-                'sku' => 'LAM-LED-DESK-WHT',
-                'price' => 39.99,
-                'stock' => 40,
-                'category_id' => $categories->where('name', 'Hogar')->first()->id,
-                'category' => 'Hogar',
-                'brand' => 'Home Light',
-                'image' => 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=400',
-                'metadata' => [
-                    'color' => 'Blanco',
-                    'power' => '10W',
-                    'brightness' => '800 lumens',
-                    'adjustable' => true
-                ]
-            ],
-            [
-                'name' => 'Juego de Sábanas Premium',
-                'description' => 'Sábanas de algodón egipcio de 400 hilos, suaves y transpirables.',
-                'sku' => 'SAB-PREM-WHT-QUEEN',
-                'price' => 89.99,
-                'stock' => 35,
-                'category_id' => $categories->where('name', 'Hogar')->first()->id,
-                'category' => 'Hogar',
-                'brand' => 'Luxury Bedding',
-                'image' => 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400',
-                'metadata' => [
-                    'color' => 'Blanco',
-                    'size' => 'Queen',
-                    'thread_count' => '400',
-                    'material' => 'Algodón egipcio'
-                ]
-            ],
-            [
-                'name' => 'Cafetera Programable',
-                'description' => 'Cafetera automática con programador, molinillo integrado y capacidad para 12 tazas.',
-                'sku' => 'CAF-PROG-12CUP-BLK',
-                'price' => 129.99,
-                'stock' => 20,
-                'category_id' => $categories->where('name', 'Hogar')->first()->id,
-                'category' => 'Hogar',
-                'brand' => 'Coffee Master',
-                'image' => 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
-                'metadata' => [
-                    'color' => 'Negro',
-                    'capacity' => '12 tazas',
-                    'programmable' => true,
-                    'grinder' => true
-                ]
-            ],
-            [
-                'name' => 'Almohadas Ortopédicas',
-                'description' => 'Almohadas de memoria viscoelástica, diseñadas para un descanso óptimo.',
-                'sku' => 'ALM-ORTO-MEMORY-STD',
-                'price' => 49.99,
-                'stock' => 50,
-                'category_id' => $categories->where('name', 'Hogar')->first()->id,
-                'category' => 'Hogar',
-                'brand' => 'Sleep Comfort',
-                'image' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
-                'metadata' => [
-                    'size' => 'Estándar',
-                    'material' => 'Memoria viscoelástica',
-                    'firmness' => 'Media',
-                    'hypoallergenic' => true
-                ]
-            ],
-
-            // Deportes
+            // Zapatos Deportivos
             [
                 'name' => 'Nike Air Max 270',
-                'description' => 'Zapatillas deportivas con tecnología Air Max, perfectas para running y lifestyle.',
-                'sku' => 'NKE-AIR270-WHT-42',
+                'description' => 'Zapatillas deportivas con amortiguación Air Max visible, diseñadas para máximo confort durante todo el día. Ideal para running y uso casual.',
+                'short_description' => 'Zapatillas deportivas con tecnología Air Max',
+                'sku' => 'NK-AM270-BLK-42',
                 'price' => 129.99,
+                'compare_price' => 159.99,
+                'cost_price' => 85.00,
                 'stock' => 45,
-                'category_id' => $categories->where('name', 'Deportes')->first()->id,
-                'category' => 'Deportes',
+                'category_id' => $categories->where('name', 'Zapatos Deportivos')->first()->id,
+                'category' => 'Zapatos Deportivos',
                 'brand' => 'Nike',
                 'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Negro',
+                    'size' => '42',
+                    'material' => 'Mesh transpirable',
+                    'suela' => 'Caucho',
+                    'tipo' => 'Running'
+                ]
+            ],
+            [
+                'name' => 'Adidas Ultraboost 22',
+                'description' => 'Zapatillas de running con tecnología Boost para máximo retorno de energía. Parte superior Primeknit para ajuste perfecto.',
+                'short_description' => 'Running shoes con tecnología Boost',
+                'sku' => 'AD-UB22-WHT-41',
+                'price' => 149.99,
+                'compare_price' => 180.00,
+                'cost_price' => 95.00,
+                'stock' => 30,
+                'category_id' => $categories->where('name', 'Zapatos Deportivos')->first()->id,
+                'category' => 'Zapatos Deportivos',
+                'brand' => 'Adidas',
+                'image' => 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
                 'metadata' => [
                     'color' => 'Blanco',
-                    'size' => '42',
-                    'type' => 'Running',
-                    'technology' => 'Air Max'
+                    'size' => '41',
+                    'material' => 'Primeknit',
+                    'suela' => 'Boost',
+                    'tipo' => 'Running'
                 ]
             ],
             [
-                'name' => 'Yoga Mat Premium',
-                'description' => 'Mat de yoga de goma natural, antideslizante y con líneas de alineación.',
-                'sku' => 'YOG-MAT-BLU-PREMIUM',
-                'price' => 39.99,
-                'stock' => 80,
-                'category_id' => $categories->where('name', 'Deportes')->first()->id,
-                'category' => 'Deportes',
-                'brand' => 'Yoga Life',
-                'image' => 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400',
+                'name' => 'Puma RS-X',
+                'description' => 'Zapatillas deportivas estilo retro con diseño chunky y colores vibrantes. Perfectas para estilo urbano y actividades casuales.',
+                'short_description' => 'Sneakers estilo retro chunky',
+                'sku' => 'PM-RSX-MLT-40',
+                'price' => 99.99,
+                'compare_price' => 120.00,
+                'cost_price' => 65.00,
+                'stock' => 50,
+                'category_id' => $categories->where('name', 'Zapatos Deportivos')->first()->id,
+                'category' => 'Zapatos Deportivos',
+                'brand' => 'Puma',
+                'image' => 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
                 'metadata' => [
-                    'color' => 'Azul',
-                    'thickness' => '6mm',
-                    'material' => 'Goma natural',
-                    'non_slip' => true
+                    'color' => 'Multicolor',
+                    'size' => '40',
+                    'material' => 'Sintético y mesh',
+                    'suela' => 'Caucho',
+                    'tipo' => 'Lifestyle'
                 ]
             ],
             [
-                'name' => 'Dumbbells Ajustables',
-                'description' => 'Pesas ajustables de 2.5 a 25kg, perfectas para entrenamiento en casa.',
-                'sku' => 'DUM-ADJ-25KG-PAIR',
-                'price' => 149.99,
-                'stock' => 15,
-                'category_id' => $categories->where('name', 'Deportes')->first()->id,
-                'category' => 'Deportes',
-                'brand' => 'FitPro',
-                'image' => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400',
+                'name' => 'New Balance 574',
+                'description' => 'Zapatillas clásicas con diseño atemporal. Comodidad excepcional con amortiguación ENCAP y estilo versátil.',
+                'short_description' => 'Zapatillas clásicas New Balance',
+                'sku' => 'NB-574-GRY-43',
+                'price' => 89.99,
+                'compare_price' => 110.00,
+                'cost_price' => 55.00,
+                'stock' => 60,
+                'category_id' => $categories->where('name', 'Zapatos Deportivos')->first()->id,
+                'category' => 'Zapatos Deportivos',
+                'brand' => 'New Balance',
+                'image' => 'https://images.unsplash.com/photo-1539185441755-769473a23570?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
                 'metadata' => [
-                    'weight_range' => '2.5-25kg',
-                    'type' => 'Ajustables',
-                    'material' => 'Hierro fundido',
-                    'grip' => 'Antideslizante'
+                    'color' => 'Gris',
+                    'size' => '43',
+                    'material' => 'Gamuza y mesh',
+                    'suela' => 'ENCAP',
+                    'tipo' => 'Casual'
                 ]
             ],
 
-            // Libros
+            // Zapatos Casuales
             [
-                'name' => 'El Señor de los Anillos - Trilogía Completa',
-                'description' => 'Edición especial de la trilogía completa de Tolkien con mapas y notas.',
-                'sku' => 'LIB-LOTR-TRILOGY-HC',
-                'price' => 49.99,
-                'stock' => 30,
-                'category_id' => $categories->where('name', 'Libros')->first()->id,
-                'category' => 'Libros',
-                'brand' => 'Tolkien Books',
-                'image' => 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400',
+                'name' => 'Converse Chuck Taylor All Star',
+                'description' => 'Zapatillas icónicas de lona con diseño clásico. Perfectas para cualquier outfit casual y estilo urbano.',
+                'short_description' => 'Zapatillas de lona clásicas Converse',
+                'sku' => 'CV-CTAS-BLK-39',
+                'price' => 59.99,
+                'compare_price' => 75.00,
+                'cost_price' => 35.00,
+                'stock' => 80,
+                'category_id' => $categories->where('name', 'Zapatos Casuales')->first()->id,
+                'category' => 'Zapatos Casuales',
+                'brand' => 'Converse',
+                'image' => 'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
                 'metadata' => [
-                    'format' => 'Tapa dura',
-                    'pages' => 1200,
-                    'language' => 'Español',
-                    'includes_maps' => true
+                    'color' => 'Negro',
+                    'size' => '39',
+                    'material' => 'Lona',
+                    'suela' => 'Caucho',
+                    'tipo' => 'Low top'
                 ]
             ],
             [
-                'name' => 'Cocina Mediterránea - Recetas Tradicionales',
-                'description' => 'Libro de cocina con 150 recetas auténticas de la cocina mediterránea.',
-                'sku' => 'LIB-MED-COOK-SOFT',
-                'price' => 29.99,
-                'stock' => 50,
-                'category_id' => $categories->where('name', 'Libros')->first()->id,
-                'category' => 'Libros',
-                'brand' => 'Culinary Arts',
-                'image' => 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400',
+                'name' => 'Vans Old Skool',
+                'description' => 'Zapatillas skate clásicas con la icónica raya lateral. Diseño duradero con suela waffle grip.',
+                'short_description' => 'Zapatillas skate clásicas Vans',
+                'sku' => 'VN-OS-BKWH-41',
+                'price' => 69.99,
+                'compare_price' => 85.00,
+                'cost_price' => 40.00,
+                'stock' => 70,
+                'category_id' => $categories->where('name', 'Zapatos Casuales')->first()->id,
+                'category' => 'Zapatos Casuales',
+                'brand' => 'Vans',
+                'image' => 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
                 'metadata' => [
-                    'format' => 'Tapa blanda',
-                    'pages' => 320,
-                    'recipes' => 150,
-                    'cuisine' => 'Mediterránea'
+                    'color' => 'Negro/Blanco',
+                    'size' => '41',
+                    'material' => 'Lona y gamuza',
+                    'suela' => 'Waffle grip',
+                    'tipo' => 'Skate'
                 ]
-            ]
+            ],
+            [
+                'name' => 'Skechers Go Walk',
+                'description' => 'Zapatillas ultraligeras y cómodas para caminar. Tecnología Goga Mat para máxima comodidad durante todo el día.',
+                'short_description' => 'Zapatillas ligeras para caminar',
+                'sku' => 'SK-GW-NVY-42',
+                'price' => 79.99,
+                'compare_price' => 95.00,
+                'cost_price' => 48.00,
+                'stock' => 55,
+                'category_id' => $categories->where('name', 'Zapatos Casuales')->first()->id,
+                'category' => 'Zapatos Casuales',
+                'brand' => 'Skechers',
+                'image' => 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Azul marino',
+                    'size' => '42',
+                    'material' => 'Mesh transpirable',
+                    'suela' => 'Goga Mat',
+                    'tipo' => 'Walking'
+                ]
+            ],
+
+            // Zapatos Formales
+            [
+                'name' => 'Zapatos Oxford de Cuero',
+                'description' => 'Zapatos Oxford clásicos en cuero genuino. Perfectos para eventos formales, oficina y ocasiones especiales.',
+                'short_description' => 'Oxford de cuero genuino',
+                'sku' => 'OXF-LTH-BLK-42',
+                'price' => 119.99,
+                'compare_price' => 150.00,
+                'cost_price' => 70.00,
+                'stock' => 35,
+                'category_id' => $categories->where('name', 'Zapatos Formales')->first()->id,
+                'category' => 'Zapatos Formales',
+                'brand' => 'Eleganza',
+                'image' => 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Negro',
+                    'size' => '42',
+                    'material' => 'Cuero genuino',
+                    'suela' => 'Cuero',
+                    'tipo' => 'Oxford'
+                ]
+            ],
+            [
+                'name' => 'Mocasines de Cuero Premium',
+                'description' => 'Mocasines elegantes de cuero italiano. Comodidad sin cordones con estilo sofisticado.',
+                'short_description' => 'Mocasines de cuero italiano',
+                'sku' => 'MOC-ITA-BRW-41',
+                'price' => 139.99,
+                'compare_price' => 170.00,
+                'cost_price' => 85.00,
+                'stock' => 25,
+                'category_id' => $categories->where('name', 'Zapatos Formales')->first()->id,
+                'category' => 'Zapatos Formales',
+                'brand' => 'Italiano Classico',
+                'image' => 'https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Marrón',
+                    'size' => '41',
+                    'material' => 'Cuero italiano',
+                    'suela' => 'Cuero',
+                    'tipo' => 'Mocasín'
+                ]
+            ],
+            [
+                'name' => 'Zapatos Brogue Wingtip',
+                'description' => 'Zapatos Brogue con detalle wingtip. Diseño clásico inglés con perforaciones decorativas.',
+                'short_description' => 'Brogue Wingtip clásico',
+                'sku' => 'BRG-WTP-TAN-43',
+                'price' => 129.99,
+                'compare_price' => 160.00,
+                'cost_price' => 75.00,
+                'stock' => 30,
+                'category_id' => $categories->where('name', 'Zapatos Formales')->first()->id,
+                'category' => 'Zapatos Formales',
+                'brand' => 'British Style',
+                'image' => 'https://images.unsplash.com/photo-1478460955814-5fcd6b8a8076?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Café',
+                    'size' => '43',
+                    'material' => 'Cuero',
+                    'suela' => 'Cuero',
+                    'tipo' => 'Brogue'
+                ]
+            ],
+
+            // Botas
+            [
+                'name' => 'Timberland 6-Inch Premium',
+                'description' => 'Botas icónicas de trabajo resistentes al agua. Construcción duradera con suela antideslizante.',
+                'short_description' => 'Botas de trabajo impermeables',
+                'sku' => 'TMB-6IN-WHT-42',
+                'price' => 189.99,
+                'compare_price' => 220.00,
+                'cost_price' => 120.00,
+                'stock' => 40,
+                'category_id' => $categories->where('name', 'Botas')->first()->id,
+                'category' => 'Botas',
+                'brand' => 'Timberland',
+                'image' => 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Trigo',
+                    'size' => '42',
+                    'material' => 'Cuero nubuck',
+                    'suela' => 'Caucho antideslizante',
+                    'tipo' => 'Trabajo',
+                    'waterproof' => true
+                ]
+            ],
+            [
+                'name' => 'Dr. Martens 1460',
+                'description' => 'Botas clásicas de 8 ojales con suela AirWair. Estilo icónico resistente y cómodo.',
+                'short_description' => 'Botas clásicas Dr. Martens',
+                'sku' => 'DRM-1460-BLK-40',
+                'price' => 159.99,
+                'compare_price' => 190.00,
+                'cost_price' => 95.00,
+                'stock' => 35,
+                'category_id' => $categories->where('name', 'Botas')->first()->id,
+                'category' => 'Botas',
+                'brand' => 'Dr. Martens',
+                'image' => 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Negro',
+                    'size' => '40',
+                    'material' => 'Cuero',
+                    'suela' => 'AirWair',
+                    'tipo' => 'Urbano',
+                    'ojales' => 8
+                ]
+            ],
+            [
+                'name' => 'Botas Chelsea de Cuero',
+                'description' => 'Botas Chelsea elegantes con elástico lateral. Fáciles de poner y perfectas para look casual-formal.',
+                'short_description' => 'Chelsea boots de cuero',
+                'sku' => 'CHL-LTH-BRW-41',
+                'price' => 139.99,
+                'compare_price' => 170.00,
+                'cost_price' => 80.00,
+                'stock' => 30,
+                'category_id' => $categories->where('name', 'Botas')->first()->id,
+                'category' => 'Botas',
+                'brand' => 'Urban Boots',
+                'image' => 'https://images.unsplash.com/photo-1605812860427-4024433a70fd?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Marrón',
+                    'size' => '41',
+                    'material' => 'Cuero',
+                    'suela' => 'Caucho',
+                    'tipo' => 'Chelsea'
+                ]
+            ],
+
+            // Sandalias
+            [
+                'name' => 'Birkenstock Arizona',
+                'description' => 'Sandalias ortopédicas con doble correa ajustable. Plantilla de corcho moldeada para máximo confort.',
+                'short_description' => 'Sandalias ortopédicas de corcho',
+                'sku' => 'BKS-ARZ-BLK-41',
+                'price' => 89.99,
+                'compare_price' => 110.00,
+                'cost_price' => 50.00,
+                'stock' => 50,
+                'category_id' => $categories->where('name', 'Sandalias')->first()->id,
+                'category' => 'Sandalias',
+                'brand' => 'Birkenstock',
+                'image' => 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Negro',
+                    'size' => '41',
+                    'material' => 'Piel sintética',
+                    'plantilla' => 'Corcho',
+                    'tipo' => 'Ortopédica'
+                ]
+            ],
+            [
+                'name' => 'Havaianas Brasil',
+                'description' => 'Chanclas brasileñas clásicas de caucho. Ligeras, cómodas y perfectas para playa o piscina.',
+                'short_description' => 'Chanclas brasileñas de caucho',
+                'sku' => 'HAV-BRA-GRN-39',
+                'price' => 24.99,
+                'compare_price' => 30.00,
+                'cost_price' => 12.00,
+                'stock' => 100,
+                'category_id' => $categories->where('name', 'Sandalias')->first()->id,
+                'category' => 'Sandalias',
+                'brand' => 'Havaianas',
+                'image' => 'https://images.unsplash.com/photo-1580342789696-31a0c9dd93bb?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Verde/Amarillo',
+                    'size' => '39-40',
+                    'material' => 'Caucho',
+                    'tipo' => 'Chancla',
+                    'uso' => 'Playa'
+                ]
+            ],
+            [
+                'name' => 'Sandalias Deportivas Teva',
+                'description' => 'Sandalias deportivas con correas ajustables. Ideales para senderismo y actividades acuáticas.',
+                'short_description' => 'Sandalias deportivas para outdoor',
+                'sku' => 'TVA-SPT-BLU-42',
+                'price' => 69.99,
+                'compare_price' => 85.00,
+                'cost_price' => 40.00,
+                'stock' => 45,
+                'category_id' => $categories->where('name', 'Sandalias')->first()->id,
+                'category' => 'Sandalias',
+                'brand' => 'Teva',
+                'image' => 'https://images.unsplash.com/photo-1621616726922-35629e98de55?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Azul',
+                    'size' => '42',
+                    'material' => 'Nylon',
+                    'suela' => 'Caucho',
+                    'tipo' => 'Deportiva',
+                    'uso' => 'Outdoor'
+                ]
+            ],
+
+            // Zapatos para Niños
+            [
+                'name' => 'Zapatillas Velcro Niños',
+                'description' => 'Zapatillas infantiles con cierre de velcro. Fáciles de poner y perfectas para el día a día.',
+                'short_description' => 'Zapatillas infantiles con velcro',
+                'sku' => 'KDS-VEL-RED-28',
+                'price' => 39.99,
+                'compare_price' => 50.00,
+                'cost_price' => 20.00,
+                'stock' => 60,
+                'category_id' => $categories->where('name', 'Zapatos para Niños')->first()->id,
+                'category' => 'Zapatos para Niños',
+                'brand' => 'Kids Footwear',
+                'image' => 'https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Rojo',
+                    'size' => '28',
+                    'material' => 'Sintético',
+                    'cierre' => 'Velcro',
+                    'edad' => '4-6 años'
+                ]
+            ],
+            [
+                'name' => 'Zapatillas LED para Niños',
+                'description' => 'Zapatillas con luces LED que se activan al caminar. Diversión garantizada para los más pequeños.',
+                'short_description' => 'Zapatillas con luces LED',
+                'sku' => 'KDS-LED-BLU-30',
+                'price' => 49.99,
+                'compare_price' => 65.00,
+                'cost_price' => 25.00,
+                'stock' => 55,
+                'category_id' => $categories->where('name', 'Zapatos para Niños')->first()->id,
+                'category' => 'Zapatos para Niños',
+                'brand' => 'Light Up Kids',
+                'image' => 'https://images.unsplash.com/photo-1560072810-1cffb09faf0f?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Azul',
+                    'size' => '30',
+                    'material' => 'Sintético',
+                    'caracteristica' => 'Luces LED',
+                    'edad' => '6-8 años'
+                ]
+            ],
+            [
+                'name' => 'Botas de Lluvia Infantiles',
+                'description' => 'Botas de lluvia impermeables para niños. Diseño divertido y colorido, perfectas para días lluviosos.',
+                'short_description' => 'Botas de lluvia para niños',
+                'sku' => 'KDS-RBT-YLW-26',
+                'price' => 34.99,
+                'compare_price' => 45.00,
+                'cost_price' => 18.00,
+                'stock' => 70,
+                'category_id' => $categories->where('name', 'Zapatos para Niños')->first()->id,
+                'category' => 'Zapatos para Niños',
+                'brand' => 'Rain Kids',
+                'image' => 'https://images.unsplash.com/photo-1518894781321-630e638d0742?w=400',
+                'status' => 'active',
+                'track_quantity' => 1,
+                'metadata' => [
+                    'color' => 'Amarillo',
+                    'size' => '26',
+                    'material' => 'PVC',
+                    'waterproof' => true,
+                    'edad' => '3-5 años'
+                ]
+            ],
         ];
 
         foreach ($products as $productData) {
