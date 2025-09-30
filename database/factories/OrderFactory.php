@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,6 +29,7 @@ class OrderFactory extends Factory
         $total = $subtotal + $taxAmount + $shippingAmount - $discountAmount;
 
         return [
+            'store_id' => Store::factory(),
             'order_number' => Order::generateOrderNumber(),
             'user_id' => User::factory(),
             'status' => OrderStatus::PENDING->value,
@@ -185,6 +187,16 @@ class OrderFactory extends Factory
                 'billing_address' => $address,
             ];
         });
+    }
+
+    /**
+     * Pedido para store específico
+     */
+    public function forStore(Store $store): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'store_id' => $store->id,
+        ]);
     }
 
     /**
