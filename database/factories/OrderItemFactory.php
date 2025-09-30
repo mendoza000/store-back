@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,33 +21,19 @@ class OrderItemFactory extends Factory
      */
     public function definition(): array
     {
-        $productNames = [
-            'iPhone 14 Pro',
-            'Samsung Galaxy S23',
-            'MacBook Pro M2',
-            'Dell XPS 13',
-            'Sony WH-1000XM4',
-            'Apple Watch Series 8',
-            'iPad Air',
-            'AirPods Pro',
-            'PlayStation 5',
-            'Nintendo Switch',
-        ];
-
-        $productName = $this->faker->randomElement($productNames);
-        $price = $this->faker->randomFloat(2, 29.99, 1999.99);
+        $product = Product::factory()->create();
         $quantity = $this->faker->numberBetween(1, 3);
 
         return [
             'order_id' => Order::factory(),
-            'product_id' => $this->faker->numberBetween(1, 100),
+            'product_id' => $product->id,
             'quantity' => $quantity,
-            'price' => $price,
-            'product_name' => $productName,
-            'product_description' => $this->faker->text(200),
-            'product_sku' => $this->generateSku($productName),
-            'product_image' => $this->faker->imageUrl(400, 400, 'technics'),
-            'variant_info' => $this->generateVariantInfo($productName),
+            'price' => $product->price,
+            'product_name' => $product->name,
+            'product_description' => $product->description,
+            'product_sku' => $product->sku,
+            'product_image' => $product->image,
+            'variant_info' => $this->generateVariantInfo($product->name),
         ];
     }
 
@@ -83,12 +70,23 @@ class OrderItemFactory extends Factory
     /**
      * Item de producto específico
      */
-    public function withProduct(int $productId, string $productName = null): static
+    public function withProduct($product): static
     {
+        if ($product instanceof Product) {
+            return $this->state(fn(array $attributes) => [
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'product_sku' => $product->sku,
+                'price' => $product->price,
+                'product_description' => $product->description,
+                'product_image' => $product->image,
+            ]);
+        }
+        
         return $this->state(fn(array $attributes) => [
-            'product_id' => $productId,
-            'product_name' => $productName ?? "Producto #{$productId}",
-            'product_sku' => $this->generateSku($productName ?? "Producto #{$productId}"),
+            'product_id' => $product,
+            'product_name' => "Producto #{$product}",
+            'product_sku' => $this->generateSku("Producto #{$product}"),
         ]);
     }
 
@@ -221,5 +219,16 @@ class OrderItemFactory extends Factory
             'size' => $this->faker->randomElement(['XS', 'S', 'M', 'L', 'XL', 'XXL']),
             'color' => $this->faker->randomElement(['Negro', 'Blanco', 'Azul', 'Rojo', 'Verde', 'Gris']),
         ];
+    }
+
+    /**
+     * Generar información de variante genérica
+     */
+    private function generateVariantInfo(string $productName): ?array
+    {
+        return $this->faker->boolean(60) ? [
+            'talla' => $this->faker->randomElement(['36', '37', '38', '39', '40', '41', '42', '43', '44']),
+            'color' => $this->faker->randomElement(['Negro', 'Blanco', 'Azul', 'Rojo', 'Café']),
+        ] : null;
     }
 }

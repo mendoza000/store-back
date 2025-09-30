@@ -131,6 +131,44 @@ class PaymentController extends Controller
     }
 
     /**
+     * Obtener todos los pagos de una orden específica
+     */
+    public function getOrderPayments(string $order): JsonResponse
+    {
+        $order = Order::with(['payments.paymentMethod', 'payments.verifications'])->find($order);
+
+        if (!$order) {
+            return $this->notFoundResponse('Orden no encontrada');
+        }
+
+        // Verificar que el usuario sea el dueño de la orden o un admin
+        $user = Auth::user();
+        if ($user->role !== 'admin' && $order->user_id !== $user->id) {
+            return $this->forbiddenResponse('No tienes permisos para ver los pagos de esta orden');
+        }
+
+        $payments = $order->payments;
+        
+        // Calcular resumen de pagos
+        $totalPaid = $payments->where('status', 'verified')->sum('amount');
+        $totalPending = $payments->where('status', 'pending')->sum('amount');
+        $totalRejected = $payments->where('status', 'rejected')->sum('amount');
+        $remainingAmount = $order->total - $totalPaid;
+
+        return $this->successResponse([
+            'payments' => PaymentResource::collection($payments),
+            'summary' => [
+                'order_total' => $order->total,
+                'total_paid' => $totalPaid,
+                'total_pending' => $totalPending,
+                'total_rejected' => $totalRejected,
+                'remaining_amount' => max(0, $remainingAmount),
+                'is_fully_paid' => $remainingAmount <= 0,
+            ]
+        ], 'Pagos de la orden obtenidos exitosamente');
+    }
+
+    /**
      * Reportar pago para una orden específica
      */
     public function reportPayment(ReportPaymentRequest $request, string $order): JsonResponse

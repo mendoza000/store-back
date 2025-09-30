@@ -42,7 +42,8 @@ class OrderController extends Controller
 
             $orders = $query->paginate($perPage);
 
-            $orders->getCollection()->transform(function ($order) {
+            //$orders->getCollection()->transform(function ($order) { 
+            $orders->through(function ($order) {
                 return $this->formatOrderResponse($order);
             });
 
@@ -201,11 +202,11 @@ class OrderController extends Controller
 
             $orders = $query->paginate($perPage);
 
-            $ordersData = $orders->map(function ($order) {
+            $orders->through(function ($order) {
                 return $this->formatOrderResponse($order, false, true); // Incluir datos de admin
             });
 
-            return $this->paginatedResponse($ordersData, 'Pedidos obtenidos exitosamente');
+            return $this->paginatedResponse($orders, 'Pedidos obtenidos exitosamente');
         } catch (\Exception $e) {
             return $this->errorResponse('ADMIN_ORDER_LIST_ERROR', 'Error al obtener los pedidos', 500, [
                 'error' => $e->getMessage()

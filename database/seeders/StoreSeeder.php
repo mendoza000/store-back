@@ -16,7 +16,7 @@ class StoreSeeder extends Seeder
     {
         $store = Store::create([
             'id' => Str::uuid(),
-            'name' => 'Traki',
+            'name' => 'SHOES SHOP',
         ]);
 
         $this->command->info('✅ Store creada: ' . $store->name . ' (ID: ' . $store->id . ')');
