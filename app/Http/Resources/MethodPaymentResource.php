@@ -18,15 +18,11 @@ class MethodPaymentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
-            'store' => $this->whenLoaded('store', function () {
-                return [
-                    'id' => $this->store->id,
-                    'name' => $this->store->name,
-                ];
-            }),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'type' => $this->type,
+            'account_info' => $this->account_info,
+            'instructions' => $this->instructions,
+            'status' => $this->status,
+            'store' => $this->store_id,
         ];
     }
 }

@@ -20,6 +20,7 @@ class PaymentMethod extends Model
     
     protected $casts = [
         'status' => 'string',
+        'account_info' => 'array',
     ];
 
     public function payments()

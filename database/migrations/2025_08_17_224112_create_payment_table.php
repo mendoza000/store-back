@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid('store_id')->nullable();
             $table->string('name')->unique();
             $table->enum('type', ['mobile_payment', 'bank_transfer', 'paypal', 'cash', 'crypto']);
-            $table->string('account_info');
-            $table->string('instructions')->nullable();
+            $table->json('account_info');
+            $table->text('instructions')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             

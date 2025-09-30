@@ -103,20 +103,42 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::apiResource('variants', VariantsController::class);
 
-    // Category routes by slug (must be before apiResource to avoid conflicts)
+    // Public category routes (no authentication required)
     Route::prefix('categories')->name('categories.')->group(function () {
-        // GET /api/v1/categories/{slug} - Detalle de categoría por slug
+        // GET /api/v1/categories - Lista paginada de categorías (público)
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        
+        // GET /api/v1/categories/{slug} - Detalle de categoría por slug (público)
         Route::get('/{slug}', [CategoryController::class, 'showBySlug'])
             ->name('show-by-slug')
             ->where('slug', '[a-z0-9-]+');
 
-        // GET /api/v1/categories/{slug}/products - Productos por categoría
+        // GET /api/v1/categories/{slug}/products - Productos por categoría (público)
         Route::get('/{slug}/products', [CategoryController::class, 'getProductsBySlug'])
             ->name('products')
             ->where('slug', '[a-z0-9-]+');
     });
 
-    Route::apiResource('categories', CategoryController::class);
+    // Protected category routes (require authentication and admin role)
+    Route::middleware(['auth:sanctum', 'role:admin'])->prefix('categories')->name('categories.')->group(function () {
+        // GET /api/v1/categories/{id} - Obtener categoría por ID (solo admin)
+        Route::get('/{id}', [CategoryController::class, 'show'])
+            ->name('show')
+            ->where('id', '[0-9a-f-]{36}'); // UUID format
+            
+        // POST /api/v1/categories - Crear categoría (solo admin)
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        
+        // PUT /api/v1/categories/{id} - Actualizar categoría (solo admin)
+        Route::put('/{id}', [CategoryController::class, 'update'])
+            ->name('update')
+            ->where('id', '[0-9a-f-]{36}'); // UUID format
+            
+        // DELETE /api/v1/categories/{id} - Eliminar categoría (solo admin)
+        Route::delete('/{id}', [CategoryController::class, 'destroy'])
+            ->name('destroy')
+            ->where('id', '[0-9a-f-]{36}'); // UUID format
+    });
 
     Route::apiResource('images', ProductImageController::class);
 
@@ -253,30 +275,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
 
 
-  // Payment management
-  Route::prefix('payments')->name('payments.')->group(function () {
-    // GET /api/v1/admin/payments - Lista de pagos pendientes
-    Route::get('/', [PaymentAdminController::class, 'index'])
-        ->name('index');
-    
-    // GET /api/v1/admin/payments/stats - Estadísticas de pagos
-    Route::get('/stats', [PaymentAdminController::class, 'stats'])
-        ->name('stats');
-    
-    // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
-    Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
-        ->name('verify');
-    
-    // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
-    Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
-        ->name('reject');
-});
-
-
-
-
-
-
 
 
 
@@ -358,8 +356,24 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 ->name('stats');
         });
 
-
-
+        // Payment management
+        Route::prefix('payments')->name('payments.')->group(function () {
+            // GET /api/v1/admin/payments - Lista de pagos pendientes
+            Route::get('/', [PaymentAdminController::class, 'index'])
+                ->name('index');
+            
+            // GET /api/v1/admin/payments/stats - Estadísticas de pagos
+            Route::get('/stats', [PaymentAdminController::class, 'stats'])
+                ->name('stats');
+            
+            // POST /api/v1/admin/payments/{id}/verify - Aprobar pago
+            Route::post('/{id}/verify', [PaymentAdminController::class, 'verify'])
+                ->name('verify');
+            
+            // POST /api/v1/admin/payments/{id}/reject - Rechazar pago
+            Route::post('/{id}/reject', [PaymentAdminController::class, 'reject'])
+                ->name('reject');
+        });
 
       
 
